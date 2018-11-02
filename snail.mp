@@ -39,16 +39,16 @@ def _SS_ expr a = (down * (2_margin_ + (a))) enddef;
 def _bw_ expr a = (bbwidth a) enddef;
 def _bh_ expr a = (bbheight a) enddef;
 
-vardef _diamond_(expr frame) =
+vardef diamond(expr frame) =
   save w, h; numeric w, h;
   w := _bw_ frame; h := _bh_ frame;
-  fulldiamond xysized (w + .25w, h + .25h)
+  fulldiamond xysized _expansion_ * (w, h)
 enddef;
 
-vardef _ellipse_(expr frame) =
+vardef ellipse(expr frame) =
   save w, h; numeric w, h;
   w := _bw_ frame; h := _bh_ frame;
-  fullcircle xysized (w + .25w, h + .25h)
+  fullcircle xysized (_expansion_ * (w, h))
 enddef;
 
 vardef like(expr p) =
@@ -58,27 +58,44 @@ vardef like(expr p) =
   q
 enddef;
 
-vardef frame(expr p) =
+vardef io_frame(expr p) =
   save w, h, q; numeric w, h; path q;
   w := _bw_ p; h := _bh_ p;
   q := like(p);
-  q := q xscaled ((w + 2_pad_) / w);
-  q := q yscaled ((h + 2_pad_) / h);
+  q := q xscaled ((w + _io_pad_) / w);
+  q := q yscaled ((h + _io_pad_) / h);
+  q shifted (center p)
+enddef;
+
+vardef proc_frame(expr p) =
+  save w, h, q; numeric w, h; path q;
+  w := _bw_ p; h := _bh_ p;
+  q := like(p);
+  q := q xscaled ((w + _proc_pad_) / w);
+  q := q yscaled ((h + _proc_pad_) / h);
   q shifted (center p)
 enddef;
 
 vardef io(expr s) =
-  image(draw textext(s) withcolor iocolor; )
+  image(draw textext(s) withcolor io_color;)
 enddef;
 
 vardef fancy_io(expr s, c) =
   image(draw textext(s) withcolor c; )
 enddef;
 
-vardef procedure(expr s, frame) =
-  image(fill frame withcolor backgroundcolor;
-        drawpath frame withcolor framecolor;
-        draw textext(s) withcolor procedurecolor;)
+vardef proc_fit(expr s) =
+  save p; path p;
+  p := proc_frame(image(draw textext(s);));
+  image(fill p withcolor bg_color;
+        drawpath p withcolor frame_color;
+        draw textext(s) withcolor proc_color;)
+enddef;
+
+vardef proc(expr s, frame) =
+  image(fill frame withcolor bg_color;
+        drawpath frame withcolor frame_color;
+        draw textext(s) withcolor proc_color;)
 enddef;
 
 vardef as_star(expr p, ref, location) =
@@ -171,6 +188,10 @@ vardef mate_in(expr p, base, mate) =
   anchor
 enddef;
 
+def align(suffix p, ref)(expr s) =
+  
+enddef;
+
 tertiarydef a => b =
   begingroup
     if (pair a) and (pair b):
@@ -218,16 +239,20 @@ enddef;
 
 %%%%%%%%
 %%%% 样式
-color iocolor, procedurecolor, flowcolor, framecolor, backgroundcolor;
-iocolor := black;
-procedurecolor := darkred;
-flowcolor := .9darkgray;
-framecolor := .7white;
-backgroundcolor := .9white;
-drawpathoptions(withpen pencircle scaled 1.5 withcolor flowcolor);
+color io_color, proc_color, flow_color, frame_color, bg_color;
+io_color := black;
+proc_color := darkred;
+flow_color := .9darkgray;
+frame_color := .7white;
+bg_color := .9white;
+drawpathoptions(withpen pencircle scaled 1.5 withcolor flow_color);
 %%%% 留白与间距尺寸
-numeric _pad_; _pad_ := 4;
+numeric _pad_, _io_pad_, _proc_pad_;
+_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 6_pad_;
 numeric _star[], _planet[], _margin_;
 _star.s := 4cm; _star.sx := _star.s; _star.sy := .5_star.sx;
 _planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;
-_margin_ := .5_planet.s; 
+_margin_ := .5_planet.s;
+
+%%%% 椭圆、菱形由矩形变化而来之时的长度和宽度的膨胀倍数
+numeric _expansion_; _expansion_ := 1.25;

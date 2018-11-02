@@ -6,8 +6,8 @@ foo.tex:
 \startMPpage
 input snail;
 Node a, b, c, d, e, f;
-a := procedure("context", fullsquare xysized (2.5cm, 1cm));
-b := as_star(procedure("mpost", like(a)), a, "right");
+a := proc("context", fullsquare xysized (2.5cm, 1cm));
+b := as_star(proc("mpost", like(a)), a, "right");
 c := as_star(a, b, "right");
 d := as_planet(io("foo.tex"), a, "left");
 e := as_planet(io("snail.mp"), b, "top");
