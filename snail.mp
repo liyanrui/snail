@@ -1,0 +1,233 @@
+def Node = picture enddef;
+def Frame = path enddef;
+
+def _llc_ = llcorner enddef; def _ulc_ = ulcorner enddef;
+def _urc_ = urcorner enddef; def _lrc_ = lrcorner enddef;
+
+tertiarydef a +++ b = image(draw a; draw b;) enddef;
+
+pair __site__; 
+tertiarydef a >>> b =
+  if pair a:
+    hide(__site__ := b shifted a) a -- __site__
+  elseif path a:
+    hide(__site__ := b shifted __site__) a -- __site__
+  fi
+enddef;
+vardef walk(expr start, p, stop) =
+  start -- (p shifted start) -- stop
+enddef;
+
+def _h_(expr a, b) = abs(xpart a - xpart b) enddef;
+def _v_(expr a, b) = abs(ypart a - ypart b) enddef;
+def _H_ expr a = _h_(a, _site_) enddef;
+def _V_ expr a = _v_(a, _site_) enddef;
+
+def _w_ expr a = (left * (a)) enddef;
+def _e_ expr a = (right * (a)) enddef;
+def _n_ expr a = (up * (a)) enddef;
+def _s_ expr a = (down * (a)) enddef;
+def _W_ expr a = (left * (_margin_ + (a))) enddef;
+def _E_ expr a = (right * (_margin_ + (a))) enddef;
+def _N_ expr a = (up * (_margin_ + (a))) enddef;
+def _S_ expr a = (down * (_margin_ + (a))) enddef;
+def _WW_ expr a = (left * (2_margin_ + (a))) enddef;
+def _EE_ expr a = (right * (2_margin_ + (a))) enddef;
+def _NN_ expr a = (up * (2_margin_ + (a))) enddef;
+def _SS_ expr a = (down * (2_margin_ + (a))) enddef;
+
+def _bw_ expr a = (bbwidth a) enddef;
+def _bh_ expr a = (bbheight a) enddef;
+
+vardef _diamond_(expr frame) =
+  save w, h; numeric w, h;
+  w := _bw_ frame; h := _bh_ frame;
+  fulldiamond xysized (w + .25w, h + .25h)
+enddef;
+
+vardef _ellipse_(expr frame) =
+  save w, h; numeric w, h;
+  w := _bw_ frame; h := _bh_ frame;
+  fullcircle xysized (w + .25w, h + .25h)
+enddef;
+
+vardef like(expr p) =
+  save q; path q;
+  q := (_llc_ p) -- (_ulc_ p) -- (_urc_ p) -- (_lrc_ p) -- cycle;
+  q := q shifted -(center p);
+  q
+enddef;
+
+vardef frame(expr p) =
+  save w, h, q; numeric w, h; path q;
+  w := _bw_ p; h := _bh_ p;
+  q := like(p);
+  q := q xscaled ((w + 2_pad_) / w);
+  q := q yscaled ((h + 2_pad_) / h);
+  q shifted (center p)
+enddef;
+
+vardef io(expr s) =
+  image(draw textext(s) withcolor iocolor; )
+enddef;
+
+vardef fancy_io(expr s, c) =
+  image(draw textext(s) withcolor c; )
+enddef;
+
+vardef procedure(expr s, frame) =
+  image(fill frame withcolor backgroundcolor;
+        drawpath frame withcolor framecolor;
+        draw textext(s) withcolor procedurecolor;)
+enddef;
+
+vardef as_star(expr p, ref, location) =
+  save s; pair  s;
+  s := center ref - center p;
+  if location = "left":
+    s := s - (_star.sx, 0);
+  elseif location = "right":
+    s := s + (_star.sx, 0);
+  elseif location = "top":
+    s := s + (0, _star.sy);
+  elseif location = "bottom":
+    s := s - (0, _star.sy);
+  fi;
+  p shifted s
+enddef;
+
+vardef as_planet(expr p, ref, location) =
+  save q, s, d; picture q; pair s; numeric d;
+  q := as_star(p, ref, location);
+  if location = "left":
+    d := _h_(0.5[_lrc_ q, _urc_ q], 0.5[_llc_ ref, _ulc_ ref]);
+    d := d - _planet.sx;
+    s := (d, 0);
+  elseif location = "right":
+    d := _h_(0.5[_llc_ q, _ulc_ q], 0.5[_lrc_ ref, _urc_ ref]);
+    d := _planet.sx - d;
+    s := (d, 0);
+  elseif location = "top":
+    d := _v_(0.5[_llc_ q, _lrc_ q], 0.5[_ulc_ ref, _urc_ ref]);
+    d := _planet.sy - d;
+    s := (0, d);
+  elseif location = "bottom":
+    d := _v_(0.5[_ulc_ q, _urc_ q], 0.5[_llc_ ref, _lrc_ ref]);
+    d := d - _planet.sy;
+    s := (0, d);
+  fi;
+  q shifted s
+enddef;
+
+vardef anchor(expr p, base, location) =
+  save edge_origin, anchor, ll, ul, ur, lr;
+  pair edge_origin, anchor, ll, ul, ur, lr;
+  ll := _llc_ p; ul := _ulc_ p; ur := _urc_ p; lr := _lrc_ p;
+  if base = "left":
+    edge_origin := 0.5[ll, ul];
+    if location >= 0:
+      anchor := location[edge_origin, ul];
+    else:
+      anchor := location[ll, edge_origin];
+    fi;
+  elseif base = "right":
+    edge_origin := 0.5[lr, ur];
+    if location >= 0:
+      anchor := location[edge_origin, ur];
+    else:
+      anchor := location[lr, edge_origin];
+    fi;
+  elseif base = "top":
+    edge_origin := 0.5[ul, ur];
+    if location >= 0:
+      anchor := location[edge_origin, ur];
+    else:
+      anchor := location[ul, edge_origin];
+    fi;
+  elseif base = "bottom":
+    edge_origin := 0.5[ll, lr];
+    if location >= 0:
+      anchor := location[edge_origin, lr];
+    else:
+      anchor := location[ll, edge_origin];
+    fi;
+  fi;
+  anchor
+enddef;
+
+vardef mate_in(expr p, base, mate) =
+  save anchor, ll, ul, ur, lr;
+  pair anchor, ll, ul, ur, lr;
+  ll := _llc_ p; ul := _ulc_ p; ur := _urc_ p; lr := _lrc_ p;
+  if base = "left":
+    anchor := (xpart ll, ypart mate);
+  elseif base = "right":
+    anchor := (xpart lr, ypart mate);
+  elseif base = "top":
+    anchor := (xpart mate, ypart ul);
+  elseif base = "bottom":
+    anchor := (xpart mate, ypart ll);
+  fi;
+  anchor
+enddef;
+
+tertiarydef a => b =
+  begingroup
+    if (pair a) and (pair b):
+      drawarrowpath a -- b;
+    elseif ((path a) or (picture a)) and ((path b) or (picture b)):
+      save out, in, va, vb; pair out, in, va[], vb[];
+      va[1] := _llc_ a; va[2] := _urc_ a;
+      vb[1] := _llc_ b; vb[2] := _urc_ b;
+      if xpart va[2] < xpart vb[1]: % a 在 b 的左侧
+        out := 0.5[_lrc_ a, _urc_ a];
+        in  := (xpart vb[1], ypart out);
+      elseif xpart va[1] > xpart vb[2]: % a 在 b 的右侧
+        out := 0.5[_llc_ a, _ulc_ a];
+        in  := (xpart vb[2], ypart out);
+      elseif ypart va[1] > ypart vb[2]: % a 在 b 的上方
+        out := 0.5[_llc_ a, _lrc_ a];
+        in  := (xpart out, ypart vb[2]);
+      elseif ypart va[2] < ypart vb[1]: % a 在 b 的下方
+        out := 0.5[_ulc_ a, _urc_ a];
+        in  := (xpart out, ypart vb[1]);        
+      fi;
+      drawarrowpath out -- in;
+    fi;
+  endgroup;
+enddef;
+
+def flow = drawarrowpath enddef;
+def tagged_flow(expr tag, anchor, c) text p =
+  begingroup
+    save pos, offset; pair pos; numeric offset;
+    pos := point c along (p); offset := .5_pad_;
+    if anchor = "top":
+      pos := pos shifted (0, offset);
+    elseif anchor = "right":
+      pos := pos shifted (offset, 0);
+    elseif anchor = "bottom":
+      pos := pos shifted (0, -offset);
+    elseif anchor = "left":
+      pos := pos shifted (-offset, 0);
+    fi;
+    drawarrowpath (p);
+    draw scantokens("thetextext" & "." & anchor)(tag, pos);
+  endgroup;
+enddef;
+
+%%%%%%%%
+%%%% 样式
+color iocolor, procedurecolor, flowcolor, framecolor, backgroundcolor;
+iocolor := black;
+procedurecolor := darkred;
+flowcolor := .9darkgray;
+framecolor := .7white;
+backgroundcolor := .9white;
+drawpathoptions(withpen pencircle scaled 1.5 withcolor flowcolor);
+%%%% 留白与间距尺寸
+numeric _pad_; _pad_ := 4;
+numeric _star[], _planet[], _margin_;
+_star.s := 4cm; _star.sx := _star.s; _star.sy := .5_star.sx;
+_planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;
+_margin_ := .5_planet.s; 
