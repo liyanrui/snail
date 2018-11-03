@@ -15,7 +15,11 @@ tertiarydef a >>> b =
   fi
 enddef;
 vardef walk(expr start, p, stop) =
-  start -- (p shifted start) -- stop
+  if pair stop:
+    start -- (p shifted start) -- stop
+  else:
+    start -- (p shifted start)
+  fi
 enddef;
 
 def _h_(expr a, b) = abs(xpart a - xpart b) enddef;
@@ -81,7 +85,7 @@ vardef proc_frame(expr p) =
 enddef;
 
 vardef io(expr s) =
-  image(draw textext(s) withcolor io_color;)
+  image(draw textext(s) withcolor _io_color_;)
 enddef;
 
 vardef fancy_io(expr s, c) =
@@ -91,15 +95,15 @@ enddef;
 vardef proc_fit(expr s) =
   save p; path p;
   p := proc_frame(image(draw textext(s);));
-  image(fill p withcolor bg_color;
-        drawpath p withcolor frame_color;
-        draw textext(s) withcolor proc_color;)
+  image(fill p withcolor _bg_color_;
+        drawpath p withcolor _frame_color_;
+        draw textext(s) withcolor _proc_color_;)
 enddef;
 
 vardef proc(expr s, frame) =
-  image(fill frame withcolor bg_color;
-        drawpath frame withcolor frame_color;
-        draw textext(s) withcolor proc_color;)
+  image(fill frame withcolor _bg_color_;
+        drawpath frame withcolor _frame_color_;
+        draw textext(s) withcolor _proc_color_;)
 enddef;
 
 def halign(suffix p)(expr ref) =
@@ -239,31 +243,41 @@ enddef;
 def flow = drawarrowpath enddef;
 def tagged_flow(expr tag, anchor, c) text p =
   begingroup
-    save pos, offset; pair pos; numeric offset;
-    pos := point c along (p); offset := .5_pad_;
+    save pos, offset, t; pair pos; numeric offset; string t;
+    pos := point c along (p); offset := _pad_;
     if anchor = "top":
       pos := pos shifted (0, offset);
+      t := "thetextext" & ".top";
     elseif anchor = "right":
       pos := pos shifted (offset, 0);
+      t := "thetextext" & ".rt";
     elseif anchor = "bottom":
       pos := pos shifted (0, -offset);
+      t := "thetextext" & ".bot";
     elseif anchor = "left":
       pos := pos shifted (-offset, 0);
+      t := "thetextext" & ".lft";
     fi;
     drawarrowpath (p);
-    draw scantokens("thetextext" & "." & anchor)(tag, pos);
+    draw scantokens(t)(tag, pos);
   endgroup;
+enddef;
+
+def draw_each text s =
+  forsuffixes i = s:
+    draw i;
+  endfor;
 enddef;
 
 %%%%%%%%
 %%%% 样式
-color io_color, proc_color, flow_color, frame_color, bg_color;
-io_color := black;
-proc_color := darkred;
-flow_color := .9darkgray;
-frame_color := .7white;
-bg_color := .9white;
-drawpathoptions(withpen pencircle scaled 1.5 withcolor flow_color);
+color _io_color_, _proc_color_, _flow_color_, _frame_color_, _bg_color_;
+_io_color_ := black;
+_proc_color_ := darkred;
+_flow_color_ := .9darkgray;
+_frame_color_ := .7white;
+_bg_color_ := .9white;
+drawpathoptions(withpen pencircle scaled 1.5 withcolor _flow_color_);
 %%%% 留白与间距尺寸
 numeric _pad_, _io_pad_, _proc_pad_;
 _pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 6_pad_;
