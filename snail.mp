@@ -58,6 +58,10 @@ vardef like(expr p) =
   q
 enddef;
 
+vardef frame(expr p) =
+  save q; path q; q := like(p) shifted
+enddef;
+
 vardef io_frame(expr p) =
   save w, h, q; numeric w, h; path q;
   w := _bw_ p; h := _bh_ p;
@@ -96,6 +100,20 @@ vardef proc(expr s, frame) =
   image(fill frame withcolor bg_color;
         drawpath frame withcolor frame_color;
         draw textext(s) withcolor proc_color;)
+enddef;
+
+def halign(suffix p)(expr ref) =
+  begingroup
+    save v; pair v; v := center ref - center p;
+    p := p shifted (0, ypart v);
+  endgroup;
+enddef;
+
+def valign(suffix p)(expr ref) =
+  begingroup
+    save v; pair v; v := center ref - center p;
+    p := p shifted (xpart v, 0);
+  endgroup;
 enddef;
 
 vardef as_star(expr p, ref, location) =
