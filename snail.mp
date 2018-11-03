@@ -4,6 +4,15 @@ def Frame = path enddef;
 def _llc_ = llcorner enddef; def _ulc_ = ulcorner enddef;
 def _urc_ = urcorner enddef; def _lrc_ = lrcorner enddef;
 
+vardef compass suffix p =
+  forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
+  p.SW := llcorner p; p.NW := ulcorner p;
+  p.NE := urcorner p; p.SE := lrcorner p;
+  p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
+  p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
+  ""
+enddef;
+
 tertiarydef a +++ b = image(draw a; draw b;) enddef;
 
 pair __site__; 
