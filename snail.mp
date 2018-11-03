@@ -46,7 +46,7 @@ def _bh_ expr a = (bbheight a) enddef;
 vardef diamond(expr frame) =
   save w, h; numeric w, h;
   w := _bw_ frame; h := _bh_ frame;
-  fulldiamond xysized _expansion_ * (w, h)
+  fulldiamond xysized (_expansion_ * (w, h))
 enddef;
 
 vardef ellipse(expr frame) =
@@ -217,7 +217,7 @@ enddef;
 tertiarydef a => b =
   begingroup
     if (pair a) and (pair b):
-      drawarrowpath a -- b;
+      a -- b
     elseif ((path a) or (picture a)) and ((path b) or (picture b)):
       save out, in, va, vb; pair out, in, va[], vb[];
       va[1] := _llc_ a; va[2] := _urc_ a;
@@ -235,9 +235,9 @@ tertiarydef a => b =
         out := 0.5[_ulc_ a, _urc_ a];
         in  := (xpart out, ypart vb[1]);        
       fi;
-      drawarrowpath out -- in;
-    fi;
-  endgroup;
+      out -- in
+    fi
+  endgroup
 enddef;
 
 def flow = drawarrowpath enddef;
@@ -263,11 +263,8 @@ def tagged_flow(expr tag, anchor, c) text p =
   endgroup;
 enddef;
 
-def draw_each text s =
-  forsuffixes i = s:
-    draw i;
-  endfor;
-enddef;
+def draw_each text s = for i = s: draw i; endfor; enddef;
+def flow_each text s = for i = s: flow i; endfor; enddef;
 
 %%%%%%%%
 %%%% 样式
@@ -280,7 +277,7 @@ _bg_color_ := .9white;
 drawpathoptions(withpen pencircle scaled 1.5 withcolor _flow_color_);
 %%%% 留白与间距尺寸
 numeric _pad_, _io_pad_, _proc_pad_;
-_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 6_pad_;
+_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 4_pad_;
 numeric _star[], _planet[], _margin_;
 _star.s := 4cm; _star.sx := _star.s; _star.sy := .5_star.sx;
 _planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;
