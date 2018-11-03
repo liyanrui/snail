@@ -30,7 +30,7 @@ The result is
 ![](foo.svg)
 
 
-sum.tex
+sum.tex:
 
 ```
 \usemodule[zhfonts]
