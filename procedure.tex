@@ -10,9 +10,13 @@ foo.pdf := io("foo.pdf");
 
 as_star(foo.tex, luatex, "left");
 as_planet(mplib, luatex, "top");
-as_star(snail.mp, mplib, "left");
+as_planet(snail.mp, mplib, "left");
 as_star(foo.pdf, luatex, "right");
 
 draw_each foo.tex, snail.mp, luatex, mplib, foo.pdf;
 
+io_frame_for_each foo.tex, snail.mp, foo.pdf;
+flow_each foo.tex.F => luatex, snail.mp.F => mplib, luatex => foo.pdf.F;
+flow_each (luatex => mplib) shifted (-0.5cm, 0);
+flow_each (mplib => luatex) shifted (0.5cm, 0);
 \stopMPpage

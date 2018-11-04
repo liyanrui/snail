@@ -55,7 +55,7 @@ vardef ellipse(expr frame) =
   fullcircle xysized (_expansion_ * (w, h))
 enddef;
 
-vardef like(expr p) =
+vardef like expr p =
   save q; path q;
   q := (_llc_ p) -- (_ulc_ p) -- (_urc_ p) -- (_lrc_ p) -- cycle;
   q := q shifted -(center p);
@@ -65,7 +65,7 @@ enddef;
 vardef frame(expr p, pad) =
   save w, h, q; numeric w, h; path q;
   w := _bw_ p; h := _bh_ p;
-  q := like(p);
+  q := like p;
   q := q xscaled ((w + pad) / w);
   q := q yscaled ((h + pad) / h);
   q shifted (center p)
@@ -87,7 +87,7 @@ vardef proc(expr s) =
         draw textext(s) withcolor _proc_color_;)
 enddef;
 
-vardef proc_fit(expr s, frame) =
+vardef rich_proc(expr s, frame) =
   image(fill frame withcolor _bg_color_;
         drawpath frame withcolor _frame_color_;
         draw textext(s) withcolor _proc_color_;)
@@ -147,34 +147,34 @@ vardef anchor(expr p, base, location) =
     if location >= 0:
       anchor := location[edge_origin, ul];
     else:
-      anchor := location[ll, edge_origin];
+      anchor := (1 + location)[ll, edge_origin];
     fi;
   elseif base = "right":
     edge_origin := 0.5[lr, ur];
     if location >= 0:
       anchor := location[edge_origin, ur];
     else:
-      anchor := location[lr, edge_origin];
+      anchor := (1 + location)[lr, edge_origin];
     fi;
   elseif base = "top":
     edge_origin := 0.5[ul, ur];
     if location >= 0:
       anchor := location[edge_origin, ur];
     else:
-      anchor := location[ul, edge_origin];
+      anchor := (1 + location)[ul, edge_origin];
     fi;
   elseif base = "bottom":
     edge_origin := 0.5[ll, lr];
     if location >= 0:
       anchor := location[edge_origin, lr];
     else:
-      anchor := location[ll, edge_origin];
+      anchor := (1 + location)[ll, edge_origin];
     fi;
   fi;
   anchor
 enddef;
 
-vardef mate_in(expr p, base, mate) =
+vardef mate_anchor(expr p, base, mate) =
   save anchor, ll, ul, ur, lr;
   pair anchor, ll, ul, ur, lr;
   ll := _llc_ p; ul := _ulc_ p; ur := _urc_ p; lr := _lrc_ p;
@@ -271,9 +271,9 @@ _bg_color_ := .9white;
 drawpathoptions(withpen pencircle scaled 1.5 withcolor _flow_color_);
 %%%% 留白与间距尺寸
 numeric _pad_, _io_pad_, _proc_pad_;
-_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 4_pad_;
+_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 5_pad_;
 numeric _star[], _planet[], _margin_;
-_star.s := 4cm; _star.sx := _star.s; _star.sy := .5_star.sx;
+_star.s := 3.5cm; _star.sx := _star.s; _star.sy := .5_star.sx;
 _planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;
 _margin_ := .5_planet.s;
 

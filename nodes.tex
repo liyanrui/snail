@@ -1,0 +1,10 @@
+\usemodule[zhfonts]
+\startMPpage
+input snail;
+Node a, b, c, d;
+a := fancy_io("I/O 结点的内容", (0, .4, 0));
+b := rich_proc("\CONTEXT", fullsquare xysized (3cm, 1.5cm));
+c := rich_proc("\METAPOST", ellipse(like b));
+d := rich_proc("Is \LUATEX\ ?", diamond(like b));
+draw_each a, b shifted (4cm, 0), c shifted (0, 2cm), d shifted (4cm, 2cm);
+\stopMPpage
