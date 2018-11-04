@@ -79,7 +79,7 @@ vardef fancy_io(expr s, c) =
   image(draw textext(s) withcolor c; )
 enddef;
 
-vardef proc_fit(expr s) =
+vardef proc(expr s) =
   save p; path p;
   p := frame(image(draw textext(s);), _proc_pad_);
   image(fill p withcolor _bg_color_;
@@ -87,7 +87,7 @@ vardef proc_fit(expr s) =
         draw textext(s) withcolor _proc_color_;)
 enddef;
 
-vardef proc(expr s, frame) =
+vardef proc_fit(expr s, frame) =
   image(fill frame withcolor _bg_color_;
         drawpath frame withcolor _frame_color_;
         draw textext(s) withcolor _proc_color_;)

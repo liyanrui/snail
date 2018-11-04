@@ -5,7 +5,8 @@ input snail;
 %%%%%%%%
 % 构造结点
 Node a, b, c, d, e;
-a := io("\cbox{\vbox{$i\leftarrow 1$}\vbox{$s\leftarrow 0$}}");
+a := io("\cbox{\vbox{$i\leftarrow 1$}
+               \vbox{$s\leftarrow 0$}}");
 b := proc_fit("$s\leftarrow s + i$");
 c := proc("$i > 100$", diamond(b));
 d := proc_fit("$i\leftarrow i + 1$");
