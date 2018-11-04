@@ -1,10 +1,26 @@
 \usemodule[zhfonts]
+\defineframed
+  [SnailBox]
+  [frame=off, width=6cm, autowidth=force,
+    align={middle, lohi, broad}, offset=overlay]
+  
 \startMPpage
 input snail;
-Node a, b, c, d, e;
+
+Node a, b, c, d, e, f, g;
 a := fancy_io("元文档", (0, .4, 0));
 b := io("文献数据库");
 c := io("模板");
-d := proc("nar");
-e := fancy_io("
+d := rich_proc("nar", fullsquare xysized (2cm, 1cm));
+e := fancy_io("\SnailBox{含文献引用的\\元文档}", (0, .4, 0));
+f := rich_proc("排版引擎", like d scaled 1.5);
+g := fancy_io("格式化文档", (0, .4, 0));
+
+as_planet(a, d, "top"); as_planet(b, d, "left"); as_planet(c, d, "bottom");
+as_star(e, d, "right"); as_star(f, e, "bottom"); as_planet(g, f, "right");
+
+draw_each a, b, c, d, e, f, g;
+
+io_frame_for_each a, b, c, e, g;
+flow_each a.F => d, b.F => d, c.F => d, d => e.F, e.F => f, f => g.F;
 \stopMPpage
