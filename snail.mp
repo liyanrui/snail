@@ -62,25 +62,12 @@ vardef like(expr p) =
   q
 enddef;
 
-vardef frame(expr p) =
-  save q; path q; q := like(p) shifted
-enddef;
-
-vardef io_frame(expr p) =
+vardef frame(expr p, pad) =
   save w, h, q; numeric w, h; path q;
   w := _bw_ p; h := _bh_ p;
   q := like(p);
-  q := q xscaled ((w + _io_pad_) / w);
-  q := q yscaled ((h + _io_pad_) / h);
-  q shifted (center p)
-enddef;
-
-vardef proc_frame(expr p) =
-  save w, h, q; numeric w, h; path q;
-  w := _bw_ p; h := _bh_ p;
-  q := like(p);
-  q := q xscaled ((w + _proc_pad_) / w);
-  q := q yscaled ((h + _proc_pad_) / h);
+  q := q xscaled ((w + pad) / w);
+  q := q yscaled ((h + pad) / h);
   q shifted (center p)
 enddef;
 
@@ -94,7 +81,7 @@ enddef;
 
 vardef proc_fit(expr s) =
   save p; path p;
-  p := proc_frame(image(draw textext(s);));
+  p := frame(image(draw textext(s);), _proc_pad_);
   image(fill p withcolor _bg_color_;
         drawpath p withcolor _frame_color_;
         draw textext(s) withcolor _proc_color_;)
@@ -113,42 +100,42 @@ def valign(suffix p)(expr ref) =
   p := p shifted (xpart (center ref - center p), 0);
 enddef;
 
-vardef as_star(expr p, ref, location) =
-  save s; pair  s;
-  s := center ref - center p;
-  if location = "left":
-    s := s - (_star.sx, 0);
-  elseif location = "right":
-    s := s + (_star.sx, 0);
-  elseif location = "top":
-    s := s + (0, _star.sy);
-  elseif location = "bottom":
-    s := s - (0, _star.sy);
-  fi;
-  p shifted s
+% 含后缀参数的宏，后缀参数的实参容易与其他参数的名字以及宏内局部变量发生冲突，
+% 所以只好将其他参数以及宏内变量予以丑化。
+def as_star(suffix p)(expr __SNAIL_ref__, __SNAIL_location__) =
+  begingroup
+    save __SNAIL_s__;
+    pair __SNAIL_s__;
+    __SNAIL_s__ := center __SNAIL_ref__ - center p;
+    if __SNAIL_location__ = "left":
+      __SNAIL_s__ := __SNAIL_s__ - (_star.sx, 0);
+    elseif __SNAIL_location__ = "right":
+      __SNAIL_s__ := __SNAIL_s__ + (_star.sx, 0);
+    elseif __SNAIL_location__ = "top":
+      __SNAIL_s__ := __SNAIL_s__ + (0, _star.sy);
+    elseif __SNAIL_location__ = "bottom":
+      __SNAIL_s__ := __SNAIL_s__ - (0, _star.sy);
+    fi;
+    p := p shifted __SNAIL_s__;
+  endgroup;
 enddef;
 
-vardef as_planet(expr p, ref, location) =
-  save q, s, d; picture q; pair s; numeric d;
-  q := as_star(p, ref, location);
-  if location = "left":
-    d := _h_(0.5[_lrc_ q, _urc_ q], 0.5[_llc_ ref, _ulc_ ref]);
-    d := d - _planet.sx;
-    s := (d, 0);
-  elseif location = "right":
-    d := _h_(0.5[_llc_ q, _ulc_ q], 0.5[_lrc_ ref, _urc_ ref]);
-    d := _planet.sx - d;
-    s := (d, 0);
-  elseif location = "top":
-    d := _v_(0.5[_llc_ q, _lrc_ q], 0.5[_ulc_ ref, _urc_ ref]);
-    d := _planet.sy - d;
-    s := (0, d);
-  elseif location = "bottom":
-    d := _v_(0.5[_ulc_ q, _urc_ q], 0.5[_llc_ ref, _lrc_ ref]);
-    d := d - _planet.sy;
-    s := (0, d);
-  fi;
-  q shifted s
+% 含后缀参数的宏，后缀参数的实参容易与其他参数的名字以及宏内局部变量发生冲突，
+% 所以只好将其他参数以及宏内变量予以丑化。
+def as_planet(suffix p)(expr __SNAIL_ref__, __SNAIL_location__) =
+  begingroup
+    save s; pair s;
+    as_star(p, __SNAIL_ref__, __SNAIL_location__);
+    if __SNAIL_location__ = "left":
+      p := p shifted ((_h_(0.5[_lrc_ p, _urc_ p], 0.5[_llc_ __SNAIL_ref__, _ulc_ __SNAIL_ref__]) - _planet.sx), 0);
+    elseif __SNAIL_location__ = "right":
+      p := p shifted ((_planet.sx - _h_(0.5[_llc_ p, _ulc_ p], 0.5[_lrc_ __SNAIL_ref__, _urc_ __SNAIL_ref__])), 0);
+    elseif __SNAIL_location__ = "top":
+      p := p shifted (0, (_planet.sy - _v_(0.5[_llc_ p, _lrc_ p], 0.5[_ulc_ __SNAIL_ref__, _urc_ __SNAIL_ref__])));
+    elseif __SNAIL_location__ = "bottom":
+      p := p shifted (0, (_v_(0.5[_ulc_ p, _urc_ p], 0.5[_llc_ __SNAIL_ref__, _lrc_ __SNAIL_ref__]) - _planet.sy));
+    fi;
+  endgroup;
 enddef;
 
 vardef anchor(expr p, base, location) =
@@ -236,8 +223,10 @@ enddef;
 def flow = drawarrowpath enddef;
 def tagged_flow(expr tag, anchor, c) text p =
   begingroup
-    save pos, offset, t; pair pos; numeric offset; string t;
-    pos := point c along (p); offset := _pad_;
+    save formatted_tag, pos, offset, t;
+    pair pos; numeric offset; string t, formatted_tag;
+    formatted_tag := "\tfx" & tag;
+    pos := point c along (p); offset := .25_pad_;
     if anchor = "top":
       pos := pos shifted (0, offset);
       t := "thetextext" & ".top";
@@ -252,23 +241,14 @@ def tagged_flow(expr tag, anchor, c) text p =
       t := "thetextext" & ".lft";
     fi;
     drawarrowpath (p);
-    draw scantokens(t)(tag, pos);
+    draw scantokens(t)(formatted_tag, pos);
   endgroup;
 enddef;
 
 def draw_each text s = for i = s: draw i; endfor; enddef;
 def flow_each text s = for i = s: flow i; endfor; enddef;
 
-def enrich_io suffix p =
-  forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
-  p.SW := llcorner p; p.NW := ulcorner p;
-  p.NE := urcorner p; p.SE := lrcorner p;
-  p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
-  p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
-  path p.F; p.F := io_frame(p); 
-enddef;
-
-def enrich_proc suffix p =
+def enrich suffix p =
   forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
   p.SW := llcorner p; p.NW := ulcorner p;
   p.NE := urcorner p; p.SE := lrcorner p;
@@ -276,8 +256,9 @@ def enrich_proc suffix p =
   p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
 enddef;
 
+def create_io_frame suffix p = path p.F; p.F := frame(p, _io_pad_); enddef;
+def io_frame_for_each text s = forsuffixes i = s: create_io_frame(i); endfor; enddef;
 def enrich_each text s = forsuffixes i = s: enrich i; endfor; enddef;
-def enrich_each_proc text s = forsuffixes i = s: enrich_proc i; endfor; enddef;
 
 %%%%%%%%
 %%%% 样式
