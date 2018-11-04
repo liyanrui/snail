@@ -76,12 +76,12 @@ vardef io(expr s) text t=
   image(drawpath q withcolor transparent (1, 1, white); draw p t;)
 enddef;
 
-vardef proc(expr s) =
+vardef proc(expr s) text t =
   save p; path p;
   p := frame(image(draw textext(s);), _proc_pad_);
   image(fill p withcolor _bg_color_;
         drawpath p withcolor _frame_color_;
-        draw textext(s) withcolor _proc_color_;)
+        draw textext(s) withcolor _proc_color_ t;)
 enddef;
 
 vardef other(expr s, frame) text t =
@@ -229,7 +229,7 @@ def tagged_flow(expr tag, anchor, c) text p =
     save formatted_tag, pos, offset, t;
     pair pos; numeric offset; string t, formatted_tag;
     formatted_tag := "\tfx" & tag;
-    pos := point c along (p); offset := .25_pad_;
+    pos := point c along (p); offset := .25_pad_ + .5_pensize_;
     if anchor = "top":
       pos := pos shifted (0, offset);
       t := "thetextext" & ".top";
@@ -268,7 +268,9 @@ _proc_color_ := darkred;
 _flow_color_ := .9darkgray;
 _frame_color_ := .7white;
 _bg_color_ := .9white;
-drawpathoptions(withpen pencircle scaled 2.5 withcolor _flow_color_);
+
+numeric _pensize_; _pensize_ := 2.5;
+drawpathoptions(withpen pencircle scaled _pensize_ withcolor _flow_color_);
 %%%% 留白与间距尺寸
 numeric _pad_, _proc_pad_;
 _pad_ := 4; _proc_pad_ := 4_pad_;

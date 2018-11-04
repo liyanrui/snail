@@ -1,10 +1,13 @@
 \usemodule[zhfonts]
 \startMPpage
 input snail;
-Node a, b, c, d;
-a := io("I/O 结点的内容") withcolor darkgreen;
+Node b, c, d; string d.txt;
 b := other("\CONTEXT", fullsquare xysized (3cm, 1.5cm));
 c := other("\METAPOST", ellipse(like b)) withcolor darkblue;
-d := other("Is \LUATEX\ ?", diamond(like b));
-draw_each a, b shifted (5cm, 0), c shifted (0, 2.5cm), d shifted (5cm, 2.5cm);
+d.txt := "蜗牛爬得快吗？";
+d := proc(d.txt);
+d := other(d.txt, diamond(like d));
+
+as_planet(c, b, "right"); as_planet(d, c, "right");
+draw_each b, c, d;
 \stopMPpage
