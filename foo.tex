@@ -1,16 +1,20 @@
 \usemodule[zhfonts]
+\defineframed
+  [SnailBox]
+  [frame=off, width=6cm, autowidth=force,
+    align={middle, lohi, broad}, offset=overlay]
+
 \startMPpage
 input snail;
 
 %%%%%%%%
 % 构造结点
 Node a, b, c, d, e;
-a := io("\cbox{\vbox{$i\leftarrow 1$}
-               \vbox{$s\leftarrow 0$}}");
-b := proc_fit("$s\leftarrow s + i$");
-c := proc("$i > 100$", diamond(b));
-d := proc_fit("$i\leftarrow i + 1$");
-e := io("$s$");
+a := io("\SnailBox{$i\leftarrow 1$\\$s\leftarrow 0$}");
+b := proc("$s\leftarrow s + i$");
+c := rich_proc("$i > 100$", diamond(b));
+d := proc("$i\leftarrow i + 1$");
+e := io("\SnailBox{$s$}");
 % 结点定位
 as_planet(b, a, "bottom");
 as_planet(c, b, "bottom");
@@ -18,7 +22,8 @@ as_planet(d, c, "right");
 as_star(e, c, "bottom");
 % 绘制结点
 draw_each a, b, c, d, e;
-
+%redraw currentpicture withpen pencircle scaled 3 ;
+%draw_each a, b, c, d, e;
 %%%%%%%%
 % 为 I/O 结点构造隐式的文本框
 io_frame_for_each a, e;

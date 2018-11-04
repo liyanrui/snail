@@ -268,12 +268,12 @@ _proc_color_ := darkred;
 _flow_color_ := .9darkgray;
 _frame_color_ := .7white;
 _bg_color_ := .9white;
-drawpathoptions(withpen pencircle scaled 1.5 withcolor _flow_color_);
+drawpathoptions(withpen pencircle scaled 2.5 withcolor _flow_color_);
 %%%% 留白与间距尺寸
 numeric _pad_, _io_pad_, _proc_pad_;
 _pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 5_pad_;
 numeric _star[], _planet[], _margin_;
-_star.s := 3.5cm; _star.sx := _star.s; _star.sy := .5_star.sx;
+_star.s := 5cm; _star.sx := _star.s; _star.sy := .5_star.sx;
 _planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;
 _margin_ := .5_planet.s;
 
