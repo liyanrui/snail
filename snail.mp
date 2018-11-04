@@ -56,27 +56,24 @@ vardef ellipse(expr frame) =
 enddef;
 
 vardef like expr p =
-  save q; path q;
-  q := (_llc_ p) -- (_ulc_ p) -- (_urc_ p) -- (_lrc_ p) -- cycle;
-  q := q shifted -(center p);
-  q
+  bboxmargin := 0;
+  bbox p shifted -(center p)
 enddef;
 
 vardef frame(expr p, pad) =
   save w, h, q; numeric w, h; path q;
   w := _bw_ p; h := _bh_ p;
   q := like p;
-  q := q xscaled ((w + pad) / w);
-  q := q yscaled ((h + pad) / h);
+  q := q xscaled ((w + 2pad) / w);
+  q := q yscaled ((h + 2pad) / h);
   q shifted (center p)
 enddef;
 
-vardef io(expr s) =
-  image(draw textext(s) withcolor _io_color_;)
-enddef;
-
-vardef fancy_io(expr s, c) =
-  image(draw textext(s) withcolor c; )
+vardef io(expr s) text t=
+  save p, q; picture p; path q;
+  p := image(draw textext(s) withcolor _io_color_;);
+  q := frame(p, _pad_);
+  image(drawpath q withcolor transparent (1, 1, white); draw p t;)
 enddef;
 
 vardef proc(expr s) =
@@ -87,10 +84,16 @@ vardef proc(expr s) =
         draw textext(s) withcolor _proc_color_;)
 enddef;
 
-vardef rich_proc(expr s, frame) =
-  image(fill frame withcolor _bg_color_;
-        drawpath frame withcolor _frame_color_;
-        draw textext(s) withcolor _proc_color_;)
+vardef other(expr s, frame) text t =
+  if picture frame:
+    image(draw frame; draw textext(s) withcolor _proc_color_ t;)
+  elseif path frame:
+    image(fill frame withcolor _bg_color_;
+          drawpath frame withcolor _frame_color_;
+          draw textext(s) withcolor _proc_color_ t;)
+  else:
+    image(draw textext(s) withcolor _proc_color_ t;)
+  fi
 enddef;
 
 def halign(suffix p)(expr ref) =
@@ -255,9 +258,6 @@ def enrich suffix p =
   p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
   p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
 enddef;
-
-def create_io_frame suffix p = path p.F; p.F := frame(p, _io_pad_); enddef;
-def io_frame_for_each text s = forsuffixes i = s: create_io_frame(i); endfor; enddef;
 def enrich_each text s = forsuffixes i = s: enrich i; endfor; enddef;
 
 %%%%%%%%
@@ -270,8 +270,8 @@ _frame_color_ := .7white;
 _bg_color_ := .9white;
 drawpathoptions(withpen pencircle scaled 2.5 withcolor _flow_color_);
 %%%% 留白与间距尺寸
-numeric _pad_, _io_pad_, _proc_pad_;
-_pad_ := 4; _io_pad_ := 2_pad_; _proc_pad_ := 5_pad_;
+numeric _pad_, _proc_pad_;
+_pad_ := 4; _proc_pad_ := 4_pad_;
 numeric _star[], _planet[], _margin_;
 _star.s := 5cm; _star.sx := _star.s; _star.sy := .5_star.sx;
 _planet.s := .2_star.s; _planet.sx := _planet.s; _planet.sy := _planet.sx;

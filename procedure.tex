@@ -14,9 +14,7 @@ as_planet(snail.mp, mplib, "left");
 as_star(foo.pdf, luatex, "right");
 
 draw_each foo.tex, snail.mp, luatex, mplib, foo.pdf;
-
-io_frame_for_each foo.tex, snail.mp, foo.pdf;
-flow_each foo.tex.F => luatex, snail.mp.F => mplib, luatex => foo.pdf.F;
-flow_each (luatex => mplib) shifted (-0.5cm, 0);
-flow_each (mplib => luatex) shifted (0.5cm, 0);
+flow_each foo.tex => luatex, snail.mp => mplib, luatex => foo.pdf;
+flow_each (luatex => mplib) shifted (-0.25 * (_bw_ luatex), 0);
+flow_each (mplib => luatex) shifted (0.25 * (_bw_ luatex), 0);
 \stopMPpage
