@@ -4,15 +4,6 @@ def Frame = path enddef;
 def _llc_ = llcorner enddef; def _ulc_ = ulcorner enddef;
 def _urc_ = urcorner enddef; def _lrc_ = lrcorner enddef;
 
-vardef compass suffix p =
-  forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
-  p.SW := llcorner p; p.NW := ulcorner p;
-  p.NE := urcorner p; p.SE := lrcorner p;
-  p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
-  p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
-  ""
-enddef;
-
 tertiarydef a +++ b = image(draw a; draw b;) enddef;
 
 pair __site__; 
@@ -116,17 +107,10 @@ vardef proc(expr s, frame) =
 enddef;
 
 def halign(suffix p)(expr ref) =
-  begingroup
-    save v; pair v; v := center ref - center p;
-    p := p shifted (0, ypart v);
-  endgroup;
+  p := p shifted (0, ypart (center ref - center p));
 enddef;
-
 def valign(suffix p)(expr ref) =
-  begingroup
-    save v; pair v; v := center ref - center p;
-    p := p shifted (xpart v, 0);
-  endgroup;
+  p := p shifted (xpart (center ref - center p), 0);
 enddef;
 
 vardef as_star(expr p, ref, location) =
@@ -274,6 +258,26 @@ enddef;
 
 def draw_each text s = for i = s: draw i; endfor; enddef;
 def flow_each text s = for i = s: flow i; endfor; enddef;
+
+def enrich_io suffix p =
+  forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
+  p.SW := llcorner p; p.NW := ulcorner p;
+  p.NE := urcorner p; p.SE := lrcorner p;
+  p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
+  p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
+  path p.F; p.F := io_frame(p); 
+enddef;
+
+def enrich_proc suffix p =
+  forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
+  p.SW := llcorner p; p.NW := ulcorner p;
+  p.NE := urcorner p; p.SE := lrcorner p;
+  p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
+  p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
+enddef;
+
+def enrich_each text s = forsuffixes i = s: enrich i; endfor; enddef;
+def enrich_each_proc text s = forsuffixes i = s: enrich_proc i; endfor; enddef;
 
 %%%%%%%%
 %%%% 样式
