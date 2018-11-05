@@ -37,3 +37,5 @@ $ context foo
 The result is
 
 ![](foo.svg)
+
+If you know Chinese and want to get more details, please see https://liyanrui.github.io/posts/snail.html
