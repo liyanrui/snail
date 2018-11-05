@@ -4,33 +4,26 @@ foo.tex:
 
 ```
 \usemodule[zhfonts]
+\defineframed
+  [SnailBox]
+  [frame=off, width=6cm, autowidth=force,
+    align={middle, lohi, broad}, offset=overlay]
+
 \startMPpage
 input snail;
-
-%%%%%%%%
-% 构造结点
 Node a, b, c, d, e;
-a := io("\cbox{\vbox{$i\leftarrow 1$}\vbox{$s\leftarrow 0$}}");
-b := proc_fit("$s\leftarrow s + i$");
-c := proc("$i > 100$", diamond(b));
-d := proc_fit("$i\leftarrow i + 1$");
-e := io("$s$");
-% 结点定位
-as_planet(b, a, "bottom");
-as_planet(c, b, "bottom");
-as_planet(d, c, "right");
-as_star(e, c, "bottom");
-% 绘制结点
+a := io("\SnailBox{$i\leftarrow 1$\\$s\leftarrow 0$}");
+b := proc("$s\leftarrow s + i$");
+c := other("$i > 100$", diamond(b));
+d := proc("$i\leftarrow i + 1$");
+e := io("\SnailBox{$s$}");
+as_planet(b, a, "bottom"); as_planet(c, b, "bottom");
+as_planet(d, c, "right"); as_star(e, c, "bottom");
 draw_each a, b, c, d, e;
 
-%%%%%%%%
-% 为 I/O 结点构造隐式的文本框
-io_frame_for_each a, e;
-% 结点上的锚点定位（a.F 和 e.F 分别为结点 a 和 e 的隐式文本框）
-enrich_each a.F, b, c, d, e.F;
-% 绘制连接
-flow_each a.F => b, b => c, walk(d.N, (_n_ _v_(d.N, b.E)), b.E);
-tagged_flow("是", "right", .4) c => e.F;
+enrich_each a, b, d, e;
+flow_each a => b, b => c, walk(d.N, (_n_ _v_(d.N, b.E)), b.E);
+tagged_flow("是", "right", .4) c => e;
 tagged_flow("否", "top", .4) c => d;
 \stopMPpage
 ```
