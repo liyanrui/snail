@@ -3,12 +3,7 @@
 foo.tex:
 
 ```
-\usemodule[zhfonts]
-\defineframed
-  [SnailBox]
-  [frame=off, width=6cm, autowidth=force,
-    align={middle, lohi, broad}, offset=overlay]
-
+\environment snail-env
 \startMPpage
 input snail;
 Node a, b, c, d, e;
