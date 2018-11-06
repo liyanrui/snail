@@ -6,14 +6,14 @@ def _urc_ = urcorner enddef; def _lrc_ = lrcorner enddef;
 
 tertiarydef a +++ b = image(draw a; draw b;) enddef;
 
+pair __site__; 
 tertiarydef a >>> b =
   if pair a:
-    a -- (b shifted a)
+    hide(__site__ := b shifted a) a -- __site__
   elseif path a:
-    a -- (b shifted (point 1 along a))
+    hide(__site__ := b shifted __site__) a -- __site__
   fi
 enddef;
-
 vardef walk(expr start, p, stop) =
   if pair stop:
     start -- (p shifted start) -- stop
@@ -257,8 +257,6 @@ def enrich suffix p =
   p.NE := urcorner p; p.SE := lrcorner p;
   p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
   p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
-  numeric p.width, p.height;
-  p.width := _bw_ p; p.height := _bh_ p;
 enddef;
 def enrich_each text s = forsuffixes i = s: enrich i; endfor; enddef;
 
