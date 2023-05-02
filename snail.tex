@@ -7,7 +7,7 @@ local 配置 = {}
     框形 = "fullsquare",
     框 = {余地 = 配置.字号, 线宽 = ".175" .. 配置.字号, 颜色 = "darkgray", 各向同性 = "false"},
     背景 = {颜色 = "lightgray"},
-    路径 = {线宽 = ".2" .. 配置.字号, 颜色 = "darkgray", 圆角 = 配置.字号},
+    路径 = {线宽 = ".2" .. 配置.字号, 颜色 = "darkgray", 圆角 = ".25" .. 配置.字号},
     玩笑 = "0"
 }
 table.save("snail.conf", 配置)
@@ -138,14 +138,17 @@ def 令之体 (suffix a) text b = a := a b enddef;
 pair 竖亥;
 tertiarydef a 经转 b =
   hide(竖亥 := (xpart (if path a: point (length a) of a else: a fi), ypart (b)))
-  a -- (point -(获 "配置.路径.圆角") on (a -- 竖亥))
-    .. controls 竖亥 .. (point (获 "配置.路径.圆角") on (竖亥 -- b)) -- b
+  a -- 竖亥 -- b
 enddef;
 tertiarydef a 纬转 b =
   hide(竖亥 := (xpart (b), ypart (if path a: point (length a) of a else: a fi)))
-  a -- (point -(获 "配置.路径.圆角") on (a -- 竖亥))
-    .. controls 竖亥 .. (point (获 "配置.路径.圆角") on (竖亥 -- b)) -- b
+  a --  竖亥 -- b
 enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+vardef 经距 (expr a, b) = (abs(xpart (a) - xpart (b))) enddef;
+vardef 纬距 (expr a, b) = (abs(ypart (a) - ypart (b))) enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
@@ -196,16 +199,16 @@ def 标注 (expr tag, anchor, c) text p =
     offset := .25(获 "配置.字号");
     if anchor = "北":
       pos := pos shifted (0, offset);
-      t := "thetextext" & ".top";
+      t := "thetextext.top";
     elseif anchor = "东":
       pos := pos shifted (offset, 0);
-      t := "thetextext" & ".rt";
+      t := "thetextext.rt";
     elseif anchor = "南":
       pos := pos shifted (0, -offset);
-      t := "thetextext" & ".bot";
+      t := "thetextext.bot";
     elseif anchor = "西":
       pos := pos shifted (-offset, 0);
-      t := "thetextext" & ".lft";
+      t := "thetextext.lft";
     fi;
     draw scantokens(t)(formatted_tag, pos);
   endgroup;
@@ -241,5 +244,24 @@ tertiarydef a 向 b =
   elseif path a:
     a -- (point (length a) of a) shifted (b)
   fi
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+vardef 柔和 (expr p) =
+  save n, nodes, n, new_p, 圆角; 
+  numeric n, 圆角; pair nodes[]; path new_p;
+  n := length p;
+  for i = 0 upto n:
+    nodes[i] := point i of p;
+  endfor;
+  new_p := nodes[0];
+  圆角 := (获 "配置.路径.圆角");
+  for i = 1 upto n - 1:
+    new_p := new_p -- point -圆角 on (nodes[i - 1] -- nodes[i]);
+    new_p := new_p .. point 圆角 on (nodes[i] -- nodes[i + 1]);
+  endfor;
+  new_p := new_p -- nodes[n];
+  new_p
 enddef;
 \stopMPinclusions
