@@ -13,6 +13,7 @@ local 蜗界 = {}
     背景 = {颜色 = "lightgray"},
     路径 = {线宽 = ".2" .. 蜗界.字号,
             颜色 = "darkgray",
+            有向 = "true",
             圆角 = ".25" .. 蜗界.字号},
     玩笑 = "0"
 }
@@ -354,11 +355,9 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 有向 = "有向" enddef;
-def 无向 = "无向" enddef;
-def 路 (suffix name) (expr dir, p) text label =
+def 路 (suffix name) (expr p) text label =
   path name; name := 柔和(p);
-  if dir = "有向":
+  if (获 "蜗界.路径.有向"):
     流向 name;
   else:
     串联 name;
