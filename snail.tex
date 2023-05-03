@@ -56,7 +56,7 @@ def 中央四角十二门 (suffix foo) (expr 或显或隐) =
   foo.戌门 := .5[foo.酉门, foo.西北角];
   foo.亥门 := .5[foo.子门, foo.西北角];
   if 或显或隐:
-    forsuffixes i = 东北角, 东南角, 西南角, 西北角:
+    forsuffixes i = 中央, 东北角, 东南角, 西南角, 西北角:
       draw foo.i withpen pensquare scaled 4pt withcolor darkblue;
     endfor;
     forsuffixes i = 子门, 卯门, 午门, 酉门:
