@@ -134,12 +134,12 @@ enddef;
 
 \defineframed[snailframed][offset=1em,frame=off]
 \startMPinclusions[+]
-def 廷 (suffix name) (expr a) text 之所在 =
+def 廷 (suffix name) (expr a) text 多少呢 =
   picture name;
   begingroup
     save 文; picture 文; 文 := textext("\snailframed{" & a & "}");
     name := image (draw 文 withcolor (获 "蜗界.文字.颜色"););
-    name := name 之所在; 四角十二门(name, 隐); 郊(name, 隐);
+    name := name 偏 ((0, 0) 多少呢); 四角十二门(name, 隐); 郊(name, 隐);
   endgroup;
 enddef;
 \stopMPinclusions
@@ -154,7 +154,7 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 景物 (suffix name) (expr a, w, h) text 之所在 =
+def 景物 (suffix name) (expr a, w, h) text 多少呢 =
   picture name;
   begingroup;
   save p, s; picture p; numeric s;
@@ -170,9 +170,13 @@ def 景物 (suffix name) (expr a, w, h) text 之所在 =
        name := image(draw externalfigure a xysized (h * s, h););
     fi;
   fi;
-  name := name 之所在;
+  name := name 偏 ((0, 0) 多少呢); 
   draw name;  
   endgroup;
+enddef;
+
+def 呜呼 text all =
+  for i = all: draw i; endfor;
 enddef;
 \stopMPinclusions
 
