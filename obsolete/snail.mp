@@ -253,10 +253,12 @@ def flow_each text s = for i = s: flow i; endfor; enddef;
 
 def enrich suffix p =
   forsuffixes i = W, N, E, S, SW, NW, NE, SE: pair p.i; endfor;
+  numeric p.width, p.height;
   p.SW := llcorner p; p.NW := ulcorner p;
   p.NE := urcorner p; p.SE := lrcorner p;
   p.W := .5[p.SW, p.NW]; p.N := .5[p.NW, p.NE];
   p.E := .5[p.NE, p.SE]; p.S := .5[p.SE, p.SW];
+  p.width := _bw_ p; p.height := _bh_ p;
 enddef;
 def enrich_each text s = forsuffixes i = s: enrich i; endfor; enddef;
 
