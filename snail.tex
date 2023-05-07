@@ -111,6 +111,9 @@ tertiarydef a 位于 b =
 enddef;
 def 定位 (suffix name) (expr 多少呢) =
   name := name 偏 (多少呢);
+  if known name.框:
+    name.框 := name.框 偏 (多少呢);
+  fi;
   中央四角十二门(name); 郊(name);
 enddef;
 \stopMPinclusions
@@ -368,6 +371,20 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
+def 道 (suffix name) (expr p) text label =
+  begingroup
+  save hack; path hack;
+  path name; name := p;
+  if (获 "蜗界.路径.有向"):
+    流向 name;
+  else:
+    串联 name;
+  fi;
+  hack := label name;
+  if path hack: fi;
+  endgroup
+enddef;
+
 def 路 (suffix name) (expr p) text label =
   begingroup
   save hack; path hack;
@@ -402,14 +419,15 @@ enddef;
 vardef 小曲线 (expr p) =
   save m, n, k, new_p, segments, nodes;
   numeric m, n, k; path new_p, segments[]; pair nodes[];
-  n := length p;
+  new_p := 简化(p);
+  n := length new_p;
+  show n;
   if n < 4:
-    new_p := 单段曲线(p);
+    new_p := 单段曲线(new_p);
   else:
-    new_p := 简化(p);
     m := length new_p;
     for i = 0 upto m:
-      nodes[i] := point i of p;
+      nodes[i] := point i of new_p;
     endfor;
     %%%% 分段
     % 首
