@@ -238,10 +238,10 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 北 expr a = a * up enddef; 
-def 南 expr a = a * down enddef;
-def 西 expr a = a * left enddef; 
-def 东 expr a = a * right enddef;
+def 北 = up * enddef; 
+def 南 = down * enddef;
+def 西 = left * enddef; 
+def 东 = right * enddef;
 
 tertiarydef a 纬至 b = 
   if pair a:
@@ -318,13 +318,32 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-vardef 最长一段的中点 (expr p) =
+def 为 = enddef;
+primarydef a 加 b = 
+  show a;
+enddef;
+vardef 标注(expr tag, 倾角) text p =
+  标注之体 (tag, -1, 倾角) p
+enddef;
+vardef 定位标注(expr tag, 位置, 倾角) text p =
+  标注之体 (tag, 位置, 倾角) p
+enddef;
+def 路标 (suffix p) (expr tag, 位置, 倾角) =
+  begingroup
+    save hack; path hack;
+    hack := 标注之体 (tag, 位置, 倾角) (p);
+    if path hack:
+    else:
+      show "路标出错！";
+    fi;
+enddef;
+vardef 最长一段的中点 expr p =
   save n, l, l_max, s_max, t;
   numeric n, l, l_max; path t, s_max;
   n := length p;
   l_max := 0;
   for i = 1 upto n:
-    t := (point i - 1 of p) -- (point i of p);
+    t := (p cutbefore (point i - 1 of p)) cutafter (point i of p);
     l := arclength t;
     if l_max < l:
       l_max := l; s_max := t;
@@ -332,46 +351,49 @@ vardef 最长一段的中点 (expr p) =
   endfor;
   point .5 along (s_max)
 enddef;
-
-def 标注之体 (expr tag, anchor, c) text p =
+vardef 标注之体 (expr tag, 位置, 倾角) text p =
   begingroup
-    save formatted_tag, pos, offset, t;
-    pair pos; numeric offset; string t, formatted_tag;
+    save formatted_tag, base, c, s, v, label, a, b;
+    pair base, c, s[], v[]; string formatted_tag; picture label; path a, b; numeric c;
     formatted_tag := "\tfx" & tag;
-    if c < 0:
-      pos := 最长一段的中点 p;
+    if 位置 < 0:
+      base := 最长一段的中点 p;
+      c := .5;
     else:
-      pos := point c along p;
+      base := point 位置 along p;
+      c := 位置;
     fi;
-    offset := .25(获 "蜗界.字号");
-    if anchor = "北":
-      pos := pos shifted (0, offset);
-      t := "thetextext.top";
-    elseif anchor = "东":
-      pos := pos shifted (offset, 0);
-      t := "thetextext.rt";
-    elseif anchor = "南":
-      pos := pos shifted (0, -offset);
-      t := "thetextext.bot";
-    elseif anchor = "西":
-      pos := pos shifted (-offset, 0);
-      t := "thetextext.lft";
+    v0 := point (c - .01) along p;
+    v1 := point (c + .01) along p;
+    label := textext(formatted_tag);
+    s[0] := .5[ulcorner label, urcorner label];
+    s[1] := s[0] rotated (angle (v0 - v1));
+    s[2] := s[0] rotated (angle (v1 - v0));
+    s[3] := dir(倾角 + 90) * 1cm; % 文本默认的上方是 y 方向.
+    a := s[1] -- s[3];
+    b := s[2] -- s[3];
+    if arclength a < arclength b:
+      v3 := v0 - v1;
+    else:
+      v3 := v1 - v0;
     fi;
-    draw scantokens(t)(formatted_tag, pos);
+    v4 := v3 rotated 90;
+    v5 := v3 rotated 270;
+    a := v4 -- s[3];
+    b := v5 -- s[3];
+    if arclength a < arclength b:
+      v6 := unitvector(v4);
+    else:
+      v6 := unitvector(v5);
+    fi;
+    draw (label rotated (angle v3)) shifted (base 偏 (.6(获 "蜗界.字号") * v6));
+    base -- base
   endgroup
-enddef;
-vardef 标注(expr tag, anchor) text p =
-  标注之体 (tag, anchor, -1) (p);
-  (0, 0) -- (0, 0)
-enddef;
-vardef 定位标注(expr tag, anchor, c) text p =
-  标注之体 (tag, anchor, c) (p);
-  (0, 0) -- (0, 0)
 enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 道 (suffix name) (expr p) text label =
+def 老路 (suffix name) (expr p) text label =
   begingroup
   save hack; path hack;
   path name; name := p;
@@ -394,7 +416,7 @@ def 路 (suffix name) (expr p) text label =
   else:
     串联 name;
   fi;
-  hack := label name;
+  hack := label name; % 让伪路径化为虚无
   if path hack: fi;
   endgroup
 enddef;
@@ -421,12 +443,10 @@ vardef 小曲线 (expr p) =
   numeric m, n, k; path new_p, segments[]; pair nodes[];
   new_p := 简化(p);
   n := length new_p;
-  show n;
   if n < 4:
     new_p := 单段曲线(new_p);
   else:
-    m := length new_p;
-    for i = 0 upto m:
+    for i = 0 upto n:
       nodes[i] := point i of new_p;
     endfor;
     %%%% 分段
@@ -438,7 +458,7 @@ vardef 小曲线 (expr p) =
           .. .5[nodes[2], nodes[3]];
     % 体
     m := n - 4;
-    k := 1;
+    k := 2;
     for i = 2 step 2 until m:
       new_p := new_p
           .. controls nodes[i + 1]
@@ -448,7 +468,6 @@ vardef 小曲线 (expr p) =
       k := i + 2;
     endfor;
     % 尾：只可能有 3 个或 4 个控制点
-    show n, k;
     m := n - k + 1;
     if m = 3:
       new_p := new_p .. controls nodes[k + 1] .. nodes[n];
@@ -465,45 +484,43 @@ vardef 小曲线 (expr p) =
   new_p
 enddef;
 vardef 曲线 (expr p) =
-  save m, n, k, new_p, nodes, segments;
-  numeric m, n, k; path new_p, segments[]; pair nodes[];
+  save m, n, k, new_p, nodes;
+  numeric m, n, k; path new_p; pair nodes[];
+  new_p := 简化(p);
   n := length p;
   if n < 4:
-    new_p := 单段曲线(p);
+    new_p := 单段曲线(new_p);
   else:
-    new_p := 简化(p);
     m := length new_p;
     for i = 0 upto m:
-      nodes[i] := point i of p;
+      nodes[i] := point i of new_p;
     endfor;
-    % 分段
-    k := 0;
-    n := m - 2;
-    for i = 0 step 2 until n:
-      if i = 0:
-        segments[k] := nodes[i] 
-          .. controls nodes[i + 1] and nodes[i + 2] 
-          .. .5[nodes[i + 2], nodes[i + 3]];
-      elseif i + 2 = m:
-        segments[k] := .5[nodes[i], nodes[i + 1]] 
-          .. controls nodes[i + 1]
-          .. nodes[i + 2];
-      elseif i + 3 = m:
-        segments[k] := .5[nodes[i], nodes[i + 1]] 
-          .. controls nodes[i + 1] and nodes[i + 2] 
-          .. nodes[i + 3];
-      else:
-        segments[k] := .5[nodes[i], nodes[i + 1]] 
-          .. controls nodes[i + 1] and nodes[i + 2] 
-          .. .5[nodes[i + 2], nodes[i + 3]];
-      fi;
-      k := k + 1;
+    %%%% 分段
+    % 首
+    new_p := nodes[0] 
+      .. controls nodes[1] and nodes[2] 
+      .. .5[nodes[2], nodes[3]];
+    % 体
+    m := n - 4;
+    k := 2;
+    for i = 2 step 2 until m:
+      new_p := new_p 
+        .. controls nodes[i + 1] and nodes[i + 2] 
+        .. .5[nodes[i + 2], nodes[i + 3]];
+      k := i + 2;
     endfor;
-    % 合并
-    new_p := segments[0];
-    for i = 1 upto k - 1:
-      new_p := new_p .. segments[i];
-    endfor;
+    % 尾
+    m := n - k + 1;
+    show m;
+    if m = 3:
+      new_p := new_p .. controls nodes[k + 1] .. nodes[n];
+    elseif m = 4:
+      new_p := new_p 
+        .. controls nodes[k + 1] and nodes[k + 2]
+        .. nodes[n];
+    else:
+      show "曲线出错！";
+    fi;
   fi;
   new_p
 enddef;
