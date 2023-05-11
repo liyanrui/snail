@@ -547,34 +547,34 @@ def 量 (suffix a) (expr b) =
   numeric a;
   a := b;
 enddef;
-% 下标从 1 开始
+
 def 表 (suffix a) (text b) =
+  string a[];
   begingroup
-    save 计数; numeric 计数; 计数 := 1;
-    for i = b:
-      a[计数] := i;
-      计数 := 计数 + 1;
-    endfor;
+    save i; numeric i; i := 0;
+    for j = b:
+      a[i] := j;
+      i := i + 1;
+    endfor
   endgroup
 enddef;
 
-% 键值对
 vardef 表长 suffix a =
   save i; numeric i; i := 0;
   forever:
     exitif unknown a[i + 1];
     i := i + 1;
-  endfor;
+  endfor
   i
 enddef;
 
 def 名 expr a = scantokens(a) enddef;
 
-vardef 展开 suffix a =
+vardef 聚 suffix a =
   save s, n; string s; numeric n;
   s := "";
   n := 表长 a;
-  for i = 1 upto n - 1:
+  for i = 1 upto n:
     s := (tostring s) & a[i] & ",";
   endfor;
   s := s & a[n];
@@ -582,7 +582,19 @@ vardef 展开 suffix a =
 enddef;
 
 def 之乎者也 suffix a =
-  呜呼 名(展开 a);
+  for i = 0 upto 表长 a: 宫(名 a[i], a[i]); endfor
+enddef;
+
+def 横陈 (suffix a) (expr 间距) =
+  for i = 1 upto 表长 a:
+    定位(名 a[i], 名(a[i]).酉门 位于 名(a[i - 1]).卯门 偏 (东 间距));
+  endfor
+enddef;
+
+def 纵列 (suffix a) (expr 间距) =
+  for i = 1 upto 表长 a:
+    定位(名 a[i], 名(a[i]).子门 位于 名(a[i - 1]).午门 偏 (南 间距));
+  endfor
 enddef;
 \stopMPinclusions
 
