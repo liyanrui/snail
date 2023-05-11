@@ -5,8 +5,8 @@ local 蜗界 = {}
     字号 = 蜗界.字号,
     文字 = {颜色 = "black"},
     框形 = "fullsquare",
-    框 = {余地 = 蜗界.字号, 
-          线宽 = ".175" .. 蜗界.字号, 
+    框 = {余地 = 蜗界.字号,
+          线宽 = ".175" .. 蜗界.字号,
           颜色 = "darkgray",
           各向同性 = "false",
           郊 = "2" .. 蜗界.字号},
@@ -14,7 +14,8 @@ local 蜗界 = {}
     路径 = {线宽 = ".2" .. 蜗界.字号,
             颜色 = "darkgray",
             有向 = "true",
-            圆角 = ".25" .. 蜗界.字号},
+            标注偏距 = ".5" .. 蜗界.字号,
+            圆角 = ".3" .. 蜗界.字号},
     玩笑 = "0pt"
 }
 table.save("snail.conf", 蜗界)
@@ -162,9 +163,11 @@ enddef;
 \startMPinclusions[+]
 def 宫廷 (suffix a) (expr b) = picture a; a := b; enddef;
 def 城 (suffix a) (text b) =
-  宫廷(a, nullpicture);
+  if unknown a:
+    宫廷(a, nullpicture);
+  fi;
   for i = b: addto a also image(draw i); endfor;
-  中央四角十二门(a, 隐); 郊(a, 隐);
+  中央四角十二门(a); 郊(a);
 enddef;
 \stopMPinclusions
 
@@ -242,6 +245,10 @@ def 北 = up * enddef;
 def 南 = down * enddef;
 def 西 = left * enddef; 
 def 东 = right * enddef;
+def 向北 = up enddef; 
+def 向南 = down enddef;
+def 向西 = left enddef; 
+def 向东 = right enddef;
 
 tertiarydef a 纬至 b = 
   if pair a:
@@ -318,10 +325,6 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 为 = enddef;
-primarydef a 加 b = 
-  show a;
-enddef;
 vardef 标注(expr tag, 倾角) text p =
   标注之体 (tag, -1, 倾角) p
 enddef;
@@ -386,8 +389,8 @@ vardef 标注之体 (expr tag, 位置, 倾角) text p =
     else:
       v6 := unitvector(v5);
     fi;
-    draw (label rotated (angle v3)) shifted (base 偏 (.6(获 "蜗界.字号") * v6));
-    base -- base
+    draw (label rotated (angle v3)) shifted (base 偏 ((获 "蜗界.路径.标注偏距") * v6));
+    ""
   endgroup
 enddef;
 \stopMPinclusions
@@ -395,29 +398,25 @@ enddef;
 \startMPinclusions[+]
 def 老路 (suffix name) (expr p) text label =
   begingroup
-  save hack; path hack;
   path name; name := p;
   if (获 "蜗界.路径.有向"):
     流向 name;
   else:
     串联 name;
   fi;
-  hack := label name;
-  if path hack: fi;
+  quote label name;
   endgroup
 enddef;
 
 def 路 (suffix name) (expr p) text label =
   begingroup
-  save hack; path hack;
   path name; name := 柔和(简化(p));
   if (获 "蜗界.路径.有向"):
     流向 name;
   else:
     串联 name;
   fi;
-  hack := label name; % 让伪路径化为虚无
-  if path hack: fi;
+  quote label name;
   endgroup
 enddef;
 \stopMPinclusions
@@ -526,15 +525,13 @@ vardef 曲线 (expr p) =
 enddef;
 def 弯路之体 (suffix name) (expr p, 方法) text label =
   begingroup
-  save hack; path hack;
   path name; name := scantokens(方法)(简化(p));
   if (获 "蜗界.路径.有向"):
     流向 name;
   else:
     串联 name;
   fi;
-  hack := label name;
-  if path hack: fi;
+  quote label name;
   endgroup
 enddef;
 def 小弯路 (suffix name) (expr p) text label =
@@ -546,8 +543,46 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 度 (suffix a) (expr b) =
+def 量 (suffix a) (expr b) =
   numeric a;
   a := b;
 enddef;
+% 下标从 1 开始
+def 表 (suffix a) (text b) =
+  begingroup
+    save 计数; numeric 计数; 计数 := 1;
+    for i = b:
+      a[计数] := i;
+      计数 := 计数 + 1;
+    endfor;
+  endgroup
+enddef;
+
+% 键值对
+vardef 表长 suffix a =
+  save i; numeric i; i := 0;
+  forever:
+    exitif unknown a[i + 1];
+    i := i + 1;
+  endfor;
+  i
+enddef;
+
+def 名 expr a = scantokens(a) enddef;
+
+vardef 展开 suffix a =
+  save s, n; string s; numeric n;
+  s := "";
+  n := 表长 a;
+  for i = 1 upto n - 1:
+    s := (tostring s) & a[i] & ",";
+  endfor;
+  s := s & a[n];
+  s
+enddef;
+
+def 之乎者也 suffix a =
+  呜呼 名(展开 a);
+enddef;
 \stopMPinclusions
+
