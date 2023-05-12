@@ -31,7 +31,7 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 中央四角十二门 (suffix foo)= 
+def 中央四角十二门 suffix foo = 
   begingroup
   save t, 方向, 线宽; path t; pair 方向; numeric 线宽;
   forsuffixes i = 中央, 东北角, 东南角, 西南角, 西北角,
@@ -59,8 +59,7 @@ def 中央四角十二门 (suffix foo)=
   %%%%%%%% 对于宫而言, 若框为异形，将角点和门投射到框的边界上
   if known foo.框:
     线宽 := 获 "蜗界.框.线宽";
-    forsuffixes i = 东北角, 东南角, 西南角, 西北角,
-                    子门, 卯门, 午门, 酉门,
+    forsuffixes i = 子门, 卯门, 午门, 酉门,
                     丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
       foo.i := 5(foo.i shifted -foo.中央) shifted foo.中央;
       方向 := unitvector(foo.i - foo.中央);
@@ -69,7 +68,7 @@ def 中央四角十二门 (suffix foo)=
     endfor;
   fi;
 enddef;
-def 郊 (suffix foo) = 
+def 郊 suffix foo = 
   forsuffixes i = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
     pair foo.i;
   endfor;
@@ -120,30 +119,62 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 宫 (suffix name) (expr a) text 变换语句 =
-  picture name;
+def 宫 (suffix name) (expr content) text 变换语句 =
   begingroup
-  save w, h, s, delta;
-  path name.框; picture name.文; numeric w, h, s; pair delta;
-  name.文 := textext(a);
-  w := bbwidth name.文; h := bbheight name.文;
-  if (获 "蜗界.框.各向同性"):
-    if w > h: s = w; else: s = h; fi;
-    name.框 := fullsquare xysized (s, s) enlarged ((获 "蜗界.框.余地") * (1, 1));
+    save c, t, w, h, s, delta; 
+    picture c; 
+    path t; 
+    numeric w, h, s; 
+    pair delta;
+    c := textext(content); 
+    w := bbwidth c; 
+    h := bbheight c;
+    if (获 "蜗界.框.各向同性"):
+      if w > h: s := w; else: s := h; fi;
+      t := fullsquare xysized (s, s) enlarged ((获 "蜗界.框.余地") * (1, 1));
+    else:
+      t := fullsquare xysized (w, h) enlarged ((获 "蜗界.框.余地") * (1, 1));
+    fi;
+    宫之体(name, c, bbwidth t, bbheight t);
+    delta := origin 变换语句;
+    name := name 偏 delta;
+    name.框 := name.框 偏 delta;
+    中央四角十二门(name); 郊(name);
+  endgroup
+enddef;
+
+def 仿 suffix a = (bbwidth a.框), (bbheight a.框) enddef;
+def 重修 (suffix name) (expr w, h) text 变换语句 =
+  begingroup
+    save base, delta; pair base, delta; base := center name;
+    宫之体(name, name.文, w, h);
+    delta := origin 变换语句;
+    if delta = origin:
+      name := name 偏 base;
+      name.框 := name.框 偏 base;
+    else:
+      name := name 偏 delta;
+      name.框 := name.框 偏 delta;
+    fi;
+    中央四角十二门(name); 郊(name);
+  endgroup
+enddef;
+
+def 宫之体 (suffix name) (expr content, w, h) =
+  picture name; picture name.文; path name.框; 
+  if string content:
+    name.文 := textext(content);
+  elseif picture content:
+    name.文 := content;
   else:
-    name.框 := fullsquare xysized (w, h) enlarged ((获 "蜗界.框.余地") * (1, 1));
+    name.文 := textext("");
   fi;
-  name.框 := (获 "蜗界.框形") xysized (bbwidth name.框, bbheight name.框);
+  name.框 := (获 "蜗界.框形") xysized (w, h);
   if (获 "蜗界.玩笑") > 0: name.框 := name.框 randomized (获 "蜗界.玩笑"); fi;
   name := image (fill name.框 withcolor (获 "蜗界.背景.颜色");
                  draw name.框 withpen pencircle scaled (获 "蜗界.框.线宽")
                          withcolor (获 "蜗界.框.颜色");
                  draw name.文 withcolor (获 "蜗界.文字.颜色"););
-  delta := (0, 0) 变换语句;
-  name := name 偏 delta;
-  name.框 := name.框 偏 delta;
-  中央四角十二门(name); 郊(name);
-  endgroup
 enddef;
 \stopMPinclusions
 
@@ -581,8 +612,8 @@ vardef 聚 suffix a =
   s
 enddef;
 
-def 之乎者也 suffix a =
-  for i = 0 upto 表长 a: 宫(名 a[i], a[i]); endfor
+def 之乎者也 (suffix a, b) =
+  for i = 0 upto 表长 a: 宫(名 a[i], b[i]); endfor
 enddef;
 
 def 横陈 (suffix a) (expr 间距) =
