@@ -201,13 +201,14 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 宫廷 (suffix a) (expr b) = picture a; a := b; enddef;
 def 城 (suffix a) text b =
-  if unknown a:
-    宫廷(a, nullpicture);
-  fi;
-  for i = b: addto a also image(draw i); endfor;
-  中央四角十二门(a); 郊(a);
+  begingroup
+    picture a; a := nullpicture;
+    for i = b: addto a also image(draw i); endfor;
+    path a.框; a.框 := fullsquare xysized (bbwidth a, bbheight a) 
+                                 enlarged ((获 "蜗界.框.余地") * (1, 1));
+    a.框 := a.框 shifted (center a - center a.框);
+  endgroup
 enddef;
 \stopMPinclusions
 
@@ -656,6 +657,7 @@ def 旋 = rotated enddef;
 def 令 suffix a = 令之体(a) enddef;
 def 令之体 (suffix a) text b =
   a := a b;
+  a.框 := a.框 b;
   forsuffixes i = 中央, 东北角, 东南角, 西南角, 西北角,
                   子门, 卯门, 午门, 酉门, 
                   丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门,
