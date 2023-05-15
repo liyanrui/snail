@@ -15,7 +15,7 @@ local 蜗界 = {}
             颜色 = "darkgray",
             有向 = "true",
             标注偏距 = ".5" .. 蜗界.字号,
-            圆角 = ".3" .. 蜗界.字号},
+            圆角 = ".2" .. 蜗界.字号},
     玩笑 = "0pt",
     调试 = "false"
 }
@@ -470,7 +470,10 @@ def 路 (suffix name) (expr p) text label =
     串联 name;
   fi;
   quote label name;
-  if 获 "蜗界.调试": drawpoints name; fi;
+  if 获 "蜗界.调试": 
+    drawpoints name 
+      withpen pencircle scaled .5(获 "蜗界.路径.线宽"); 
+  fi;
   endgroup
 enddef;
 \stopMPinclusions
@@ -586,7 +589,10 @@ def 弯路之体 (suffix name) (expr p, 方法) text label =
     串联 name;
   fi;
   quote label name;
-  if 获 "蜗界.调试": drawpoints name; fi;
+  if 获 "蜗界.调试": 
+    drawpoints name 
+      withpen pencircle scaled .5(获 "蜗界.路径.线宽"); 
+  fi;
   endgroup
 enddef;
 def 小弯路 (suffix name) (expr p) text label =
@@ -664,6 +670,25 @@ def 令之体 (suffix a) text b =
                   乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
     if known a.i: a.i := a.i b; fi;
   endfor;
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+numeric 竖亥直径;
+path 竖亥圆, 竖亥前路, 竖亥后路, 竖亥路;
+pair 竖亥前点, 竖亥后点, 竖亥跃点;
+tertiarydef a 越过 b =
+  hide(竖亥 := a intersectionpoint b;
+       竖亥直径 := 获 "蜗界.字号";
+       竖亥圆 := fullcircle scaled 竖亥直径 偏 竖亥;
+       竖亥前路 := a cutafter b cutafter 竖亥圆;
+       竖亥后路 := a cutbefore b cutbefore 竖亥圆;
+       竖亥前点 := point 1 along 竖亥前路;
+       竖亥后点 := point 0 along 竖亥后路;
+       竖亥跃点 := .5[竖亥前点, 竖亥后点] 
+                 偏 (.5竖亥直径 * (unitvector(竖亥后点 - 竖亥前点) rotated 90));
+       竖亥路 := 竖亥前路 .. 竖亥跃点 .. 竖亥后路;)
+    竖亥路
 enddef;
 \stopMPinclusions
 
