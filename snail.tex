@@ -181,7 +181,7 @@ def 宫之体 (suffix name) (expr content, w, h) =
     if (获 "蜗界.玩笑") > 0: name.框 := name.框 randomized (获 "蜗界.玩笑"); fi;
     name := image (fill name.框 withcolor (获 "蜗界.背景.颜色");
                    draw name.框 withpen pencircle scaled 线宽
-                   withcolor (获 "蜗界.框.颜色");
+                                withcolor (获 "蜗界.框.颜色");
                    draw name.文 withcolor (获 "蜗界.文字.颜色"););
   endgroup
 enddef;
@@ -203,11 +203,17 @@ enddef;
 \startMPinclusions[+]
 def 城 (suffix a) text b =
   begingroup
-    picture a; a := nullpicture;
-    for i = b: addto a also image(draw i); endfor;
-    path a.框; a.框 := fullsquare xysized (bbwidth a, bbheight a) 
-                                 enlarged ((获 "蜗界.框.余地") * (1, 1));
-    a.框 := a.框 shifted (center a - center a.框);
+    save t;
+    picture a, t; 
+    t := nullpicture;
+    for i = b: addto t also image(draw i); endfor;
+    path a.框; 
+    a.框 := fullsquare xysized (bbwidth t, bbheight t) 
+            enlarged ((获 "蜗界.框.余地") * (1, 1));
+    a.框 := a.框 shifted (center t - center a.框);
+    a := image (fill a.框 withcolor (获 "蜗界.背景.颜色");
+                draw t;);
+    中央四角十二门(a); 郊(a);
   endgroup
 enddef;
 \stopMPinclusions
@@ -674,21 +680,29 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-numeric 竖亥直径;
-path 竖亥圆, 竖亥前路, 竖亥后路, 竖亥路;
-pair 竖亥前点, 竖亥后点, 竖亥跃点;
+numeric 竖亥.直径;
+path 竖亥.圆, 竖亥.前路, 竖亥.后路, 竖亥.侧前路, 竖亥.侧后路, 竖亥.新路;
+pair 竖亥.前点, 竖亥.后点, 竖亥.跃点, 竖亥.走向, 竖亥.偏向;
 tertiarydef a 越过 b =
   hide(竖亥 := a intersectionpoint b;
-       竖亥直径 := 获 "蜗界.字号";
-       竖亥圆 := fullcircle scaled 竖亥直径 偏 竖亥;
-       竖亥前路 := a cutafter b cutafter 竖亥圆;
-       竖亥后路 := a cutbefore b cutbefore 竖亥圆;
-       竖亥前点 := point 1 along 竖亥前路;
-       竖亥后点 := point 0 along 竖亥后路;
-       竖亥跃点 := .5[竖亥前点, 竖亥后点] 
-                 偏 (.5竖亥直径 * (unitvector(竖亥后点 - 竖亥前点) rotated 90));
-       竖亥路 := 竖亥前路 .. 竖亥跃点 .. 竖亥后路;)
-    竖亥路
+       竖亥.直径 := 获 "蜗界.字号";
+       竖亥.圆 := fullcircle scaled 竖亥.直径 偏 竖亥;
+       竖亥.前路 := a cutafter b cutafter 竖亥.圆;
+       竖亥.后路 := a cutbefore b cutbefore 竖亥.圆;
+       竖亥.前点 := point 1 along 竖亥.前路;
+       竖亥.后点 := point 0 along 竖亥.后路;
+       竖亥.走向 := unitvector(竖亥.后点 - 竖亥.前点);
+       竖亥.侧前路 := b cutafter a cutafter 竖亥.圆;
+       竖亥.侧后路 := b cutbefore a cutbefore 竖亥.圆;
+       竖亥.偏向 := unitvector((point 0 along 竖亥.侧后路) - (point 1 along 竖亥.侧前路));
+       if ((竖亥.走向 rotated 90) dotprod 竖亥.偏向) < 0:
+         竖亥.走向 := 竖亥.走向 rotated -90;
+       else:
+         竖亥.走向 := 竖亥.走向 rotated 90;
+       fi;
+       竖亥.跃点 := .5[竖亥.前点, 竖亥.后点] 偏 (.5竖亥.直径 * 竖亥.走向);
+       竖亥.新路 := 竖亥.前路 .. 竖亥.跃点 .. 竖亥.后路;)
+    竖亥.新路
 enddef;
 \stopMPinclusions
 
