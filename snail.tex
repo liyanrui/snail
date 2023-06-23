@@ -187,7 +187,7 @@ def 宫之体 (suffix name) (expr content, w, h) =
 enddef;
 \stopMPinclusions
 
-\defineframed[snailframed][offset=1em,frame=off]
+\defineframed[snailframed][offset=.25em,frame=off]
 \startMPinclusions[+]
 def 廷 (suffix name) (expr a) text 变换语句 =
   picture name;
@@ -286,17 +286,17 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def 开启虚线模式 =
+def 用虚线 =
   drawpathoptions(dashed (evenly scaled .625(获 "蜗界.路径.线宽"))
                   withpen pencircle scaled (获 "蜗界.路径.线宽")
                   withcolor (获 "蜗界.路径.颜色"));
 enddef;
-def 关闭虚线模式 =
+def 用实线 =
   drawpathoptions(withpen pencircle scaled (获 "蜗界.路径.线宽")
                   withcolor (获 "蜗界.路径.颜色"));
 enddef;
 % 默认关闭虚线模式
-关闭虚线模式;
+用实线;
 \stopMPinclusions
 
 \startMPinclusions[+]
