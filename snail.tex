@@ -248,9 +248,10 @@ def 呜呼 text all =
       draw i; 
     endfor;
     if 获 "蜗界.调试":
-      
       forsuffixes i = all: 
-        draw i.框 dashed (evenly scaled d) withcolor transparent(1, .25, black);
+        if known i.框:
+           draw i.框 dashed (evenly scaled d) withcolor transparent(1, .25, black);
+        fi;
         关塞 i; 
       endfor;
     fi;
