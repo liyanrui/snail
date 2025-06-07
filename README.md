@@ -1,1 +1,1 @@
-用法见 <https://liyanrui.github.io/output/metafun/new-snail.html>
+用法见 <https://liyanrui.github.io/old-post/output/metafun/new-snail.html>
