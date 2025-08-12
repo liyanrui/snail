@@ -1,0 +1,513 @@
+\writestatus{loading}{ConTeXt User Module / snail}
+\startmodule[snail]
+\startluacode
+snailenv = {
+  background = 'white',
+  text = {
+     fontsize = 'BodyFontSize',
+     color = 'black',
+     offset = '.125BodyFontSize'
+  },
+  frame = {
+     shape = 'fullsquare',
+     background = {color = '.9white'},
+     offset = 'BodyFontSize',
+     thickness = '.175BodyFontSize',
+     color = '.75white',
+     isotropic = 'false',
+     margin = '3BodyFontSize',
+  },
+  path = {
+     thickness = '.125BodyFontSize',
+     color = 'darkgray',
+     directed = 'true',
+     smooth = 'true',
+     labeloffset = '.5BodyFontSize',
+     fillet = '.3BodyFontSize',
+     -- 箭头
+     ahvariant = 1,
+     ahdimple = 1,
+     ahlength = '.5BodyFontSize',
+  },
+  joke = '0',
+  debug = 'false'
+}
+\stopluacode
+
+\startMPinclusions
+vardef snailenv@#(text anything) =
+  save s; string s; s := str @#;
+  if s = "get": runscript("mp.print(snailenv." & anything & ")") fi
+  if s = "set": do_snailenv_set(anything) fi
+enddef;
+
+def do_snailenv_set(expr k, v) =
+   runscript("snailenv." & k & " = " & tolua(v));
+enddef;
+
+vardef tolua(expr v) =
+  if string v: v fi
+  if boolean v: "'" & tostring v & "'" fi
+  if numeric v: decimal(v) fi
+  if pair v: "'" & topair(v) & "'" fi
+  if color v: tocolor(v) fi
+enddef;
+
+vardef tocolor(expr a) =
+  save s; string s;
+  s := "'(" & decimal (redpart a) & ","
+            & decimal (greenpart a) & ","
+            & decimal (bluepart a) & ")'";
+  s
+enddef;
+
+def snailshapereset =
+  snailenv.set("frame.shape", "'fullsquare'");
+  snailenv.set("frame.isotropic", false);
+  snailenv.set("frame.offset", BodyFontSize);
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def snailfam_t text obj =
+  picture obj;
+  picture obj.content;
+  path obj.frame;
+  anchorname obj;
+enddef;
+
+def snail_t text objs =
+  forsuffixes it = objs:
+    picture it;
+    picture it.content;
+    path it.frame;
+    anchorname it;
+  endfor;
+enddef;
+
+def anchorname text obj = 
+  pair obj.anchors[][];
+  forsuffixes it = 中央, 东北, 西北, 西南, 东南,
+                   子门, 丑门, 寅门, 卯门, 辰门, 巳门, 午门, 未门,
+                   申门, 酉门, 戌门, 亥门,
+                   乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
+    pair obj.it;
+  endfor;
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def make_anchors suffix obj =
+  begingroup
+    obj.中央 := center obj;
+    obj.东北 := (urcorner obj);
+    obj.西北 := (ulcorner obj);
+    obj.西南 := (llcorner obj);
+    obj.东南 := (lrcorner obj);
+    obj.子门 := .5[obj.西北, obj.东北];
+    obj.午门 := .5[obj.西南, obj.东南];
+    obj.卯门 := .5[obj.东南, obj.东北];
+    obj.酉门 := .5[obj.西南, obj.西北];
+    obj.丑门 := .5[obj.子门, obj.东北];
+    obj.寅门 := .5[obj.卯门, obj.东北];
+    obj.辰门 := .5[obj.卯门, obj.东南];
+    obj.巳门 := .5[obj.午门, obj.东南];
+    obj.未门 := .5[obj.午门, obj.西南];
+    obj.申门 := .5[obj.酉门, obj.西南];
+    obj.戌门 := .5[obj.酉门, obj.西北];
+    obj.亥门 := .5[obj.子门, obj.西北];
+    % 如果 obj 有边框，需要为锚点作线宽补偿
+    % 若 obj 边框为异形，锚点则会被投射到异形上
+    save thi, w, h, p, t; numeric thi, w, h; path p, q;
+    if known obj.frame:
+      thi := snailenv.get("frame.thickness");
+      w := bbwidth obj.frame; h := bbheight obj.frame;
+      p := obj.frame xysized (w + thi, h + thi);
+      p := p shifted (obj.中央 - center p);
+      forsuffixes it = 东北, 西北, 西南, 东南, 子门, 卯门, 午门, 酉门,
+                       丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        obj.it := 5(obj.it - obj.中央) shifted obj.中央;
+        q := (obj.it -- obj.中央) cutbefore p;
+        obj.it := point 0 of q;
+      endfor;
+    fi;
+    save i; numeric i; i := 1;
+    obj.anchors[0][0] := obj.中央;
+    forsuffixes it = 卯门, 寅门, 东北, 丑门, 子门, 亥门, 西北, 戌门,
+                     酉门, 申门, 西南, 未门, 午门, 巳门, 东南, 辰门:
+      obj.anchors[1][i] := obj.it;
+      i := i + 1;
+    endfor;
+    save mar; path mar; mar := obj enlarged snailenv.get("frame.margin");
+    obj.艮位 := (ulcorner mar); 
+    obj.震位 := (urcorner mar);
+    obj.兑位 := (lrcorner mar);
+    obj.巽位 := (llcorner mar);
+    obj.坤位 := .5[obj.艮位, obj.震位];
+    obj.乾位 := .5[obj.巽位, obj.兑位];
+    obj.离位 := .5[obj.兑位, obj.震位];
+    obj.坎位 := .5[obj.巽位, obj.艮位];
+    i := 1;
+    forsuffixes it = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
+      obj.anchors[2][i] := obj.it;
+      i := i + 1;
+    endfor;
+  endgroup
+enddef;
+
+def draw_anchors text all =
+  begingroup
+    save s; numeric s; s := 6pt;
+    forsuffixes foo = all:
+      forsuffixes i = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
+        draw foo.i withpen pensquare scaled s withcolor darkgreen;
+      endfor;
+      forsuffixes i = 子门, 卯门, 午门, 酉门:
+        draw foo.i withpen pencircle scaled s withcolor darkred;
+      endfor;
+      forsuffixes i = 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        draw foo.i withpen pencircle scaled (2s/3) withcolor magenta;
+      endfor;
+      forsuffixes i = 东北, 东南, 西南, 西北:
+        draw foo.i withpen pensquare scaled s withcolor darkblue;
+      endfor;
+    endfor;
+  endgroup
+enddef;
+
+def snail(suffix obj) (expr content) text somewhere =
+  begingroup
+    save c, t, w, h, s, delta; 
+    picture c; path t; numeric w, h, s; pair delta;
+    c := textext(content); 
+    w := bbwidth c; h := bbheight c;
+    if snailenv.get("frame.isotropic"):
+      if w > h: s := w; else: s := h; fi;
+      t := fullsquare xysized (s, s);
+    else:
+      t := fullsquare xysized (w, h);
+    fi;
+    t := t enlarged (snailenv.get("frame.offset") * (1, 1));
+    make_snail_body(obj, c, bbwidth t, bbheight t);
+    delta := (0, 0) somewhere;
+    obj := obj shifted delta;
+    obj.frame := obj.frame shifted delta;
+    make_anchors obj;
+  endgroup
+enddef;
+
+def make_snail_body(suffix obj) (expr t, w, h) =
+  begingroup
+    save thi, joke; numeric thi, joke;
+    thi := snailenv.get("frame.thickness");
+    joke := snailenv.get("joke");
+    if string t:
+      obj.content := textext(t);
+    elseif picture t:
+      obj.content := t;
+    else:
+      show "snail error: unknown content!";
+    fi;
+    obj.frame := snailenv.get("frame.shape") xysized (w, h);
+    if joke > 0: obj.frame := obj.frame randomized (joke, joke); fi;
+    obj := image (
+      fill obj.frame withcolor snailenv.get("frame.background.color");
+      draw obj.frame withpen pencircle scaled thi
+           withcolor snailenv.get("frame.color");
+      draw obj.content withcolor snailenv.get("text.color");
+    );
+  endgroup
+enddef;
+\stopMPinclusions
+
+\defineframed[snailframed][offset=.25em,frame=off]
+\startMPinclusions[+]
+def slug (suffix obj) (expr a) text somewhere =
+  begingroup
+    obj.content := textext("\snailframed{" & a & "}");
+    obj := image (draw obj.content withcolor snailenv.get("text.color"); );
+    obj := obj shifted origin somewhere;
+    make_anchors obj;
+  endgroup
+enddef;
+
+def avatar (suffix obj) (expr a, w, h) text somewhere =
+  begingroup
+    save p, s; picture p; numeric s;
+    p := externalfigure a;
+    s := (bbwidth p) / (bbheight p);
+    if numeric w and numeric h:
+      obj := image ( draw p xysized (w, h); );
+    else:
+      if numeric w: obj := image ( draw p xysized (w, w / s); ); fi;
+      if numeric h: obj := image ( draw p xysized (h * s, h); ); fi;
+    fi;
+    obj := obj shifted -(center obj);
+    obj := obj shifted (origin somewhere);
+    make_anchors obj;
+  endgroup
+enddef;
+
+def adjust (suffix obj) (expr w, h) =
+  begingroup
+    save base, delta; pair base, delta; base := obj.中央;
+    make_snail_body(obj, obj.content, w, h);
+    obj := obj shifted base;
+    obj.frame := obj.frame shifted base;
+    make_anchors obj;
+  endgroup
+enddef;
+
+def like suffix a =
+  bbwidth a.frame, bbheight a.frame
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def put suffix obj =
+  do_put(obj)
+enddef;
+def do_put(suffix obj) text there =
+  obj := obj there;
+  make_anchors obj;
+enddef;
+
+def at text somthing = shifted (somthing) enddef;
+primarydef a based b =
+   a - b
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def 有请竖亥 (expr a, b) =
+  pair 山海经里的竖亥, 竖亥左手, 竖亥右手;
+  if pair a: 竖亥左手 := a; fi;
+  if path a: 竖亥左手 := point length(a) of a; fi;
+  if pair b: 竖亥右手 := b; fi;
+  if path b: 竖亥右手 := point 0 of b; fi;
+  山海经里的竖亥 := .5[竖亥左手, 竖亥右手];
+enddef;
+
+tertiarydef a xto b =
+    hide(
+      有请竖亥(a, b);
+      山海经里的竖亥 := (xpart 竖亥右手, ypart 竖亥左手);
+    )
+    (a -- 山海经里的竖亥)
+enddef;
+
+tertiarydef a yto b =
+    hide(
+      有请竖亥(a, b);
+      山海经里的竖亥 := (xpart 竖亥左手, ypart 竖亥右手);
+    )
+    (a -- 山海经里的竖亥)
+enddef;
+
+tertiarydef a xyto b =
+    hide(
+      有请竖亥(a, b);
+      山海经里的竖亥 := (xpart 竖亥右手, ypart 竖亥左手);
+    )
+    (a -- 山海经里的竖亥 -- b)
+enddef;
+
+tertiarydef a yxto b =
+    hide(
+      有请竖亥(a, b);
+      山海经里的竖亥 := (xpart 竖亥左手, ypart 竖亥右手);
+    )
+    (a -- 山海经里的竖亥 -- b)
+enddef;
+
+ tertiarydef a xyxto b =
+    hide( 有请竖亥(a, b); )
+    ((a -- (xpart 山海经里的竖亥, ypart 竖亥左手))
+     -- ((xpart 山海经里的竖亥, ypart 竖亥右手) -- b))
+enddef;
+    
+tertiarydef a yxyto b =
+    hide( 有请竖亥(a, b); )
+    ((a -- (xpart 竖亥左手, ypart 山海经里的竖亥))
+     -- ((xpart 竖亥右手, ypart 山海经里的竖亥) -- b))
+enddef;
+
+vardef is_collinear (expr p, a) =
+  save result, v; boolean result; pair v[];
+  v1 := unitvector((point 0 of p) - (a));
+  v2 := unitvector((point (length p) of p) - (a));
+  if abs((v1 dotprod v2) - 1) < 1e-6:
+     result := true;
+  else:
+    result := false;
+  fi;
+  result
+enddef;
+
+vardef simplify (expr p) =
+  save n, it, new_p, c;
+  numeric n; path it, new_p; pair c;
+  n := length p;
+  it := point 0 of p;
+  new_p := it;
+  for i = 1 upto n:
+    c := point i of p;
+    if (length it) = 0: 
+      it := it -- c;
+    else:
+      if is_collinear(it, c):
+        it := it -- c;
+      else:
+        new_p := new_p -- (point (length it) of it);
+        it := (point (length it) of it) -- c;
+      fi;
+    fi;
+  endfor;
+  if (length it) > 0:
+    new_p := new_p -- point (length it) of it;
+  fi;
+  new_p
+enddef;
+
+vardef smooth (expr p) =
+  save n, nodes, new_p, fillet; 
+  numeric n, fillet; pair nodes[]; path new_p;
+  n := length p;
+  for i = 0 upto n:
+    nodes[i] := point i of p;
+  endfor;
+  new_p := nodes[0];
+  fillet := snailenv.get("path.fillet");
+  for i = 1 upto n - 1:
+    new_p := new_p -- point -fillet on (nodes[i - 1] -- nodes[i]);
+    new_p := new_p .. point fillet on (nodes[i] -- nodes[i + 1]);
+  endfor;
+  new_p := new_p -- nodes[n];
+  new_p
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def road_t = path enddef;
+def roadfam_t = path enddef;
+
+def road(suffix self) (expr p) =
+  if snailenv.get("path.smooth"):
+    self := smooth(simplify(p));
+  else:
+    self := p;
+  fi;
+enddef;
+
+def annotate(expr p, info, sign) text fine_adjustment =
+  begingroup
+  save thi, off, q; numeric thi, off; path q;
+  thi := snailenv.get("frame.thickness");
+  off := snailenv.get("text.offset");
+  draw lmt_followtext [
+        text = info,
+        spread = false,
+        reverse = if sign < 0: true else: false fi,
+        path = p
+  ] shifted get_offset_path(p, sign * (thi + off)) fine_adjustment withcolor snailenv.get("text.color");
+  endgroup
+enddef;
+
+vardef get_offset_path(expr p, dist) =
+  save offset; pair offset;
+  offset := get_normal_offset(p, .5, dist);
+  offset
+enddef;
+
+vardef get_normal_offset(expr p, t, dist) = 
+  save e, f, rot, offset, dx, dy; 
+  pair e, f; numeric k, rot, dx; pair offset;
+  e := point (t - .05) along p;
+  f := point (t + .05) along p;
+  dx := xpart f - xpart e;
+  dy := ypart f - ypart e;
+  if dx = 0:
+    if dy > 0:
+      rot := 90;
+    else:
+      rot := -90;
+    fi;
+  else:
+    rot := 180 * atan(dy / dx) / pi;
+  fi;
+  offset := dist * dir(rot + 90);
+  offset
+enddef;
+
+vardef section(expr p, b, e) =
+  save q, a; path q; pair a[];
+  a[1] := point b along p;
+  a[2] := point e along p;
+  q := (p cutbefore a[1]) cutafter a[2];
+  q
+enddef;
+\stopMPinclusions
+
+\startMPinclusions[+]
+def showsnails text all =
+  begingroup
+    for it = all: draw it; endfor;
+    if snailenv.get("debug"):
+      forsuffixes it = all:
+        draw_anchors it;
+      endfor;
+    fi;
+  endgroup
+enddef;
+
+def showroads text all =
+  begingroup
+  save k, n, roads, times, ovl, breakpoints, joke, a, b, c, pa, pb, fillet, thi;
+  numeric k, n, joke, breakpoints[][], fillet;
+  path roads[], ovl, pa, pb; pair times, a, b, c;
+  % process intersection
+  k := 1;
+  forsuffixes it = all: roads[k] := it; k := k + 1; endfor;
+  n := k - 1;
+  for i = 1 upto n:
+    for j = i + 1 upto n:
+      times := roads[i] intersectiontimes roads[j];
+      if times <> (-1, -1):
+        breakpoints[j][i] := xpart times; % point (xpart times) of roads[i]
+      fi;
+    endfor;
+  endfor;
+  thi := snailenv.get("path.thickness");
+  drawoptions(withpen pencircle scaled thi withcolor snailenv.get("path.color"));
+  joke := snailenv.get("joke");
+  fillet := snailenv.get("path.fillet");
+  if snailenv.get("path.directed"):
+    for i = 1 upto n:
+      if snailenv.get("path.directed"):
+        ahvariant := snailenv.get("path.ahvariant");
+        ahdimple := snailenv.get("path.ahdimple");
+        ahlength := snailenv.get("path.ahlength");
+        drawarrow if joke > 0: roads[i] randomized joke else: roads[i]; fi;
+      else:
+        draw if joke > 0: roads[i] randomized joke else: roads[i]; fi;
+      fi;
+      for j = i + 1 upto n:
+        if known breakpoints[j][i]:
+          c := point breakpoints[j][i] of roads[i];
+          pa := roads[i] cutafter c;
+          pb := roads[i] cutbefore c;
+          ovl := fullsquare scaled fillet shifted c;
+          pa := pa cutbefore ovl;
+          pb := pb cutafter ovl;
+          draw pa -- pb withpen pensquare scaled (thi + 1pt)
+                        withcolor snailenv.get("background");
+        fi;
+      endfor;
+    endfor;
+  fi;
+  endgroup
+enddef;
+%def snailbye = addbackground withcolor snailenv.get("background"); enddef;
+\stopMPinclusions
+\stopmodule
+\endinput
