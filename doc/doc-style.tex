@@ -1,0 +1,36 @@
+\setupinteraction[state=start, focus=standard, color=darkred]
+
+\setuphead[title][header=empty, footer=empty, style=\bfb, align={middle,broad}]
+\setuphead[subject,section][style=\bfa]
+
+\setupfootnotes[textstyle=bold]
+\setuppagenumbering[location={footer, right}]
+
+
+\setupwhitespace[medium]
+\setupinterlinespace[line=16pt]
+
+\startuniqueMPgraphic{box quote}
+path p, q;
+numeric w, h, u;
+u := BodyFontSize;
+w := OverlayWidth; h := .85OverlayHeight;
+color framecolor; framecolor := white randomized (.7, .7, .7);
+pickup pencircle scaled 1pt;
+% upper left corner
+p := ((0, h) -- (2u, h)) shifted (-.25u, 0);
+q := ((0, h) -- (0, h - u)) shifted (0, .25u);
+draw p withcolor framecolor;
+draw q withcolor framecolor;
+% lower right corner
+p := ((w - 2u, 0) -- (w, 0)) shifted (.25u, 0);
+q := ((w, 0) -- (w, u)) shifted (0, -.25u);
+draw p withcolor framecolor;
+draw q withcolor framecolor;
+\stopuniqueMPgraphic
+\defineoverlay[boxquotebg][\uniqueMPgraphic{box quote}]
+\def\boxquote#1{%
+  \kern.25em%
+  \inframed[frame=off,background=boxquotebg,offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \kern.25em%
+}

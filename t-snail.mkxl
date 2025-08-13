@@ -281,55 +281,46 @@ enddef;
 \startMPinclusions[+]
 def 有请竖亥 (expr a, b) =
   pair 山海经里的竖亥, 竖亥左手, 竖亥右手;
+  path 竖亥的左右;
+  竖亥的左右 := center a -- center b;
   if pair a: 竖亥左手 := a; fi;
   if path a: 竖亥左手 := point length(a) of a; fi;
+  if picture a:
+     竖亥左手 := 竖亥的左右 intersectionpoint (boundingbox a);
+  fi;
   if pair b: 竖亥右手 := b; fi;
   if path b: 竖亥右手 := point 0 of b; fi;
+  if picture b:
+    竖亥右手 := 竖亥的左右 intersectionpoint (boundingbox b);
+  fi;
   山海经里的竖亥 := .5[竖亥左手, 竖亥右手];
 enddef;
 
 tertiarydef a xto b =
-    hide(
-      有请竖亥(a, b);
-      山海经里的竖亥 := (xpart 竖亥右手, ypart 竖亥左手);
-    )
-    (a -- 山海经里的竖亥)
+    hide(有请竖亥(a, b);)
+    (竖亥左手 -- (xpart 竖亥右手, ypart 竖亥左手))
 enddef;
-
 tertiarydef a yto b =
-    hide(
-      有请竖亥(a, b);
-      山海经里的竖亥 := (xpart 竖亥左手, ypart 竖亥右手);
-    )
-    (a -- 山海经里的竖亥)
+    hide(有请竖亥(a, b);)
+    (竖亥左手 -- (xpart 竖亥左手, ypart 竖亥右手))
 enddef;
-
 tertiarydef a xyto b =
-    hide(
-      有请竖亥(a, b);
-      山海经里的竖亥 := (xpart 竖亥右手, ypart 竖亥左手);
-    )
-    (a -- 山海经里的竖亥 -- b)
+    hide(有请竖亥(a, b);)
+    (竖亥左手 -- (xpart 竖亥右手, ypart 竖亥左手) -- 竖亥右手)
 enddef;
-
 tertiarydef a yxto b =
-    hide(
-      有请竖亥(a, b);
-      山海经里的竖亥 := (xpart 竖亥左手, ypart 竖亥右手);
-    )
-    (a -- 山海经里的竖亥 -- b)
+    hide(有请竖亥(a, b);)
+    (竖亥左手 -- (xpart 竖亥左手, ypart 竖亥右手) -- 竖亥右手)
 enddef;
-
- tertiarydef a xyxto b =
+tertiarydef a xyxto b =
     hide( 有请竖亥(a, b); )
-    ((a -- (xpart 山海经里的竖亥, ypart 竖亥左手))
-     -- ((xpart 山海经里的竖亥, ypart 竖亥右手) -- b))
+    ((竖亥左手 -- (xpart 山海经里的竖亥, ypart 竖亥左手))
+     -- ((xpart 山海经里的竖亥, ypart 竖亥右手) -- 竖亥右手))
 enddef;
-    
 tertiarydef a yxyto b =
     hide( 有请竖亥(a, b); )
-    ((a -- (xpart 竖亥左手, ypart 山海经里的竖亥))
-     -- ((xpart 竖亥右手, ypart 山海经里的竖亥) -- b))
+    ((竖亥左手 -- (xpart 竖亥左手, ypart 山海经里的竖亥))
+     -- ((xpart 竖亥右手, ypart 山海经里的竖亥) -- 竖亥右手))
 enddef;
 
 vardef is_collinear (expr p, a) =
@@ -449,6 +440,19 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
+ahvariant := snailenv.get("path.ahvariant");
+ahdimple := snailenv.get("path.ahdimple");
+ahlength := snailenv.get("path.ahlength");
+
+def showflow expr p =
+  begingroup
+    save thi; numeric thi; thi := snailenv.get("path.thickness");
+    drawoptions(withpen pencircle scaled thi withcolor snailenv.get("path.color"));
+    drawarrow p;
+    drawoptions();
+  endgroup
+enddef;
+
 def showsnails text all =
   begingroup
     for it = all: draw it; endfor;
@@ -484,9 +488,6 @@ def showroads text all =
   if snailenv.get("path.directed"):
     for i = 1 upto n:
       if snailenv.get("path.directed"):
-        ahvariant := snailenv.get("path.ahvariant");
-        ahdimple := snailenv.get("path.ahdimple");
-        ahlength := snailenv.get("path.ahlength");
         drawarrow if joke > 0: roads[i] randomized joke else: roads[i]; fi;
       else:
         draw if joke > 0: roads[i] randomized joke else: roads[i]; fi;
@@ -505,6 +506,7 @@ def showroads text all =
       endfor;
     endfor;
   fi;
+  drawoptions();
   endgroup
 enddef;
 %def snailbye = addbackground withcolor snailenv.get("background"); enddef;
