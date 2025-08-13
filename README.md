@@ -15,4 +15,8 @@ $ cp t-snail.mkxl $SNAIPATH
 $ context --generate
 ```
 
+## Tutorial
 
+Currently, only a Chinese guide is available at https://zhuanlan.zhihu.com/p/1938871262509273817
+
+I'll prepare an English version when time permits.
