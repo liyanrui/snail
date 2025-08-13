@@ -20,6 +20,89 @@ Now we've reached 2025. These past seven years? Honestly I've achieved nothing r
 
 \section{Your First Snail Diagram}
 
-\color[red]{TODO}
+This is the smallest possible snail drawing environment. All that's left is to write some MetaPost code inside the \type{MPpage} environment.
+
+\startTEX
+\usemodule[snail]
+\startMPpage
+% put metapost code here!
+\stopMPpage
+\stopTEX
+
+To compile a \TEX\ source file foo.tex into foo.pdf, use
+
+\starttyping
+/BTEX\dollar/ETEX context foo.tex
+\stoptyping
+
+or
+
+\starttyping
+/BTEX\dollar/ETEX context foo
+\stoptyping
+
+Then you can get the foo.pdf file in the same directory. The above process can be expressed as the following snail code.
+
+\startsample
+\usemodule[snail]
+\startMPpage
+snailfam_t a[];
+slug(a1, "foo.tex");
+snail(a2, "context") at (2.5cm, 0);
+slug(a3, "foo.pdf") at (5cm, 0);
+showsnails a1, a2, a3;
+
+showflow a1 xto a2;
+showflow a2 xto a3;
+\stopMPpage
+\stopsample
+\sample[option=TEX][first-diagram]{Your first diagram}{\externalfigure[figures/01.pdf]}
+
+\section{Node Declaration}
+
+All snail objects, i.e. nodes, must be declared before defining them. There are two declaration methods. The first one declares a group of nodes with the macro \type{snail_t}. The other one declares a node sequence (or array) with the macro \type{snailfam_t}.
+
+For example, to declare the nodes \type{foo} and \type{bar}, use
+
+\starttyping
+snail_t foo, bar;
+\stoptyping
+
+To create a sequence of nodes, use MetaPost's array syntax. For example,
+
+\starttyping
+snailfam_t A[];
+\stoptyping
+
+The above declares a node array that the elements are accessible with indices, i.e. \type{A[1]}, \type{A[2]}, \type{A[3]}, \cdots\  or  \type{A1}, \type{A2}, \type{A3}, \cdots
+
+Critically, note that each \type{snailfam_t} declaration can't declare multiple arrays at once. The following code is wrong!
+
+\starttyping
+snailfam_t A[], B[];
+\stoptyping
+
+Instead, you must declare each array separately like this:
+
+\starttyping
+snailfam_t A[];
+snailfam_t B[];
+\stoptyping
+
+Use MetaPost's \type{forsuffixes} syntax to declare more arrays at once. For example, 
+
+\starttyping
+forsuffixes it = A, B, C, D, E, F:
+  snailfam_t it[];
+endfor;
+\stoptyping
+
+or
+
+\starttyping
+forsuffixes it = A, B, C, D, E, F: snailfam_t it[]; endfor;
+\stoptyping
+
+It declares \type{A[]}, \type{B[]}, \cdots\ , \type{F[]}.
 
 \stoptext

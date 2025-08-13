@@ -69,11 +69,13 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def snailfam_t text obj =
-  picture obj;
-  picture obj.content;
-  path obj.frame;
-  anchorname obj;
+def snailfam_t text objs =
+  forsuffixes it = objs:
+    picture it[];
+    picture it[].content;
+    path it[].frame;
+    anchorname it[];
+  endfor;
 enddef;
 
 def snail_t text objs =

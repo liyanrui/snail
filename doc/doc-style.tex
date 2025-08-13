@@ -1,3 +1,5 @@
+\usemodule[snail]
+
 \setupinteraction[state=start, focus=standard, color=darkred]
 
 \setuphead[title][header=empty, footer=empty, style=\bfb, align={middle,broad}]
@@ -9,6 +11,8 @@
 
 \setupwhitespace[medium]
 \setupinterlinespace[line=16pt]
+
+\def\dollar{\color[darkblue]{\tt \$}}
 
 \startuniqueMPgraphic{box quote}
 path p, q;
@@ -34,3 +38,90 @@ draw q withcolor framecolor;
   \inframed[frame=off,background=boxquotebg,offset=0pt,loffset=.25em,roffset=.25em]{#1}%
   \kern.25em%
 }
+
+\setupexternalfigures[directory={./figures}]
+
+\startMPinclusions
+def fancybox(expr u) =
+numeric w, h;
+w := OverlayWidth; h := OverlayHeight;
+color framecolor; framecolor := white randomized (.7, .7, .7);
+drawoptions(withpen pencircle scaled 1pt withcolor framecolor);
+path p, q;
+% 左上角
+p := ((0, h) -- (2u, h));
+q := ((0, h) -- (0, h - u));
+draw p; draw q;
+% 左下角
+p := ((0, 0) -- (2u, 0));
+q := ((0, 0) -- (0, u));
+draw p; draw q;
+% 右上角
+p := ((w - 2u, h) -- (w, h));
+q := ((w, h) -- (w, h - u));
+draw p; draw q;
+
+% 右下角
+p := ((w - 2u, 0) -- (w, 0));
+q := ((w, 0) -- (w, u));
+draw p; draw q;
+enddef;
+\stopMPinclusions
+\startuseMPgraphic{strange box}
+fancybox(.5BodyFontSize);
+\stopuseMPgraphic
+\defineoverlay[strangeboxbg][\uniqueMPgraphic{strange box}]
+\defineframedtext
+  [strangebox]
+  [frame=off,background=strangeboxbg,
+    offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
+\setuptyping
+  [before={\startstrangebox[width=\textwidth]},after={\stopstrangebox},escape=yes, style=\ttx]
+
+
+% ---------- sample ----------------------
+\definebuffer[sample]
+\definefloat[Sample][Samples]
+
+% 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
+\def\defineLeftWidth#1{%
+  \newdimen\LeftWidth
+  \LeftWidth=\textwidth
+  \newdimen\RightObjectWidth
+  \RightObjectWidth=\wd#1
+  \ifdim\RightObjectWidth>0pt
+    \advance\LeftWidth by -\RightObjectWidth
+    \advance\LeftWidth by -1em
+  \fi
+}
+\def\sample[#1][#2]#3#4{%
+  \setbox\scratchbox\hbox{#4}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here][#2]{#3}{%
+    \hbox to \textwidth{%
+      \hbox{\typesample[#1,
+                        before={\startstrangebox[width=\LeftWidth]},
+                        after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
+  }%
+}
+\def\simplesample[#1]#2{%
+  \setbox\scratchbox\hbox{#2}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here,none][]{}{%
+    \hbox to \textwidth{%
+      \hbox{\typesample[#1,
+                        before={\startstrangebox[width=\LeftWidth]},
+                        after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
+  }%
+  \blank[back]
+}
+
+% 修改 MPcode 代码部分高亮颜色
+\definestartstop
+    [MetapostSnippetName]
+    [color=darkblue,
+     style=boldface]
+\definestartstop
+    [MetapostSnippetNamePrimitive]
+    [color=darkgreen,
+      style=boldface]
