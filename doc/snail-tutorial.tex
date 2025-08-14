@@ -1,6 +1,13 @@
 \environment doc-style
 \starttext
-\title{Snail: A Diagram Module for \ConTeXt\ \crlf via MetaPost}
+\title{Snail: A Diagram Module for \ConTeXt\ via MetaPost}
+\blank[2*line]
+\midaligned{Li Yanrui (lyr.m2@live.cn)}
+\blank[line]
+
+\startcolumns[n=2]
+\placecontent
+\stopcolumns
 
 \subject{Introduction}
 
@@ -18,7 +25,7 @@ Its development has been even slower. Around 2018, while properly learning MetaP
 
 Now we've reached 2025. These past seven years? Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. This finally fulfilled my wish. Two years ago, after finishing \ConTeXt\ notes\footnote{Please see \boxquote{\from[ctxnotes]}.}, I'd wanted to write similar guides for MetaPost language. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
 
-\section{Your First Snail Diagram}
+\section{First Snail Diagram}
 
 This is the smallest possible snail drawing environment. All that's left is to write some MetaPost code inside the \type{MPpage} environment.
 
@@ -43,7 +50,7 @@ or
 
 Then you can get the foo.pdf file in the same directory. The above process can be expressed as the following snail code.
 
-\startsample
+\startexample
 \usemodule[snail]
 \startMPpage
 snailfam_t a[];
@@ -55,54 +62,185 @@ showsnails a1, a2, a3;
 showflow a1 xto a2;
 showflow a2 xto a3;
 \stopMPpage
-\stopsample
-\sample[option=TEX][first-diagram]{Your first diagram}{\externalfigure[figures/01.pdf]}
+\stopexample
+\example[option=TEX][first-diagram]{Your first diagram}{\externalfigure[figures/01.pdf]}
 
 \section{Node Declaration}
 
-All snail objects, i.e. nodes, must be declared before defining them. There are two declaration methods. The first one declares a group of nodes with the macro \type{snail_t}. The other one declares a node sequence (or array) with the macro \type{snailfam_t}.
+All snail objects, i.e. nodes, must be declared before defining them. There are two declaration methods. The first one declares a group of nodes with the macro \type{snail_t}. The other one declares a group node sequence (or array) with the macro \type{snailfam_t}.
 
 For example, to declare the nodes \type{foo} and \type{bar}, use
 
-\starttyping
+\startMP
 snail_t foo, bar;
-\stoptyping
+\stopMP
 
-To create a sequence of nodes, use MetaPost's array syntax. For example,
+To create multiple sequence of nodes, use MetaPost's array syntax. The following declares two node array \type{A} and \type{B}:
 
-\starttyping
-snailfam_t A[];
-\stoptyping
+\startMP
+snailfam_t A, B;
+\stopMP
 
-The above declares a node array that the elements are accessible with indices, i.e. \type{A[1]}, \type{A[2]}, \type{A[3]}, \cdots\  or  \type{A1}, \type{A2}, \type{A3}, \cdots
+The elements of a node array are accessible with indices, for example, \type{A[1]}, \type{A[2]}, \cdots\  or \type{A1}, \type{A2}, \cdots .
 
-Critically, note that each \type{snailfam_t} declaration can't declare multiple arrays at once. The following code is wrong!
+\section{Creating Nodes}
 
-\starttyping
-snailfam_t A[], B[];
-\stoptyping
+Snail provides three node types constructed via the macros \type{snail}, \type{slug} and \type{avatar}. \type{snail} creates nodes with visiable frames, while \type{slug} creates frameless nodes. For specialized requirements, \type{avatar} import external figures as nodes. By default, the centers of newly created nodes are at the origin \type{(0, 0)}. The \type{at} macro can set a node's center when creating it. The \type{showsnails} macro draws all nodes that it accept.
 
-Instead, you must declare each array separately like this:
+The following example creates three nodes of different types.
 
-\starttyping
-snailfam_t A[];
-snailfam_t B[];
-\stoptyping
+\startexample
+snailfam_t a;
+snail(a1, "I am $a_1$") at (4cm, 0);
+slug(a2, "I am $a_2$") at (3cm, 1.5cm);
+avatar(a3, "demo.png", 3cm, "auto");
 
-Use MetaPost's \type{forsuffixes} syntax to declare more arrays at once. For example, 
+showsnails a1, a2, a3;
+\stopexample
+\example[option=MP][kinds-of-nodes]{Three kinds of nodes}{\externalfigure[figures/02.pdf]}
 
-\starttyping
-forsuffixes it = A, B, C, D, E, F:
-  snailfam_t it[];
+The second argument of \type{avatar} is the image file or path name. The third and fourth arguments are the width and height of the figure respectively. You can set just one of them; put \type{"auto"} for the other and the snail module will calculate it from the figure’s aspect ratio.
+
+\section{Anchors}
+
+Every snail node has 25 anchor points. For the node \type{foo}, they are stored in \type{foo.anchors}, a two-dimensional array.
+
+The center of \type{foo} is \type{foo.anchors[0][0]}; see Example \in[center-anchor].
+
+\startexample
+snail_t foo;
+snail(foo, "I am foo");
+showsnails foo;
+
+% draw foo.anchors[0][0]
+pickup pensquare scaled 8pt;
+draw foo.anchors[0][0]
+     withcolor transparent(1, .5, darkred);
+\stopexample
+\example[option=MP][center-anchor]{Center anchor}{\externalfigure[figures/03.pdf][width=5cm]}
+
+If \type{foo.anchors[0][0]} is taken as the single anchor at level 0, then \type{foo.anchors[1][1]} through \type{foo.anchors[1][16]} are the 16 anchors at level 1. Example \in[first-anchor-level] lables the indices of these anchors at this level.
+
+\startMP
+for i = 1 upto 16:
+  draw foo.anchors[1][i] withcolor darkblue;
+  draw textext(decimal i) shifted foo.anchors[1][i] withcolor white;
 endfor;
-\stoptyping
+\stopMP
+\placeExample[here][first-anchor-level]{First anchor level}{\externalfigure[figures/04.pdf][width=8cm]}
 
-or
+From \type{foo.anchors[2][1]} to \type{foo.anchors[2][8]} constitute the second level of the anchor points of the node \type{foo}. Example \in[second-anchor-level] shows the indices of these anchors at this level.
 
-\starttyping
-forsuffixes it = A, B, C, D, E, F: snailfam_t it[]; endfor;
-\stoptyping
+\startMP
+for i = 1 upto 8:
+  draw foo.anchors[2][i] withcolor darkgray;
+  draw textext(decimal i) shifted foo.anchors[2][i] withcolor white;
+endfor;
+\stopMP
+\placeExample[here][second-anchor-level]{Second anchor level}{\externalfigure[figures/05.pdf][width=8cm]}
 
-It declares \type{A[]}, \type{B[]}, \cdots\ , \type{F[]}.
+To display all anchor points of a node, you can use the \type{snailenv.set} macro to set the snail module parameter \type{debug} to \type{true} before the \type{showsnails} macro statement; see the Example \in[debug].
+
+\startexample
+snail_t a;
+snail(a, "Node a");
+snailenv.set("debug", true);
+showsnails a;
+\stopexample
+\example[option=MP][debug]{Node debug mode}{\externalfigure[figures/06.pdf][width=.2tw]}
+
+With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a based b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
+
+\startexample
+snail_t foo, bar;
+snail(foo, "foo");
+snail(bar, "bar");
+put bar at foo.anchors[2][8]
+           based bar.anchors[2][4];
+
+snailenv.set("debug", true);
+showsnails foo, bar;
+\stopexample
+\example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf][width=.3tw]}
+
+\section{Regular Paths}
+
+The snail module provides a set of macros that construct paths composed solely of horizontal and vertical segments; such paths are called regular paths.
+
+The simplest regular paths are built with the \type{xto} or \type{yto} macros. Example \in[xto-and-yto] creates a horizontal path \type{p} and a vertical path \type{q} using \type{xto} and \type{yto} repectively. The syntax \boxquote{\type{a xto b}} is equivalent to \boxquote{\type{a -- (xpart b, ypart a)}}, and \boxquote{\type{a yto b}} is equivalent to \boxquote{\type{a -- (xpart a, ypart b)}}.
+
+Note that \type{xto} and \type{yto} can be applied directly to nodes; the resulting paths are called flows. A flow can be displayed with the showflow macro. Example \in[first-diagram] already demonstrates how to create and display flows.
+
+\startexample
+pair a, b, c;
+a := (1cm, 2cm);
+b := (4cm, 3cm);
+c := (5cm, 0); 
+
+path p[];
+p1 := a xto b;
+p2 := b yto c;
+p3 := c xto a;
+\stopexample
+\example[option=MP][xto-and-yto]{Simplest regular paths}{\externalfigure[figures/08.pdf]}
+
+The \type{xyto} and \type{yxto} macros create regular paths with a single turn. The \type{xyto} macro indicates the single turn is from horizontal to vertical direction; \type{yxto} does the reverse. Their usage is shown in Example \in[xyto-and-yxto]. These two macros can be combined to build more complex paths; see Example \in[complex-paths].
+
+\startexample
+p1 := a yxto b;
+p2 := b xyto c;
+\stopexample
+\example[option=MP][xyto-and-yxto]{Regular paths with single turn}{\externalfigure[figures/09.pdf]}
+
+\startexample
+p1 := a yxto b xyto c;
+\stopexample
+\example[option=MP][complex-paths]{Regular paths with single turn}{\externalfigure[figures/10.pdf]}
+
+If you want a path with two single turns, you can use the \type{xyxto} and \type{yxyto} macros. \type{xyx} indicates turns from horizontal to vertical and back to horizontal. \type{yxy} indicates turns from vertical to horizontal and back to vertical direction. Their usage is shown in Example \in[two-turns]. These two macros can also be combined to build more complex paths.
+
+\startexample
+pair a, b, c, d;
+a := (0, 0);     b := (4cm, 2cm);
+c := (4cm, 0);   d := (7cm, 2cm);
+
+path p, q;
+p := a xyxto b;  q := c yxyto d;
+\stopexample
+\example[option=MP][two-turns]{Regular paths with two turns}{\externalfigure[figures/11.pdf]}
+
+The regular paths produced by the \type{xyto}, \type{yxto}, \type{xyxto} and \type{yxyto} macros can be smoothed with the \type{road} macro; all turns in paths are rendered as fillets. The \type{road} macro takes two arguments: the first is a path variable, and the second is a regular path. After smoothing, the resulting path is assigned to the first argument. Example \in[road] shows the usage of the \type{road} macro.
+
+\startexample
+pair a, b;
+a := (0, 0); b := (4cm, 3cm);
+
+path p;
+road(p, a xyxto b);
+\stopexample
+\example[option=MP][road]{Smoothed paths}{\externalfigure[figures/12.pdf]}
+
+\section{Path Crossing}
+
+Regular paths and the smoothed paths produced by \type{road}, are all ordinary path objects. Because they carry no special metadata, they can only be drawn one by one with MetaPost's \type{drawarrow} macro. Consequently, when paths intersect, it is difficult to add crossing indicators.
+
+The snail module provides the macro \type{showroads}, which draws all paths as parameters in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another. Example \in[crossing] illustrates the effect for paths crossing.
+
+\startexample
+pair a, b, c, d;
+a := (0,   0);  b := (4cm, 4cm);
+c := (0, 4cm);  d := (4cm,   0);
+
+path p, q;
+road(p, a yxyto b);
+road(q, c xyxto d);
+
+showroads p, q;
+\stopexample
+\example[option=MP][crossing]{Crossing paths}{\externalfigure[figures/13.pdf]}
+
+\section{Path Annotation}
+
+The snail module provides the \type{annotate} macro for labeling paths. This macro put some text based the middle point of a path.
 
 \stoptext

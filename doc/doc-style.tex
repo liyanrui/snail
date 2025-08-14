@@ -1,13 +1,24 @@
-\usemodule[snail]
-
 \setupinteraction[state=start, focus=standard, color=darkred]
+% layout
+\setuppapersize[A4][A4]
+\setuplayout[backspace=2.5cm,width=16.5cm,
+             topspace=1.5cm,header=1.5cm,
+             height=27.2cm,footer=1cm]
 
-\setuphead[title][header=empty, footer=empty, style=\bfb, align={middle,broad}]
+\setuphead[title][header=empty, footer=empty, style=\bfa, align={middle,broad}]
 \setuphead[subject,section][style=\bfa]
 
 \setupfootnotes[textstyle=bold]
 \setuppagenumbering[location={footer, right}]
 
+\setupcombinedlist[content][list=section,criterium=text]
+\def\PageNumber#1{\underbars{#1}.}
+\setuplist
+  [section]
+  [alternative=c,
+   width=2em,
+   pagecommand=\PageNumber,
+   pagestyle=small]
 
 \setupwhitespace[medium]
 \setupinterlinespace[line=16pt]
@@ -79,9 +90,9 @@ fancybox(.5BodyFontSize);
   [before={\startstrangebox[width=\textwidth]},after={\stopstrangebox},escape=yes, style=\ttx]
 
 
-% ---------- sample ----------------------
-\definebuffer[sample]
-\definefloat[Sample][Samples]
+% ---------- example ----------------------
+\definebuffer[example]
+\definefloat[Example][Examples]
 
 % 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
 \def\defineLeftWidth#1{%
@@ -94,26 +105,15 @@ fancybox(.5BodyFontSize);
     \advance\LeftWidth by -1em
   \fi
 }
-\def\sample[#1][#2]#3#4{%
+\def\example[#1][#2]#3#4{%
   \setbox\scratchbox\hbox{#4}%
   \defineLeftWidth{\scratchbox}%
-  \placeSample[here][#2]{#3}{%
+  \placeExample[force][#2]{#3}{%
     \hbox to \textwidth{%
-      \hbox{\typesample[#1,
+      \hbox{\typeexample[#1,
                         before={\startstrangebox[width=\LeftWidth]},
                         after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
   }%
-}
-\def\simplesample[#1]#2{%
-  \setbox\scratchbox\hbox{#2}%
-  \defineLeftWidth{\scratchbox}%
-  \placeSample[here,none][]{}{%
-    \hbox to \textwidth{%
-      \hbox{\typesample[#1,
-                        before={\startstrangebox[width=\LeftWidth]},
-                        after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
-  }%
-  \blank[back]
 }
 
 % 修改 MPcode 代码部分高亮颜色

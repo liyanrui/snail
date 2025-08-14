@@ -150,7 +150,7 @@ def make_anchors suffix obj =
     obj.离位 := .5[obj.兑位, obj.震位];
     obj.坎位 := .5[obj.巽位, obj.艮位];
     i := 1;
-    forsuffixes it = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
+    forsuffixes it = 离位, 震位, 坤位, 艮位, 坎位, 巽位, 乾位, 兑位:
       obj.anchors[2][i] := obj.it;
       i := i + 1;
     endfor;
@@ -161,6 +161,7 @@ def draw_anchors text all =
   begingroup
     save s; numeric s; s := 6pt;
     forsuffixes foo = all:
+      draw foo.中央 withpen pensquare scaled s withcolor transparent(1, .3, red);
       forsuffixes i = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
         draw foo.i withpen pensquare scaled s withcolor darkgreen;
       endfor;
@@ -275,9 +276,11 @@ def do_put(suffix obj) text there =
 enddef;
 
 def at text somthing = shifted (somthing) enddef;
-primarydef a based b =
+primarydef a from b =
    a - b
 enddef;
+
+def on = enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
@@ -308,11 +311,11 @@ tertiarydef a yto b =
 enddef;
 tertiarydef a xyto b =
     hide(有请竖亥(a, b);)
-    (竖亥左手 -- (xpart 竖亥右手, ypart 竖亥左手) -- 竖亥右手)
+    (a -- (xpart 竖亥右手, ypart 竖亥左手) -- b)
 enddef;
 tertiarydef a yxto b =
     hide(有请竖亥(a, b);)
-    (竖亥左手 -- (xpart 竖亥左手, ypart 竖亥右手) -- 竖亥右手)
+    (a -- (xpart 竖亥左手, ypart 竖亥右手) -- b)
 enddef;
 tertiarydef a xyxto b =
     hide( 有请竖亥(a, b); )
