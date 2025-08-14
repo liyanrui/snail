@@ -17,7 +17,7 @@ $ context --generate
 
 ## Tutorial
 
-An English guide is available in \type{doc} directory. It's the snail-tutorial.pdf file.
+An English guide is available in `doc` directory. It's the snail-tutorial.pdf file.
 
 There also is a Chinese guide is available at https://zhuanlan.zhihu.com/p/1938871262509273817
 
