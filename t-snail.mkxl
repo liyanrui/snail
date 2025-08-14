@@ -190,7 +190,7 @@ def snail(suffix obj) (expr content) text somewhere =
     else:
       t := fullsquare xysized (w, h);
     fi;
-    t := t enlarged (snailenv.get("frame.offset") * (1, 1));
+    t := t enlarged snailenv.get("frame.offset");
     make_snail_body(obj, c, bbwidth t, bbheight t);
     delta := (0, 0) somewhere;
     obj := obj shifted delta;
@@ -251,7 +251,7 @@ def avatar (suffix obj) (expr a, w, h) text somewhere =
   endgroup
 enddef;
 
-def adjust (suffix obj) (expr w, h) =
+def snailresize (suffix obj) (expr w, h) =
   begingroup
     save base, delta; pair base, delta; base := obj.中央;
     make_snail_body(obj, obj.content, w, h);
@@ -261,7 +261,7 @@ def adjust (suffix obj) (expr w, h) =
   endgroup
 enddef;
 
-def like suffix a =
+def snaillike suffix a =
   bbwidth a.frame, bbheight a.frame
 enddef;
 \stopMPinclusions
