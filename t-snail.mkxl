@@ -279,8 +279,6 @@ def at text somthing = shifted (somthing) enddef;
 primarydef a from b =
    a - b
 enddef;
-
-def on = enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]

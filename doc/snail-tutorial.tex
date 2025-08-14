@@ -149,14 +149,14 @@ showsnails a;
 \stopexample
 \example[option=MP][debug]{Node debug mode}{\externalfigure[figures/06.pdf][width=.2tw]}
 
-With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a based b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
+With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a from b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
 
 \startexample
 snail_t foo, bar;
 snail(foo, "foo");
 snail(bar, "bar");
 put bar at foo.anchors[2][8]
-           based bar.anchors[2][4];
+               from bar.anchors[2][4];
 
 snailenv.set("debug", true);
 showsnails foo, bar;
@@ -241,6 +241,19 @@ showroads p, q;
 
 \section{Path Annotation}
 
-The snail module provides the \type{annotate} macro for labeling paths. This macro put some text based the middle point of a path.
+The snail module provides the \type{annotate} macro for labeling paths. This macro places some text based on the middle point of a path. Example \in[annotation] gives the usage of \type{annotate} and its side effect.
+
+\startexample
+path p[];
+road(p1, (0, 0) xyxto (3cm, 3cm));
+road(p2, (4cm, 0) yxyto (6cm, 3cm));
+road(p3, (7cm, 0) yxto (10cm, 3cm));
+showroads p1, p2, p3;
+
+annotate(p1, "road $p_1$", 1);
+annotate(p2, "road $p_2$", 1);
+annotate(p3, "road $p_3$", 1);
+\stopexample
+\example[option=MP][annotation]{Path annotations}{\externalfigure[figures/14.pdf]}
 
 \stoptext
