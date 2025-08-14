@@ -1,6 +1,6 @@
 \environment doc-style
 \starttext
-\title{Snail: A Diagram Module for \ConTeXt\ via MetaPost}
+\title{The Snail Tutorial}
 \blank[2*line]
 \midaligned{Li Yanrui (lyr.m2@live.cn)}
 \blank[line]
@@ -224,7 +224,7 @@ road(p, a xyxto b);
 
 Regular paths and the smoothed paths produced by \type{road}, are all ordinary path objects. Because they carry no special metadata, they can only be drawn one by one with MetaPost's \type{drawarrow} macro. Consequently, when paths intersect, it is difficult to add crossing indicators.
 
-The snail module provides the macro \type{showroads}, which draws all paths as parameters in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another. Example \in[crossing] illustrates the effect for paths crossing.
+The snail module provides the macro \type{showroads}, which draws all paths as arguments in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another. Example \in[crossing] illustrates the effect for paths crossing.
 
 \startexample
 pair a, b, c, d;
@@ -245,15 +245,158 @@ The snail module provides the \type{annotate} macro for labeling paths. This mac
 
 \startexample
 path p[];
-road(p1, (0, 0) xyxto (3cm, 3cm));
-road(p2, (4cm, 0) yxyto (6cm, 3cm));
-road(p3, (7cm, 0) yxto (10cm, 3cm));
-showroads p1, p2, p3;
+road(p1, (0, 0) xyxto (4cm, 3cm));
+road(p2, (5cm, 0) yxto (8cm, 3cm));
+showroads p1, p2;
 
 annotate(p1, "road $p_1$", 1);
 annotate(p2, "road $p_2$", 1);
-annotate(p3, "road $p_3$", 1);
 \stopexample
 \example[option=MP][annotation]{Path annotations}{\externalfigure[figures/14.pdf]}
+
+The label of \type{p2} appears distorted because its center is aligned with the bend in \type{p2}. If you want to correct it, you need to use the \type{section} macro which can take a part of a path as the labeling target instead of the origin path.
+
+In MetaPost language, a path is parametrized over the interval $[0, 1]$, so every point ont it is obtained by evaluating the path at some \type{t} in $[0, 1]$. The \type{section} marcro exploits this to extract a desired section from a path. Example \in[path-section] shows the part \type{[0.2, 0.6]} of the path \type{p}. By taking a section of the path as the labeling target, we can place a label at any position along this path.
+
+\startexample
+path p, q;
+road(p, (0, 0) xyxto (4cm, 2cm));
+q := section(p, .2, .6);
+
+pickup pencircle scaled 1pt;
+draw p withcolor darkred;
+draw q withpen pencircle scaled 6pt
+       withcolor transparent(1, .3, darkblue);
+\stopexample
+\example[option=MP][path-section]{Path section}{\externalfigure[figures/15.pdf]}
+
+Example \in[section-label] demonstrates how to place a label at a section of a path.
+
+\startexample
+path p; 
+road(p, (0, 0) yxto (3cm, 3cm));
+showroads p;
+annotate(section(p, .5, 1), "road $p$", 1);
+\stopexample
+\example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
+
+The third argument of the \type{annotate} macro specifies the orientation of the label text: a positive value aligns the text with the path’s direction, while a negative value reverses it. Example \in[reverse-label] illustrates the case where this argument is negative.
+
+\startexample
+path p; 
+road(p, (0, 0) yxto (3cm, 3cm));
+showroads p;
+annotate(section(p, .5, 1), "road $p$", -1);
+\stopexample
+\example[option=MP][reverse-label]{Rerverse label}{\externalfigure[figures/17.pdf]}
+
+\section{Irregular Nodes}
+
+Although the snail module provides only one build-in node type with a visiable frame, you can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. Example \in[ellipse-node] creates a node with an ellipse frame.
+
+\startexample
+snail_t foo;
+snailenv.set("frame.shape", "'fullcircle'");
+snail(foo, "i am a strange snail");
+
+snailenv.set("debug", true);
+showsnails foo;
+\stopexample
+\example[option=MP][ellipse-node]{Ellipse node}{\externalfigure[figures/18.pdf]}
+
+If you need a circle node, you need to set the module's parameter \type{frame.isotropic} to \type{true}; see Example \in[circle-node].
+
+\startexample
+snail_t foo;
+snailenv.set("frame.shape",
+             "'fullcircle'");
+snailenv.set("frame.isotropic", true);
+snail(foo, "i am a strange snail");
+
+snailenv.set("debug", true);
+showsnails foo;
+\stopexample
+\example[option=MP][circle-node]{Circle node}{\externalfigure[figures/19.pdf]}
+
+Example \in[more-strange] applies the same technique to generate more irregular node types. The \type{snailresize} macro is used to resize any node; for irregular nodes, it can adjust their frames to fit the enclosed text. The \type{fulldiamond} and \type{tensecircle} macros are defined in MetaFun. The path \type{datum} is scaled and sheared fullsquare object. Note the path assigned to the module parameter \type{frame.shpae} must be enclosed in single quotation marks, so that the result is wrapped into a MetaPost's string object. 
+
+In fact, node's frame can be any closed path. In short, you can turn virtually any shape into a node, letting you draw diagrams that match your exact needs.
+
+\startexample
+snailfam_t a;
+snailenv.set("frame.shape", "'fulldiamond'");
+snail(a1, "i am a strange snail");
+snailresize(a1, 6cm, 2cm);
+
+path datum;
+datum := fullsquare xyscaled (1, .25) slanted .5;
+snailenv.set("frame.shape", "'datum'");
+snail(a2, "i am a strange snail") at (0, 3cm);
+snailresize(a2, 5cm, 1.5cm);
+
+snailenv.set("frame.shape", "'tensecircle(2, 1, .1)'");
+snail(a3, "i am a strange snail") at (0, 6cm);
+snailresize(a3, 5cm, 1.5cm);
+
+showsnails a1, a2, a3;
+\stopexample
+\example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/20.pdf][width=.3tw]}
+
+\section{Module Parameters}
+
+By now you've seen several examples where the \type{snailenv.set} macro is used to tweak the module parameters and thereby alter the diagram style. For example, to set the stroke thickness of a path to \type{1pt}, assign the parameter \type{path.thickness} as follows:
+
+\startMP
+snailenv.set("path.thickness", 1pt);
+\stopMP
+
+If you want to change the default color of the path to \type{darkred}, simply
+
+\startMP
+snailenv.set("path.color", darkred);
+\stopMP
+
+Note that the first argument to \type{snailenv.set} is always a string denoting the name of a module parameter, while the second argument may be any value or variable allowed in MetaPos except those of type \type{path} or \type{picture}.
+
+Among the parameters, only \type{frame.shape} is of MetaPost's \type{path} type. To modify this parameter, refer to the previous examples: to pass such variables to the parameter table, you must enclosed them in single quotes then as MetaPost's string objects.
+
+Some frequently-used parameters of the snail module are listed in the table below. This table is a Lua table because, within the ConTeXt environment, MetaPost and Lua have become practically inseparable. While drawing, experiment freely—use \type{snailenv.set} to push the parameters in the table to exaggerated extremes and watch what each one actually does.
+
+\starttyping
+snailenv = {
+  text = {
+     fontsize = 'BodyFontSize',
+     color = 'black',
+     offset = '.125BodyFontSize'
+  },
+  frame = {
+     shape = 'fullsquare',
+     background = {color = '.9white'},
+     offset = 'BodyFontSize',
+     thickness = '.175BodyFontSize',
+     color = '.75white',
+     isotropic = 'false',
+     margin = '3BodyFontSize',
+  },
+  path = {
+     thickness = '.125BodyFontSize',
+     color = 'darkgray',
+     directed = 'true',
+     smooth = 'true',
+     labeloffset = '.5BodyFontSize',
+     fillet = '.3BodyFontSize',
+     ahvariant = 1,
+     ahdimple = 1,
+     ahlength = '.5BodyFontSize',
+  },
+  debug = 'false'
+}
+\stoptyping
+
+\subject{Afterword}
+
+Everything the snail module can do has now been laid out. The tour was intentionally made of tiny vignettes; I never produced one genuinely useful flowchart—such a grand scene is meant for you.
+
+If you actually plan to draw with snail, start on paper. A rough sketch is enough: mark the nodes and their approximate positions. From that sketch, create the nodes and place them, then switch the module’s debug parameter to true so every node and its anchors are drawn. Once the nodes and anchors are on the page, building and annotating the paths becomes nothing more than a game of Snake.
 
 \stoptext

@@ -5,16 +5,17 @@
              topspace=1.5cm,header=1.5cm,
              height=27.2cm,footer=1cm]
 
-\setuphead[title][header=empty, footer=empty, style=\bfa, align={middle,broad}]
+\setuphead[title][header=empty, footer=empty, style=\bfc, align={middle,broad}]
 \setuphead[subject,section][style=\bfa]
 
 \setupfootnotes[textstyle=bold]
 \setuppagenumbering[location={footer, right}]
 
-\setupcombinedlist[content][list=section,criterium=text]
+\setuphead[subject][incrementnumber=list]
+\setupcombinedlist[content][list={section,subject},criterium=text]
 \def\PageNumber#1{\underbars{#1}.}
 \setuplist
-  [section]
+  [section,subject]
   [alternative=c,
    width=2em,
    pagecommand=\PageNumber,
