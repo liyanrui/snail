@@ -1,0 +1,15 @@
+\startMPpage
+input snail.mp;
+Node a, b, c, abc, d;
+a := other("a", fullsquare xysized (2cm, 1cm));
+b := other("b", like a);
+c := other("c", like a);
+as_planet(b, a, "bottom"); as_planet(c, b, "bottom");
+abc := a +++ b +++ c;
+d := other("d", like abc);
+as_star(d, abc, "right");
+
+forsuffixes i = b, c: valign(i, a); endfor;
+
+draw_each a, b, c, d;
+\stopMPpage
