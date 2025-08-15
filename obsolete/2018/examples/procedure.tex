@@ -1,0 +1,20 @@
+\usemodule[zhfonts]
+\startMPpage
+input snail.mp;
+Node foo.tex, snail.mp, luatex, mplib, foo.pdf;
+foo.tex := io("foo.tex");
+snail.mp := io("snail.mp");
+luatex := proc("\LUATEX");
+mplib := proc("MPLIB");
+foo.pdf := io("foo.pdf");
+
+as_star(foo.tex, luatex, "left");
+as_planet(mplib, luatex, "top");
+as_planet(snail.mp, mplib, "left");
+as_star(foo.pdf, luatex, "right");
+
+draw_each foo.tex, snail.mp, luatex, mplib, foo.pdf;
+flow_each foo.tex => luatex, snail.mp => mplib, luatex => foo.pdf;
+flow_each (luatex => mplib) shifted (-0.25 * (_bw_ luatex), 0);
+flow_each (mplib => luatex) shifted (0.25 * (_bw_ luatex), 0);
+\stopMPpage
