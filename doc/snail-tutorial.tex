@@ -65,7 +65,7 @@ showflow a2 xto a3;
 \stopexample
 \example[option=TEX][first-diagram]{Your first diagram}{\externalfigure[figures/01.pdf]}
 
-\section{Node Declaration}
+\section{Nodes}
 
 All snail objects, i.e. nodes, must be declared before defining them. There are two declaration methods. The first one declares a group of nodes with the macro \type{snail_t}. The other one declares a group node sequence (or array) with the macro \type{snailfam_t}.
 
@@ -82,8 +82,6 @@ snailfam_t A, B;
 \stopMP
 
 The elements of a node array are accessible with indices, for example, \type{A[1]}, \type{A[2]}, \cdots\  or \type{A1}, \type{A2}, \cdots .
-
-\section{Creating Nodes}
 
 Snail provides three node types constructed via the macros \type{snail}, \type{slug} and \type{avatar}. \type{snail} creates nodes with visiable frames, while \type{slug} creates frameless nodes. For specialized requirements, \type{avatar} import external figures as nodes. By default, the centers of newly created nodes are at the origin \type{(0, 0)}. The \type{at} macro can set a node's center when creating it. The \type{showsnails} macro draws all nodes that it accept.
 
@@ -153,13 +151,12 @@ With help of anchor points, you can position a node by relative displacement wit
 snail_t foo, bar;
 snail(foo, "foo");
 snail(bar, "bar");
-put bar at foo.anchors[2][8]
-               from bar.anchors[2][4];
+put bar at foo.anchors[2][8] from bar.anchors[2][4];
 
 snailenv.set("debug", true);
 showsnails foo, bar;
 \stopexample
-\example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf][width=.3tw]}
+\example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf][width=.35tw]}
 
 \section{Regular Paths}
 
@@ -171,14 +168,11 @@ Note that \type{xto} and \type{yto} can be applied directly to nodes; the result
 
 \startexample
 pair a, b, c;
-a := (1cm, 2cm);
-b := (4cm, 3cm);
-c := (5cm, 0); 
+a := (1cm, 2cm); b := (4cm, 3cm); c := (5cm, 0); 
 
 path p[];
-p1 := a xto b;
-p2 := b yto c;
-p3 := c xto a;
+p1 := a xto b; p2 := b yto c; p3 := c xto a;
+drawarrow p1; drawarrow p2; drawarrow p3;
 \stopexample
 \example[option=MP][xto-and-yto]{Simplest regular paths}{\externalfigure[figures/08.pdf]}
 
@@ -187,11 +181,20 @@ The \type{xyto} and \type{yxto} macros create regular paths with a single turn. 
 \startexample
 p1 := a yxto b;
 p2 := b xyto c;
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
 \stopexample
 \example[option=MP][xyto-and-yxto]{Regular paths with single turn}{\externalfigure[figures/09.pdf]}
 
 \startexample
 p1 := a yxto b xyto c;
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
 \stopexample
 \example[option=MP][complex-paths]{Regular paths with single turn}{\externalfigure[figures/10.pdf]}
 
@@ -269,10 +272,10 @@ draw q withpen pencircle scaled 6pt
 Example \in[section-label] demonstrates how to place a label at a section of a path.
 
 \startexample
-path p; 
-road(p, (0, 0) yxto (3cm, 3cm));
+path p;
+road(p, (0, 0) yxto (3cm, 1.5cm));
 showroads p;
-annotate(section(p, .5, 1), "road $p$", 1);
+annotate(section(p, .3, 1), "road $p$", 1);
 \stopexample
 \example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
 
@@ -280,9 +283,9 @@ The third argument of the \type{annotate} macro specifies the orientation of the
 
 \startexample
 path p; 
-road(p, (0, 0) yxto (3cm, 3cm));
+road(p, (0, 0) yxto (3cm, 1.5cm));
 showroads p;
-annotate(section(p, .5, 1), "road $p$", -1);
+annotate(section(p, .3, 1), "road $p$", -1);
 \stopexample
 \example[option=MP][reverse-label]{Rerverse label}{\externalfigure[figures/17.pdf]}
 
@@ -301,27 +304,23 @@ snail(bar, "circle") at (0, -2cm);
 \stopexample
 \example[option=MP][ellipse-node]{Ellipse node}{\externalfigure[figures/18.pdf]}
 
-Example \in[more-strange] applies the same technique to generate more irregular node types. The \type{snailresize} macro is used to resize any node; for irregular nodes, it can adjust their frames to fit the enclosed text. The \type{fulldiamond} and \type{tensecircle} macros are defined in MetaFun. The path \type{datum} is scaled and sheared fullsquare object. Note the path assigned to the module parameter \type{frame.shpae} must be enclosed in single quotation marks, so that the result is wrapped into a MetaPost's string object. 
+Example \in[more-strange] applies the same technique to generate more irregular node types. The \type{fulldiamond} and \type{tensecircle} macros are defined in MetaFun. The path \type{datum} is scaled and sheared fullsquare object. Note the path assigned to the module parameter \type{frame.shpae} must be enclosed in single quotation marks, so that the result is wrapped into a MetaPost's string object. 
 
 \startexample
 snailfam_t a;
+
 snailenv.set("frame.shape", "'fulldiamond'");
-snail(a1, "i am a strange snail");
-snailresize(a1, 6cm, 2cm);
+snail(a1, "diamond");
 
 path datum;
-datum := fullsquare xyscaled (1, .25) slanted .5;
+datum := fullsquare xyscaled (1, .25) slanted 1;
 snailenv.set("frame.shape", "'datum'");
-snail(a2, "i am a strange snail") at (0, 3cm);
-snailresize(a2, 5cm, 1.5cm);
+snail(a2, "parallelgram") at (0, -2.5cm);
 
-snailenv.set("frame.shape", "'tensecircle(2, 1, .1)'");
-snail(a3, "i am a strange snail") at (0, 6cm);
-snailresize(a3, 5cm, 1.5cm);
-
-showsnails a1, a2, a3;
+snailenv.set("frame.shape", "'tensecircle(2, 1, .15)'");
+snail(a3, "tense circle") at (0, -5cm);
 \stopexample
-\example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/20.pdf]}
+\example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/19.pdf]}
 
 In fact, node's frame can be any closed path. In short, you can turn virtually any shape into a node, letting you draw diagrams that match your exact needs. After using irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro.
 

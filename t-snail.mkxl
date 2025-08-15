@@ -201,7 +201,8 @@ enddef;
 
 def make_snail_body(suffix obj) (expr t, w, h) =
   begingroup
-    save thi, joke; numeric thi, joke;
+    save thi, joke, loc_p, loc_s;
+    numeric thi, joke, loc_s; path loc_p;
     thi := snailenv.get("frame.thickness");
     joke := snailenv.get("joke");
     if string t:
@@ -211,7 +212,11 @@ def make_snail_body(suffix obj) (expr t, w, h) =
     else:
       show "snail error: unknown content!";
     fi;
-    obj.frame := snailenv.get("frame.shape") xysized (w, h);
+    loc_p := snailenv.get("frame.shape") xysized (w, h);
+    loc_s := frame_difference_max(loc_p, boundingbox loc_p);
+    % 若 obj.frame 为异形框，需要对它与文本之间的留白区域大小予以补偿。
+    obj.frame := loc_p scaled loc_s;
+    %obj.frame := loc_p;
     if joke > 0: obj.frame := obj.frame randomized (joke, joke); fi;
     obj := image (
       fill obj.frame withcolor snailenv.get("frame.background.color");
@@ -220,6 +225,34 @@ def make_snail_body(suffix obj) (expr t, w, h) =
       draw obj.content withcolor snailenv.get("text.color");
     );
   endgroup
+enddef;
+
+vardef frame_difference_max(expr a, b) =
+  save loc_a, loc_b, loc_t, loc_c, loc_d, dmin, dmax;
+  save loc_t, loc_e, loc_f, sign;
+  pair loc_a, loc_b, loc_c, loc_d, loc_t;
+  numeric dmin, dmax, loc_e, loc_f, sign;
+  dmin := infinity; dmax := -infinity;
+  loc_e := (bbwidth a) + (bbheight a);
+  for i = 0 step .05 until 1:
+    loc_b := point i along b;
+    loc_t := (origin -- loc_b) intersectiontimes a;
+    if loc_t = (-1, -1):
+      loc_t := ((origin -- unitvector(loc_b)) stretched loc_e) intersectiontimes a;
+      loc_a := point (ypart loc_t) of a;
+      sign := -1;
+    else:
+      loc_a := point (ypart loc_t) of a;
+      sign := 1;
+    fi;
+    loc_f := sign * arclength(loc_a -- loc_b);
+    if dmax < loc_f:
+      dmax := loc_f;
+      loc_c := loc_a;
+      loc_d := loc_b
+    fi;
+  endfor;
+  ((arclength (origin -- loc_d)) / (arclength (origin -- loc_c)))
 enddef;
 \stopMPinclusions
 
@@ -261,8 +294,23 @@ def snailresize (suffix obj) (expr w, h) =
   endgroup
 enddef;
 
+vardef issnailobj suffix a =
+  if (known a)
+     and (known a.frame)
+      and (known a.content)
+      and (known a.anchors[0][0]):
+      true
+  else:
+    false
+  fi
+enddef;
+
 def snaillike suffix a =
-  bbwidth a.frame, bbheight a.frame
+  if issnailobj a:
+    bbwidth a.frame, bbheight a.frame
+  else:
+    bbwidth a, bbheight a
+  fi
 enddef;
 \stopMPinclusions
 
