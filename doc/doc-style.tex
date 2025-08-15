@@ -30,17 +30,17 @@
 path p, q;
 numeric w, h, u;
 u := BodyFontSize;
-w := OverlayWidth; h := .85OverlayHeight;
+w := OverlayWidth; h := .8OverlayHeight;
 color framecolor; framecolor := white randomized (.7, .7, .7);
 pickup pencircle scaled 1pt;
 % upper left corner
-p := ((0, h) -- (2u, h)) shifted (-.25u, 0);
-q := ((0, h) -- (0, h - u)) shifted (0, .25u);
+p := ((0, h) -- (1.5u, h)) shifted (-.1u, -.1u);
+q := ((0, h) -- (0, h - .75u)) shifted (0, .1u);
 draw p withcolor framecolor;
 draw q withcolor framecolor;
 % lower right corner
-p := ((w - 2u, 0) -- (w, 0)) shifted (.25u, 0);
-q := ((w, 0) -- (w, u)) shifted (0, -.25u);
+p := ((w - 1.5u, 0) -- (w, 0)) shifted (.1u, 0);
+q := ((w, 0) -- (w, .75u)) shifted (0, -.1u);
 draw p withcolor framecolor;
 draw q withcolor framecolor;
 \stopuniqueMPgraphic
