@@ -95,11 +95,10 @@ fancybox(.5BodyFontSize);
 \definebuffer[example]
 \definefloat[Example][Examples]
 
-% 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
+\newdimen\LeftWidth
+\newdimen\RightObjectWidth
 \def\defineLeftWidth#1{%
-  \newdimen\LeftWidth
   \LeftWidth=\textwidth
-  \newdimen\RightObjectWidth
   \RightObjectWidth=\wd#1
   \ifdim\RightObjectWidth>0pt
     \advance\LeftWidth by -\RightObjectWidth
@@ -117,7 +116,6 @@ fancybox(.5BodyFontSize);
   }%
 }
 
-% 修改 MPcode 代码部分高亮颜色
 \definestartstop
     [MetapostSnippetName]
     [color=darkblue,
@@ -126,3 +124,12 @@ fancybox(.5BodyFontSize);
     [MetapostSnippetNamePrimitive]
     [color=darkgreen,
       style=boldface]
+
+%%%%% timestamp
+\startuniqueMPgraphic{timestamp}
+picture p; p := textext("{\bf 2025.08}");
+%fill (bbox p) rotated 45 withcolor darkred;
+draw p rotated 45 withcolor darkblue;
+\stopuniqueMPgraphic
+\definelayer[timestamp][width=\paperwidth, height=\paperheight]
+\setlayer[timestamp][x=1cm, y=1cm]{\uniqueMPgraphic{timestamp}}
