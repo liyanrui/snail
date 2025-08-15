@@ -88,7 +88,7 @@ fancybox(.5BodyFontSize);
   [frame=off,background=strangeboxbg,
     offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
 \setuptyping
-  [before={\startstrangebox[width=\textwidth]},after={\stopstrangebox},escape=yes, style=\ttx]
+  [before={\startstrangebox[width=\textwidth]},after={\stopstrangebox},escape=yes]
 
 
 % ---------- example ----------------------
@@ -126,10 +126,11 @@ fancybox(.5BodyFontSize);
       style=boldface]
 
 %%%%% timestamp
-\startuniqueMPgraphic{timestamp}
-picture p; p := textext("{\bf 2025.08}");
-%fill (bbox p) rotated 45 withcolor darkred;
-draw p rotated 45 withcolor darkblue;
+\startuniqueMPgraphic{Timestamp}
+picture p; p := textext("\currentdate[month, day, {, }, year]");
+draw p rotated -45 withcolor darkblue;
 \stopuniqueMPgraphic
 \definelayer[timestamp][width=\paperwidth, height=\paperheight]
-\setlayer[timestamp][x=1cm, y=1cm]{\uniqueMPgraphic{timestamp}}
+\setlayer[timestamp]
+         [preset=righttop, hoffset=5mm, voffset=5mm]
+         {\uniqueMPgraphic{Timestamp}}

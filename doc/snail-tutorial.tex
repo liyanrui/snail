@@ -169,7 +169,7 @@ The snail module provides a set of macros that construct paths composed solely o
 
 The simplest regular paths are built with the \type{xto} or \type{yto} macros. Example \in[xto-and-yto] creates a horizontal path \type{p} and a vertical path \type{q} using \type{xto} and \type{yto} repectively. The syntax \boxquote{\type{a xto b}} is equivalent to \boxquote{\type{a -- (xpart b, ypart a)}}, and \boxquote{\type{a yto b}} is equivalent to \boxquote{\type{a -- (xpart a, ypart b)}}.
 
-Note that \type{xto} and \type{yto} can be applied directly to nodes; the resulting paths are called flows. A flow can be displayed with the showflow macro. Example \in[first-diagram] already demonstrates how to create and display flows.
+Note that \type{xto} and \type{yto} can be applied directly to nodes; the resulting paths are called flows. A flow can be displayed with the \type{showflow} macro. Example \in[first-diagram] already demonstrates how to create and display flows.
 
 \startexample
 pair a, b, c;
