@@ -88,30 +88,31 @@ fancybox(.5BodyFontSize);
   [frame=off,background=strangeboxbg,
     offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
 \setuptyping
-  [before={\startstrangebox[width=\textwidth]},after={\stopstrangebox},escape=yes]
+  [before={\startstrangebox[width=\textwidth]},
+   after={\stopstrangebox},escape=yes, style=\ttx]
 
 
 % ---------- example ----------------------
 \definebuffer[example]
 \definefloat[Example][Examples]
 
-\newdimen\LeftWidth
-\newdimen\RightObjectWidth
-\def\defineLeftWidth#1{%
-  \LeftWidth=\textwidth
-  \RightObjectWidth=\wd#1
-  \ifdim\RightObjectWidth>0pt
-    \advance\LeftWidth by -\RightObjectWidth
-    \advance\LeftWidth by -1em
+\newdimen\LeftExampleWidth
+\newdimen\RightResultWidth
+\def\defineLeftExampleWidth#1{%
+  \LeftExampleWidth=\textwidth
+  \RightResultWidth=\wd#1
+  \ifdim\RightResultWidth>0pt
+    \advance\LeftExampleWidth by -\RightResultWidth
+    \advance\LeftExampleWidth by -1em
   \fi
 }
 \def\example[#1][#2]#3#4{%
   \setbox\scratchbox\hbox{#4}%
-  \defineLeftWidth{\scratchbox}%
+  \defineLeftExampleWidth{\scratchbox}%
   \placeExample[force][#2]{#3}{%
     \hbox to \textwidth{%
       \hbox{\typeexample[#1,
-                        before={\startstrangebox[width=\LeftWidth]},
+                        before={\startstrangebox[width=\LeftExampleWidth]},
                         after={\stopstrangebox}]}\hss\unhbox\scratchbox}%
   }%
 }
