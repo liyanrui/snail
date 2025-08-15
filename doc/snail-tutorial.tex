@@ -103,9 +103,7 @@ The second argument of \type{avatar} is the image file or path name. The third a
 
 \section{Anchors}
 
-Every snail node has 25 anchor points. For the node \type{foo}, they are stored in \type{foo.anchors}, a two-dimensional array.
-
-The center of \type{foo} is \type{foo.anchors[0][0]}; see Example \in[center-anchor].
+Every snail node has 25 anchor points. For the node \type{foo}, they are stored in \type{foo.anchors}, a two-dimensional array. The center of \type{foo} is \type{foo.anchors[0][0]} as shown below.
 
 \startexample
 snail_t foo;
@@ -119,7 +117,7 @@ draw foo.anchors[0][0]
 \stopexample
 \example[option=MP][center-anchor]{Center anchor}{\externalfigure[figures/03.pdf][width=5cm]}
 
-If \type{foo.anchors[0][0]} is taken as the single anchor at level 0, then \type{foo.anchors[1][1]} through \type{foo.anchors[1][16]} are the 16 anchors at level 1. Example \in[first-anchor-level] lables the indices of these anchors at this level.
+If \type{foo.anchors[0][0]} is taken as the single anchor at level 0, then \type{foo.anchors[1][1]} through \type{foo.anchors[1][16]} are the 16 anchors at level 1. The following example lables the indices of these anchors at this level.
 
 \startMP
 for i = 1 upto 16:
@@ -129,7 +127,7 @@ endfor;
 \stopMP
 \placeExample[here][first-anchor-level]{First anchor level}{\externalfigure[figures/04.pdf][width=8cm]}
 
-From \type{foo.anchors[2][1]} to \type{foo.anchors[2][8]} constitute the second level of the anchor points of the node \type{foo}. Example \in[second-anchor-level] shows the indices of these anchors at this level.
+From \type{foo.anchors[2][1]} to \type{foo.anchors[2][8]} constitute the second level of the anchor points of the node \type{foo}. They lie outside the node's frame.
 
 \startMP
 for i = 1 upto 8:
@@ -139,7 +137,7 @@ endfor;
 \stopMP
 \placeExample[here][second-anchor-level]{Second anchor level}{\externalfigure[figures/05.pdf][width=8cm]}
 
-To display all anchor points of a node, you can use the \type{snailenv.set} macro to set the snail module parameter \type{debug} to \type{true} before the \type{showsnails} macro statement; see the Example \in[debug].
+To display all anchor points of a node, you can use the \type{snailenv.set} macro to set the snail module parameter \type{debug} to \type{true} before the \type{showsnails} macro statement.
 
 \startexample
 snail_t a;
@@ -203,18 +201,16 @@ If you want a path with two single turns, you can use the \type{xyxto} and \type
 pair a, b, c, d;
 a := (0, 0);     b := (4cm, 2cm);
 c := (4cm, 0);   d := (7cm, 2cm);
-
 path p, q;
 p := a xyxto b;  q := c yxyto d;
 \stopexample
 \example[option=MP][two-turns]{Regular paths with two turns}{\externalfigure[figures/11.pdf]}
 
-The regular paths produced by the \type{xyto}, \type{yxto}, \type{xyxto} and \type{yxyto} macros can be smoothed with the \type{road} macro; all turns in paths are rendered as fillets. The \type{road} macro takes two arguments: the first is a path variable, and the second is a regular path. After smoothing, the resulting path is assigned to the first argument. Example \in[road] shows the usage of the \type{road} macro.
+The regular paths produced by the \type{xyto}, \type{yxto}, \type{xyxto} and \type{yxyto} macros can be smoothed with the \type{road} macro; all turns in paths are rendered as fillets. The \type{road} macro takes two arguments: the first is a path variable, and the second is a regular path. After smoothing, the resulting path is assigned to the first argument.
 
 \startexample
 pair a, b;
 a := (0, 0); b := (4cm, 3cm);
-
 path p;
 road(p, a xyxto b);
 \stopexample
@@ -224,7 +220,7 @@ road(p, a xyxto b);
 
 Regular paths and the smoothed paths produced by \type{road}, are all ordinary path objects. Because they carry no special metadata, they can only be drawn one by one with MetaPost's \type{drawarrow} macro. Consequently, when paths intersect, it is difficult to add crossing indicators.
 
-The snail module provides the macro \type{showroads}, which draws all paths as arguments in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another. Example \in[crossing] illustrates the effect for paths crossing.
+The snail module provides the macro \type{showroads}, which draws all paths as arguments in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another.
 
 \startexample
 pair a, b, c, d;
@@ -280,7 +276,7 @@ annotate(section(p, .5, 1), "road $p$", 1);
 \stopexample
 \example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
 
-The third argument of the \type{annotate} macro specifies the orientation of the label text: a positive value aligns the text with the path’s direction, while a negative value reverses it. Example \in[reverse-label] illustrates the case where this argument is negative.
+The third argument of the \type{annotate} macro specifies the orientation of the label text: a positive value aligns the text with the path’s direction, while a negative value reverses it.
 
 \startexample
 path p; 
@@ -292,35 +288,20 @@ annotate(section(p, .5, 1), "road $p$", -1);
 
 \section{Irregular Nodes}
 
-Although the snail module provides only one build-in node type with a visiable frame, you can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. Example \in[ellipse-node] creates a node with an ellipse frame.
+You can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. For example, if you need a ellipse node, you only set \type{frame.shape} to \type{fullcircle}. If you want a circle node, you need to set \type{frame.isotropic} to \type{true}.
 
 \startexample
-snail_t foo;
-snailenv.set("frame.shape", "'fullcircle'");
-snail(foo, "i am a strange snail");
+snail_t foo, bar;
 
-snailenv.set("debug", true);
-showsnails foo;
+snailenv.set("frame.shape", "'fullcircle'");
+snail(foo, "ellipse");
+
+snailenv.set("frame.isotropic", true);
+snail(bar, "circle") at (0, -2cm);
 \stopexample
 \example[option=MP][ellipse-node]{Ellipse node}{\externalfigure[figures/18.pdf]}
 
-If you need a circle node, you need to set the module's parameter \type{frame.isotropic} to \type{true}; see Example \in[circle-node].
-
-\startexample
-snail_t foo;
-snailenv.set("frame.shape",
-             "'fullcircle'");
-snailenv.set("frame.isotropic", true);
-snail(foo, "i am a strange snail");
-
-snailenv.set("debug", true);
-showsnails foo;
-\stopexample
-\example[option=MP][circle-node]{Circle node}{\externalfigure[figures/19.pdf]}
-
 Example \in[more-strange] applies the same technique to generate more irregular node types. The \type{snailresize} macro is used to resize any node; for irregular nodes, it can adjust their frames to fit the enclosed text. The \type{fulldiamond} and \type{tensecircle} macros are defined in MetaFun. The path \type{datum} is scaled and sheared fullsquare object. Note the path assigned to the module parameter \type{frame.shpae} must be enclosed in single quotation marks, so that the result is wrapped into a MetaPost's string object. 
-
-In fact, node's frame can be any closed path. In short, you can turn virtually any shape into a node, letting you draw diagrams that match your exact needs.
 
 \startexample
 snailfam_t a;
@@ -334,8 +315,7 @@ snailenv.set("frame.shape", "'datum'");
 snail(a2, "i am a strange snail") at (0, 3cm);
 snailresize(a2, 5cm, 1.5cm);
 
-snailenv.set("frame.shape",
-             "'tensecircle(2, 1, .1)'");
+snailenv.set("frame.shape", "'tensecircle(2, 1, .1)'");
 snail(a3, "i am a strange snail") at (0, 6cm);
 snailresize(a3, 5cm, 1.5cm);
 
@@ -343,7 +323,7 @@ showsnails a1, a2, a3;
 \stopexample
 \example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/20.pdf]}
 
-After using irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro, as shown below:
+In fact, node's frame can be any closed path. In short, you can turn virtually any shape into a node, letting you draw diagrams that match your exact needs. After using irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro.
 
 \startMP
 snailshapereset;
@@ -372,31 +352,19 @@ Some frequently-used parameters of the snail module are listed in the table belo
 \starttyping
 snailenv = {
   text = {
-     fontsize = 'BodyFontSize',
-     color = 'black',
-     offset = '.125BodyFontSize'
+     fontsize = '/BTEX\color[darkred]{BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{black}/ETEX', offset = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX'
   },
   frame = {
-     shape = 'fullsquare',
-     background = {color = '.9white'},
-     offset = 'BodyFontSize',
-     thickness = '.175BodyFontSize',
-     color = '.75white',
-     isotropic = 'false',
-     margin = '3BodyFontSize',
+     shape = '/BTEX\color[darkred]{fullsquare}/ETEX', background = {color = '/BTEX\color[darkred]{.9white}/ETEX'}, offset = '/BTEX\color[darkred]{BodyFontSize}/ETEX',
+     thickness = '/BTEX\color[darkred]{.175BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{.75white}/ETEX', isotropic = '/BTEX\color[darkred]{false}/ETEX',
+     margin = '/BTEX\color[darkred]{3BodyFontSize}/ETEX',
   },
   path = {
-     thickness = '.125BodyFontSize',
-     color = 'darkgray',
-     directed = 'true',
-     smooth = 'true',
-     labeloffset = '.5BodyFontSize',
-     fillet = '.3BodyFontSize',
-     ahvariant = 1,
-     ahdimple = 1,
-     ahlength = '.5BodyFontSize',
+     thickness = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{darkgray}/ETEX', directed = '/BTEX\color[darkred]{true}/ETEX',
+     smooth = '/BTEX\color[darkred]{true}/ETEX', labeloffset = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
+     ahvariant = 1, ahdimple = 1, ahlength = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX',
   },
-  debug = 'false'
+  debug = '/BTEX\color[darkred]{false}/ETEX'
 }
 \stoptyping
 
