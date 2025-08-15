@@ -1,8 +1,9 @@
 \environment doc-style
 \starttext
 \title{The Snail Tutorial}
-\blank[2*line]
+\blank[line]
 \midaligned{Li Yanrui (lyr.m2@live.cn)}
+\midaligned{2025.08}
 \blank[line]
 
 \startcolumns[n=2]
@@ -360,7 +361,7 @@ Note that the first argument to \type{snailenv.set} is always a string denoting 
 
 Among the parameters, only \type{frame.shape} is of MetaPost's \type{path} type. To modify this parameter, refer to the previous examples: to pass such variables to the parameter table, you must enclosed them in single quotes then as MetaPost's string objects.
 
-Some frequently-used parameters of the snail module are listed in the table below. This table is a Lua table because, within the ConTeXt environment, MetaPost and Lua have become practically inseparable. While drawing, experiment freely—use \type{snailenv.set} to push the parameters in the table to exaggerated extremes and watch what each one actually does.
+Some frequently-used parameters of the snail module are listed in the table below. This table is a Lua table because, within the \ConTeXt\ environment, MetaPost and Lua have become practically inseparable. While drawing, experiment freely—use \type{snailenv.set} to push the parameters in the table to exaggerated extremes and watch what each one actually does.
 
 \starttyping
 snailenv = {
