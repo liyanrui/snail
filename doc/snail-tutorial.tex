@@ -342,6 +342,12 @@ showsnails a1, a2, a3;
 \stopexample
 \example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/20.pdf][width=.3tw]}
 
+After using irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro, as shown below:
+
+\startMP
+snailshapereset;
+\stopMP
+
 \section{Module Parameters}
 
 By now you've seen several examples where the \type{snailenv.set} macro is used to tweak the module parameters and thereby alter the diagram style. For example, to set the stroke thickness of a path to \type{1pt}, assign the parameter \type{path.thickness} as follows:
