@@ -23,11 +23,11 @@ Its development has been even slower. Around 2018, while properly learning MetaP
 
 \useURL[ctxnotes][https://github.com/liyanrui/ConTeXt-notes]
 
-Now we've reached 2025. These past seven years? Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. This finally fulfilled my wish. Two years ago, after finishing \ConTeXt\ notes\footnote{Please see \boxquote{\from[ctxnotes]}.}, I'd wanted to write similar guides for MetaPost language. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
+Seven years gone in a blink and it's already 2025. Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. This finally fulfilled my wish. Two years ago, after finishing \ConTeXt\ notes\footnote{Please see \boxquote{\from[ctxnotes]}.}, I'd wanted to write similar guides for MetaPost language. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
 
 \section{First Snail Diagram}
 
-This is the smallest possible snail drawing environment. All that's left is to write some MetaPost code inside the \type{MPpage} environment.
+This is the smallest possible snail drawing environment.
 
 \startTEX
 \usemodule[snail]
@@ -36,7 +36,7 @@ This is the smallest possible snail drawing environment. All that's left is to w
 \stopMPpage
 \stopTEX
 
-To compile a \TEX\ source file foo.tex into foo.pdf, use
+All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file foo.tex into foo.pdf, in your terminal or comand window, you can excute the command 
 
 \starttyping
 /BTEX\dollar/ETEX context foo.tex
@@ -53,14 +53,13 @@ Then you can get the foo.pdf file in the same directory. The above process can b
 \startexample
 \usemodule[snail]
 \startMPpage
-snailfam_t a[];
+snailfam_t a;
 slug(a1, "foo.tex");
-snail(a2, "context") at (2.5cm, 0);
-slug(a3, "foo.pdf") at (5cm, 0);
-showsnails a1, a2, a3;
+snail(a2, "\type{context} command") at (4cm, 0);
+slug(a3, "foo.pdf") at (4cm, -2cm);
 
-showflow a1 xto a2;
-showflow a2 xto a3;
+showsnails a1, a2, a3;
+showflows a1 => a2, a2 => a3;
 \stopMPpage
 \stopexample
 \example[option=TEX][first-diagram]{Your first diagram}{\externalfigure[figures/01.pdf]}
@@ -69,19 +68,19 @@ showflow a2 xto a3;
 
 All snail objects, i.e. nodes, must be declared before defining them. There are two declaration methods. The first one declares a group of nodes with the macro \type{snail_t}. The other one declares a group node sequence (or array) with the macro \type{snailfam_t}.
 
-For example, to declare the nodes \type{foo} and \type{bar}, use
+For instance, to declare the nodes \type{foo} and \type{bar}, you can use
 
 \startMP
 snail_t foo, bar;
 \stopMP
 
-To create multiple sequence of nodes, use MetaPost's array syntax. The following declares two node array \type{A} and \type{B}:
+To create multiple sequence of nodes, use MetaPost's array syntax. The following code declares two node arrays \type{A} and \type{B}:
 
 \startMP
 snailfam_t A, B;
 \stopMP
 
-The elements of a node array are accessible with indices, for example, \type{A[1]}, \type{A[2]}, \cdots\  or \type{A1}, \type{A2}, \cdots .
+The elements of a node array are accessible with indices, e.g., \type{A[1]}, \type{A[2]}, \cdots\  or \type{A1}, \type{A2}, \cdots .
 
 Snail provides three node types constructed via the macros \type{snail}, \type{slug} and \type{avatar}. \type{snail} creates nodes with visiable frames, while \type{slug} creates frameless nodes. For specialized requirements, \type{avatar} import external figures as nodes. By default, the centers of newly created nodes are at the origin \type{(0, 0)}. The \type{at} macro can set a node's center when creating it. The \type{showsnails} macro draws all nodes that it accept.
 
@@ -160,7 +159,7 @@ showsnails foo, bar;
 
 \section{Regular Paths}
 
-The snail module provides a set of macros that construct paths composed solely of horizontal and vertical segments; such paths are called regular paths.
+Except for that kind of direct paths produced by the \type{=>} macro as shown in Example \in[first-diagram], the snail module provides a set of macros that construct paths composed solely of horizontal and vertical segments; such paths are called regular paths. The macros are explained below; for a clearer grasp of how paths are constructed, we illustrate them with MetaPost's \type{pair} objects rather than the snail nodes. Keep in mind, however, that these macros can be applied directly to snail nodes like the \type{=>} macro.
 
 The simplest regular paths are built with the \type{xto} or \type{yto} macros. Example \in[xto-and-yto] creates a horizontal path \type{p} and a vertical path \type{q} using \type{xto} and \type{yto} repectively. The syntax \boxquote{\type{a xto b}} is equivalent to \boxquote{\type{a -- (xpart b, ypart a)}}, and \boxquote{\type{a yto b}} is equivalent to \boxquote{\type{a -- (xpart a, ypart b)}}.
 
@@ -291,7 +290,7 @@ annotate(section(p, .3, 1), "road $p$", -1);
 
 \section{Irregular Nodes}
 
-You can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. For example, if you need a ellipse node, you only set \type{frame.shape} to \type{fullcircle}. If you want a circle node, you need to set \type{frame.isotropic} to \type{true}.
+You can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. For example, if you need a ellipse node, you only set \type{frame.shape} to \type{fullcircle}. If you want a circle node, you need to set \type{frame.isotropic} to \type{true}. 
 
 \startexample
 snail_t foo, bar;
@@ -322,7 +321,7 @@ snail(a3, "tense circle") at (0, -5cm);
 \stopexample
 \example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/19.pdf]}
 
-In fact, node's frame can be any closed path. In short, you can turn virtually any shape into a node, letting you draw diagrams that match your exact needs. After using irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro.
+In fact, node's frame can be any closed path, so that you can turn almost any such shape into a node' frame. After creating irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro.
 
 \startMP
 snailshapereset;
@@ -366,6 +365,26 @@ snailenv = {
   debug = '/BTEX\color[darkred]{false}/ETEX'
 }
 \stoptyping
+
+\section{Tail Transforms}
+
+You may append not only the \type{at} macro call, but also any MetaPost's transformS, i.e. chains of shifted, rotated, etc. These transforms let you set a node’s center precisely while the node is being created. Likewise, when the annotate macro adds labels to a path, additional transforms can also be supplied to fine-tune the placement of the label text.
+
+\startexample
+snailfam_t a;
+snail(a1, "$a_1$") at (0, 2cm);
+snail(a2, "$a_2$") at (0, -2cm) rotated -60;
+snail(a3, "$a_3$") shifted (0, -2cm) rotated 60;
+showsnails a1, a2, a3;
+
+path p[];
+p1 := a1 xyto a2; p2 := a2 xto a3.frame;
+showflows p1, p2;
+annotate(p1, "$p_1$") rotatedaround(point .5 along p1, 90)
+                      shifted (-7pt, -.75cm);
+annotate(p2, "$p_2$"); 
+\stopexample
+\example[option=MP][text]{Tail transforms}{\externalfigure[figures/20.pdf]}
 
 \subject{Afterword}
 
