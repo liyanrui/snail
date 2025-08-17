@@ -160,6 +160,21 @@ showsnails foo, bar;
 \stopexample
 \example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf][width=.35tw]}
 
+If you feel hard to remember these indices of anchor points, you can name them by defining some MetaPost macro, for example:
+
+\startexample
+def est = anchors[1][1] enddef; def nth = anchors[1][5] enddef;
+def wst = anchors[1][9] enddef; def sth = anchors[1][13] enddef;
+
+snail_t foo;
+snail(foo, "demo");
+showsnails foo;
+forsuffixes it = est, nth, wst, sth:
+  draw foo.it withpen pencircle scaled 4pt withcolor darkred;
+endfor;
+\stopexample
+\example[option=MP][own-anchor]{Your own names for anchor points}{\externalfigure[figures/a.pdf]}
+
 \section{Regular Paths}
 
 Except for that kind of direct paths produced by the \type{=>} macro as shown in Example \in[first-diagram], the snail module provides a set of macros that construct paths composed solely of horizontal and vertical segments; such paths are called regular paths. The macros are explained below; for a clearer grasp of how paths are constructed, we illustrate them with MetaPost's \type{pair} objects rather than the snail nodes. Keep in mind, however, that these macros can be applied directly to snail nodes like the \type{=>} macro.
@@ -200,7 +215,7 @@ p1 := a yxto b xyto c;
 \stopexample
 \example[option=MP][complex-paths]{Regular paths with single turn}{\externalfigure[figures/10.pdf]}
 
-If you want a path with two single turns, you can use the \type{xyxto} and \type{yxyto} macros. \type{xyx} indicates turns from horizontal to vertical and back to horizontal. \type{yxy} indicates turns from vertical to horizontal and back to vertical direction. Their usage is shown in Example \in[two-turns]. These two macros can also be combined to build more complex paths.
+If you want a path with two single turns, you can use the \type{xyxto} and \type{yxyto} macros. \type{xyx} indicates turns from horizontal to vertical and back to horizontal. \type{yxy} indicates turns from vertical to horizontal and back to vertical direction.
 
 \startexample
 pair a, b, c, d;
@@ -305,7 +320,7 @@ snailfam_t a;
 
 snailenv.set("frame.shape", "'fulldiamond'");
 snail(a1, "diamond");
-
+    
 snailenv.set("frame.shape", "'fullsquare slanted .2'");
 snail(a2, "parallelgram") at (0, -2.5cm);
 \stopexample
@@ -393,17 +408,11 @@ To draw some unconventional diagrams, we need to define a macro that converts an
 
 \startMP
 vardef tocurve(expr p, t) =
-  save n, a; numeric n; pair a[];
-  n := length p;
-  if n < 2:
-    p
+  save n, a; numeric n; pair a[]; n := length p;
+  if n < 2: p
   else:
-    for i = 0 upto n:
-      a[i] := point i of p;
-    endfor;
-    a[0] for i = 1 upto n -1:
-      .. t[a[i], .5[a[i - 1], a[i + 1]]]
-    endfor .. a[n]
+    for i = 0 upto n: a[i] := point i of p; endfor;
+    a[0] for i = 1 upto n -1: .. t[a[i], .5[a[i - 1], a[i + 1]]] endfor .. a[n]
   fi
 enddef;
 \stopMP
@@ -442,14 +451,16 @@ slug(a4, "$Y$") at (-2cm, -2cm);
 slug(a5, "$T$") at (-6cm, 6cm);
 slug(a6, "$(x, y)$") at (-4cm, 4cm);
 showsnails a1, a2, a3, a4, a5, a6;
-
+\stopMP
+\startMP
 path p[];
 p1 := a1 => a2; p2 := a2 => a3; p3 := a4 => a3; p4 := a1 => a4;
 p5 := tocurve(a5 xyto a2, .75); p6 := tocurve(a5 yxto a4, .75);
 p7 := (a5 => a6) && (a6 => a1); % note the usage of &&
 showflows p1, p2, p3, p4, p5, p6;
 startsnailway; drawarrow p7 withdashes 1mm; stopsnailway;
-
+\stopMP
+\startMP
 tag(p1, "$p$"); tag(p2, "$f$"); tag(p3, "$g$");
 tag(p4, "$q$"); tag(p5, "$x$"); tag(p6, "$y$");
 \stopMP
@@ -557,18 +568,17 @@ enddef;
 \stopMP
 \startMP
 pair a[], b[];
-base := origin;
-a1 := branch(d, 50); a2 := branch(d, 30); a3 := branch(d, 10);
+base := origin; a1 := branch(d, 50); a2 := branch(d, 30); a3 := branch(d, 10);
 branchcolor := darkred; thickness := 2pt;
+\stopMP
+\startMP
 mind(a1, "first mind branch");
 mind(a2, "second mind branch");
 mind(a3, "third mind branch");
 
-base := a2;
-b1 := branch(d, 45); b2 := branch(d, 15);
+base := a2; b1 := branch(d, 45); b2 := branch(d, 15);
 branchcolor := darkblue; thickness := 1pt;
-mind(b1, "first mind subbranch");
-mind(b2, "second mind subbranch");
+mind(b1, "first mind subbranch"); mind(b2, "second mind subbranch");
 \stopMP
 \placeExample[here][mindmap]{Mind map}{\externalfigure[figures/26.pdf]}
 
