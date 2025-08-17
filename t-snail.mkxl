@@ -548,7 +548,7 @@ def annotate(expr p, info) text fine_adjustment =
   endgroup
 enddef;
 
-def annot(expr p, info) text fine_adjustment =
+def tag(expr p, info) text fine_adjustment =
   begingroup
   save thi, off, pos, q, sign;
   numeric thi, off, sign; path q; pair pos;
@@ -613,11 +613,11 @@ def stopsnailway =
 enddef;
 
 def showflows text all =
-  startsnailpathstyle;
+  startsnailway;
   for it = all:
     drawarrow it;
   endfor;
-  stopsnailpathstyle;
+  stopsnailway;
 enddef;
 
 def showroads text all =
@@ -637,8 +637,7 @@ def showroads text all =
       fi;
     endfor;
   endfor;
-  thi := snailenv.get("path.thickness");
-  drawoptions(withpen pencircle scaled thi withcolor snailenv.get("path.color"));
+  startsnailway;
   joke := snailenv.get("joke");
   fillet := snailenv.get("path.fillet");
   if snailenv.get("path.directed"):
@@ -662,7 +661,7 @@ def showroads text all =
       endfor;
     endfor;
   fi;
-  drawoptions();
+  stopsnailway;
   endgroup
 enddef;
 %def snailbye = addbackground withcolor snailenv.get("background"); enddef;
