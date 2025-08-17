@@ -242,7 +242,7 @@ showroads p, q;
 
 \section{Path Annotation}
 
-The snail module provides the \type{annotate} macro for labeling paths. This macro places some text based on the middle point of a path. Example \in[annotation] gives the usage of \type{annotate} and its side effect.
+The snail module provides the \type{annotate} macro for annotating paths. This macro places some text based on the middle point of a path. Example \in[annotation] gives the usage of \type{annotate} and its side effect.
 
 \startexample
 path p[];
@@ -255,9 +255,9 @@ annotate(p2, "road $p_2$");
 \stopexample
 \example[option=MP][annotation]{Path annotations}{\externalfigure[figures/14.pdf]}
 
-The label of \type{p2} appears distorted because its center is aligned with the bend in \type{p2}. If you want to correct it, you need to use the \type{snap} macro which can take a part of a path as the labeling target instead of the origin path.
+The annotation of \type{p2} appears distorted because its center is aligned with the bend in \type{p2}. If you want to correct it, you need to use the \type{snap} macro which can take a part of a path as the annotating target instead of the origin path.
 
-In MetaPost language, a path is parametrized over the interval $[0, 1]$, so every point ont it is obtained by evaluating the path at some \type{t} in $[0, 1]$. The \type{snap} marcro exploits this to extract a desired section from a path. Example \in[path-section] shows the part \type{[0.2, 0.6]} of the path \type{p}. By taking a section of the path as the labeling target, we can place a label at any position along this path.
+In MetaPost language, a path is parametrized over the interval $[0, 1]$, so every point ont it is obtained by evaluating the path at some \type{t} in $[0, 1]$. The \type{snap} marcro exploits this to extract a desired section from a path. Example \in[path-section] shows the part \type{[0.2, 0.6]} of the path \type{p}. By taking a section of the path as the annotating target, we can place a annotation at any position along this path.
 
 \startexample
 path p, q;
@@ -271,7 +271,7 @@ draw q withpen pencircle scaled 6pt
 \stopexample
 \example[option=MP][path-section]{Path section}{\externalfigure[figures/15.pdf]}
 
-Example \in[section-label] demonstrates how to place a label at a section of a path.
+Example \in[section-label] demonstrates how to place a annotation at a section of a path.
 
 \startexample
 path p;
@@ -279,7 +279,7 @@ road(p, (0, 0) yxto (3cm, 1.5cm));
 showroads p;
 annotate(snap(p, .3, 1), "road $p$");
 \stopexample
-\example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
+\example[option=MP][section-label]{Placing annotation on section}{\externalfigure[figures/16.pdf]}
 
 Sometimes, you need the annotation text to stand vertically upright instead of conforming to the deformation of the path. You can use the \type{annot} fufill this requirement and its usage is same with \type{annotation}; see Example \in[annotation-tail-trans].
 
@@ -349,7 +349,7 @@ snailenv = {
   },
   path = {
      thickness = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{darkgray}/ETEX', directed = '/BTEX\color[darkred]{true}/ETEX',
-     smooth = '/BTEX\color[darkred]{true}/ETEX', labeloffset = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
+     smooth = '/BTEX\color[darkred]{true}/ETEX', offset = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
      ahvariant = 1, ahdimple = 1, ahlength = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX',
   },
   debug = '/BTEX\color[darkred]{false}/ETEX'

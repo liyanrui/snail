@@ -5,8 +5,7 @@ snailenv = {
   background = 'white',
   text = {
      fontsize = 'BodyFontSize',
-     color = 'black',
-     offset = '.25BodyFontSize'
+     color = 'black'
   },
   frame = {
      shape = 'fullsquare',
@@ -22,7 +21,7 @@ snailenv = {
      color = 'darkgray',
      directed = 'true',
      smooth = 'true',
-     labeloffset = '.5BodyFontSize',
+     offset = '.25BodyFontSize',
      fillet = '.3BodyFontSize',
      -- 箭头
      ahvariant = 1,
@@ -538,7 +537,7 @@ def annotate(expr p, info) text fine_adjustment =
   save thi, off, pos, q, sign;
   numeric thi, off, sign; path q; pair pos;
   thi := snailenv.get("frame.thickness");
-  off := snailenv.get("text.offset");
+  off := snailenv.get("path.offset");
   sign := 1; pos := get_normal_offset(p, .5, thi + off, sign);
   draw (lmt_followtext [
         text = info,
@@ -554,7 +553,7 @@ def annot(expr p, info) text fine_adjustment =
   save thi, off, pos, q, sign;
   numeric thi, off, sign; path q; pair pos;
   thi := snailenv.get("frame.thickness");
-  off := snailenv.get("text.offset");
+  off := snailenv.get("path.offset");
   sign := 1; pos := get_normal_offset(p, .5, thi + off, sign);
   draw (textext(info) fine_adjustment)
         shifted ((point .5 along p) shifted pos)
