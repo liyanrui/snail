@@ -581,7 +581,7 @@ vardef get_normal_offset(expr p, t, dist)(suffix sign) =
   offset
 enddef;
 
-vardef section(expr p, b, e) =
+vardef snap(expr p, b, e) =
   save q, a; path q; pair a[];
   a[1] := point b along p;
   a[2] := point e along p;
@@ -602,14 +602,16 @@ def showsnails text all =
   endgroup
 enddef;
 
-def startsnailpathstyle =
+def startsnailway =
  begingroup;
     save thi; numeric thi; thi := snailenv.get("path.thickness");
     drawoptions(withpen pencircle scaled thi
                 withcolor snailenv.get("path.color"));
 enddef;
-
-def stopsnailpathstyle = drawoptions(); endgroup; enddef;
+def stopsnailway =
+  drawoptions();
+  endgroup;
+enddef;
 
 def showflows text all =
   startsnailpathstyle;

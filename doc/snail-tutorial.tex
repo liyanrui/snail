@@ -252,14 +252,14 @@ annotate(p2, "road $p_2$");
 \stopexample
 \example[option=MP][annotation]{Path annotations}{\externalfigure[figures/14.pdf]}
 
-The label of \type{p2} appears distorted because its center is aligned with the bend in \type{p2}. If you want to correct it, you need to use the \type{section} macro which can take a part of a path as the labeling target instead of the origin path.
+The label of \type{p2} appears distorted because its center is aligned with the bend in \type{p2}. If you want to correct it, you need to use the \type{snap} macro which can take a part of a path as the labeling target instead of the origin path.
 
-In MetaPost language, a path is parametrized over the interval $[0, 1]$, so every point ont it is obtained by evaluating the path at some \type{t} in $[0, 1]$. The \type{section} marcro exploits this to extract a desired section from a path. Example \in[path-section] shows the part \type{[0.2, 0.6]} of the path \type{p}. By taking a section of the path as the labeling target, we can place a label at any position along this path.
+In MetaPost language, a path is parametrized over the interval $[0, 1]$, so every point ont it is obtained by evaluating the path at some \type{t} in $[0, 1]$. The \type{snap} marcro exploits this to extract a desired section from a path. Example \in[path-section] shows the part \type{[0.2, 0.6]} of the path \type{p}. By taking a section of the path as the labeling target, we can place a label at any position along this path.
 
 \startexample
 path p, q;
 road(p, (0, 0) xyxto (4cm, 2cm));
-q := section(p, .2, .6);
+q := snap(p, .2, .6);
 
 pickup pencircle scaled 1pt;
 draw p withcolor darkred;
@@ -274,7 +274,7 @@ Example \in[section-label] demonstrates how to place a label at a section of a p
 path p;
 road(p, (0, 0) yxto (3cm, 1.5cm));
 showroads p;
-annotate(section(p, .3, 1), "road $p$");
+annotate(snap(p, .3, 1), "road $p$");
 \stopexample
 \example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
 
@@ -428,7 +428,7 @@ endfor;
 \stopexample
 \example[option=MP][]{Curve paths}{\externalfigure[figures/22.pdf]}
 
-The following is an example of a commutative diagram, in which the \type{startsnailpathstyle} and \type{stopsnailpathstyle} macros create a temporary environment for drawing paths with MetaPost's \type{draw} and \type{drawarrow} primtive macros.
+The following is an example of a commutative diagram, in which the \type{startsnailway} and \type{stopsnailway} macros create a temporary environment for drawing paths with MetaPost's \type{draw} and \type{drawarrow} primtive macros.
 
 \startMP
 snailfam_t a;
@@ -445,7 +445,7 @@ p1 := a1 => a2; p2 := a2 => a3; p3 := a4 => a3; p4 := a1 => a4;
 p5 := tocurve(a5 xyto a2, .75); p6 := tocurve(a5 yxto a4, .75);
 p7 := (a5 => a6) && (a6 => a1); % note the usage of &&
 showflows p1, p2, p3, p4, p5, p6;
-startsnailpathstyle; drawarrow p7 withdashes 1mm; stopsnailpathstyle;
+startsnailway; drawarrow p7 withdashes 1mm; stopsnailway;
 
 annot(p1, "$p$"); annot(p2, "$f$"); annot(p3, "$g$");
 annot(p4, "$q$"); annot(p5, "$x$"); annot(p6, "$y$");
@@ -547,8 +547,8 @@ def mind(expr a, content) =
     save p; path p; p := tocurve(base xyxto a, u);
     snailenv.set("path.color", branchcolor);
     snailenv.set("path.thickness", thickness);
-    startsnailpathstyle; draw p; stopsnailpathstyle;
-    annotate(section(p, t, 1), content);
+    startsnailway; draw p; stopsnailway;
+    annotate(snap(p, t, 1), content);
   endgroup
 enddef;
 \stopMP
