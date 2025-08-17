@@ -6,7 +6,7 @@ snailenv = {
   text = {
      fontsize = 'BodyFontSize',
      color = 'black',
-     offset = '.125BodyFontSize'
+     offset = '.25BodyFontSize'
   },
   frame = {
      shape = 'fullsquare',
@@ -18,7 +18,7 @@ snailenv = {
      margin = '3BodyFontSize',
   },
   path = {
-     thickness = '.125BodyFontSize',
+     thickness = '.1BodyFontSize',
      color = 'darkgray',
      directed = 'true',
      smooth = 'true',
@@ -520,6 +520,19 @@ def annotate(expr p, info) text fine_adjustment =
   endgroup
 enddef;
 
+def annot(expr p, info) text fine_adjustment =
+  begingroup
+  save thi, off, pos, q, sign;
+  numeric thi, off, sign; path q; pair pos;
+  thi := snailenv.get("frame.thickness");
+  off := snailenv.get("text.offset");
+  sign := 1; pos := get_normal_offset(p, .5, thi + off, sign);
+  draw (textext(info) fine_adjustment)
+        shifted ((point .5 along p) shifted pos)
+        withcolor snailenv.get("text.color");
+  endgroup
+enddef;
+
 vardef get_normal_offset(expr p, t, dist)(suffix sign) = 
   save e, f, rot, offset, dx, dy, normal; 
   pair e, f, normal; numeric k, rot, dx; pair offset;
@@ -560,15 +573,21 @@ def showsnails text all =
   endgroup
 enddef;
 
-def showflows text all =
-  begingroup
+def startsnailpathstyle =
+ begingroup;
     save thi; numeric thi; thi := snailenv.get("path.thickness");
-    drawoptions(withpen pencircle scaled thi withcolor snailenv.get("path.color"));
-    for it = all:
-      drawarrow it;
-    endfor;
-    drawoptions();
-  endgroup
+    drawoptions(withpen pencircle scaled thi
+                withcolor snailenv.get("path.color"));
+enddef;
+
+def stopsnailpathstyle = drawoptions(); endgroup; enddef;
+
+def showflows text all =
+  startsnailpathstyle;
+  for it = all:
+    drawarrow it;
+  endfor;
+  stopsnailpathstyle;
 enddef;
 
 def showroads text all =

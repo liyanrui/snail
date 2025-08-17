@@ -15,7 +15,7 @@ Maybe everyone knows MetaPost is great at drawing accurate science diagrams. But
 
 Don't believe the above claim I made. Let's be real. I've never worked as a graphic designer. Visual tools are much faster and easier for design work than coding with MetaPost. Exactly like how most pepole prefer movies over books these days for storytelling.
 
-However, in this technological era, I wrote a compact MetaPost module for drawing flowchart and diagrammatic illustrations. Is this somehow a lamentable act? Certainly not. I have never intended to resist technological progress. Our era pursues its trajectory; I pursue mine. The primary driver for writing this module was the absence of satisfactory flowchart software on my Linux desktop.
+However, in this technological era, I wrote a small MetaPost module for drawing flowchart and diagrammatic illustrations. Is this somehow a lamentable act? Certainly not. I have never intended to resist technological progress. Our era pursues its trajectory; I pursue mine. The primary driver for writing this module was the absence of satisfactory flowchart software on my Linux desktop.
 
 This module is named \boxquote{snail}. True to its name, it's slow at drawing diagrams.
 
@@ -36,7 +36,7 @@ This is the smallest possible snail drawing environment.
 \stopMPpage
 \stopTEX
 
-All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file foo.tex into foo.pdf, in your terminal or comand window, you can excute the command 
+All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
 
 \starttyping
 /BTEX\dollar/ETEX context foo.tex
@@ -48,7 +48,7 @@ or
 /BTEX\dollar/ETEX context foo
 \stoptyping
 
-Then you can get the foo.pdf file in the same directory. The above process can be expressed as the following snail code.
+Then you can get the \boxquote{foo.pdf} file in the same directory. The above process can be expressed as the following snail code.
 
 \startexample
 \usemodule[snail]
@@ -247,8 +247,8 @@ road(p1, (0, 0) xyxto (4cm, 3cm));
 road(p2, (5cm, 0) yxto (8cm, 3cm));
 showroads p1, p2;
 
-annotate(p1, "road $p_1$", 1);
-annotate(p2, "road $p_2$", 1);
+annotate(p1, "road $p_1$");
+annotate(p2, "road $p_2$");
 \stopexample
 \example[option=MP][annotation]{Path annotations}{\externalfigure[figures/14.pdf]}
 
@@ -274,19 +274,9 @@ Example \in[section-label] demonstrates how to place a label at a section of a p
 path p;
 road(p, (0, 0) yxto (3cm, 1.5cm));
 showroads p;
-annotate(section(p, .3, 1), "road $p$", 1);
+annotate(section(p, .3, 1), "road $p$");
 \stopexample
 \example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
-
-The third argument of the \type{annotate} macro specifies the orientation of the label text: a positive value aligns the text with the path’s direction, while a negative value reverses it.
-
-\startexample
-path p; 
-road(p, (0, 0) yxto (3cm, 1.5cm));
-showroads p;
-annotate(section(p, .3, 1), "road $p$", -1);
-\stopexample
-\example[option=MP][reverse-label]{Rerverse label}{\externalfigure[figures/17.pdf]}
 
 \section{Irregular Nodes}
 
@@ -311,13 +301,8 @@ snailfam_t a;
 snailenv.set("frame.shape", "'fulldiamond'");
 snail(a1, "diamond");
 
-path datum;
-datum := fullsquare xyscaled (1, .25) slanted 1;
-snailenv.set("frame.shape", "'datum'");
+snailenv.set("frame.shape", "'fullsquare slanted .2'");
 snail(a2, "parallelgram") at (0, -2.5cm);
-
-snailenv.set("frame.shape", "'tensecircle(2, 1, .15)'");
-snail(a3, "tense circle") at (0, -5cm);
 \stopexample
 \example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/19.pdf]}
 
@@ -368,7 +353,9 @@ snailenv = {
 
 \section{Tail Transforms}
 
-You may append not only the \type{at} macro call, but also any MetaPost's transformS, i.e. chains of shifted, rotated, etc. These transforms let you set a node’s center precisely while the node is being created. Likewise, when the annotate macro adds labels to a path, additional transforms can also be supplied to fine-tune the placement of the label text.
+You may append not only the \type{at} macro call, but also any MetaPost's transformS, i.e. chains of shifted, rotated, etc. These transforms let you set a node’s center precisely while the node is being created.
+
+The example below creates three nodes \type{a1}, \type{a2} and \type{a3}. Note how the tail transforms differ between \type{a2} and \type{a3}. The \boxquote{\type{at ...}} statement is equivalent to \boxquote{\type{shifted (...)}}, not  \boxquote{\type{shifted ...}}. Node \type{a2} is placed at the position obtained by taking \type{(0, -2cm)} and rotating it 60 degrees clockwise about the origin, but node \type{a3} is first placed at \type{(0, -2cm)} and then rotated 60 degrees counterclockwise about origin.
 
 \startexample
 snailfam_t a;
@@ -376,7 +363,12 @@ snail(a1, "$a_1$") at (0, 2cm);
 snail(a2, "$a_2$") at (0, -2cm) rotated -60;
 snail(a3, "$a_3$") shifted (0, -2cm) rotated 60;
 showsnails a1, a2, a3;
+\stopexample
+\example[option=MP][node-tail-trans]{Node tail transforms}{\externalfigure[figures/20.pdf]}
 
+Likewise, when using the \type{annotate} macro adds labels to a path, additional transforms can also be supplied to fine-tune the placement of the label text. The example below continues from Example \in[node-tail-trans]. The annotation for path \type{p1} is rotated from the right side of the path to the left and then shifted leftward and downward.
+
+\startexample
 path p[];
 p1 := a1 xyto a2; p2 := a2 xto a3.frame;
 showflows p1, p2;
@@ -384,7 +376,86 @@ annotate(p1, "$p_1$") rotatedaround(point .5 along p1, 90)
                       shifted (-7pt, -.75cm);
 annotate(p2, "$p_2$"); 
 \stopexample
-\example[option=MP][text]{Tail transforms}{\externalfigure[figures/20.pdf]}
+\example[option=MP][]{Label tail transforms}{\externalfigure[figures/21.pdf]}
+
+\section{A Few Examples}
+
+First, we need to define a macro that converts any regular or other type of path into a smooth curve. This macro ought to have been defined in the snail module, but placing its definition here showcases the programming flexibility of the MetaPost language. The snail module has no intention of hiding MetaPost; on the contray, it expects you to use it as much as possible from a MetaPost-programming perspective.
+
+\startMP
+vardef tocurve(expr p, t) =
+  save n, a; numeric n; pair a[];
+  n := length p;
+  if n < 2:
+    p
+  else:
+    for i = 0 upto n:
+      a[i] := point i of p;
+    endfor;
+    a[0] for i = 1 upto n -1:
+      .. t[a[i], .5[a[i - 1], a[i + 1]]]
+    endfor .. a[n]
+  fi
+enddef;
+\stopMP
+
+The key to the above code lies in the principle of linear interpolation. In MetaPost language, if $a_1$ and $a_2$ are both points, the syntax $t[a_1, a_2]$ is equivalent to $(1 - t) a_1 + ta_2$.
+
+The example below creates some curve path with \type{tocurve}.
+
+\startMP
+snailfam_t a;
+snail(a1, "$a_1$");
+snail(a2, "$a_2$") at (4cm, 4cm);
+showsnails a1, a2;
+
+path e, f, p, q; string s;
+p := a1 xyto a2; q := a1 yxto a2;
+\stopMP
+\startexample
+pickup pencircle scaled 1pt;
+for t = .25, .5, .75:
+  s := "{\tfxx $t=" & decimal t & "$}";
+  e := tocurve(p, t); f := tocurve(q, t);
+  drawarrow e withcolor transparent(1, .5, t * red);
+  annotate(e, s);
+  drawarrow f withcolor transparent(1, .5, t * blue);
+  annotate(f, s);
+endfor;
+\stopexample
+\example[option=MP][]{Curve paths}{\externalfigure[figures/22.pdf]}
+
+The following is an example of a commutative diagram, in which the \type{startsnailpathstyle} and \type{stopsnailpathstyle} macros create a temporary environment for drawing paths with MetaPost's \type{draw} and \type{drawarrow} primtive macros.
+
+\startexample
+snailfam_t a;
+slug(a1, "$X\times_Z Y$") at (-2cm, 2cm);
+slug(a2, "$X$") at (2cm, 2cm);
+slug(a3, "$Z$") at (2cm, -2cm);
+slug(a4, "$Y$") at (-2cm, -2cm);
+slug(a5, "$T$") at (-6cm, 6cm);
+slug(a6, "$(x, y)$") at (-4cm, 4cm);
+showsnails a1, a2, a3, a4, a5, a6;
+
+path p[];
+p1 := a1 => a2; p2 := a2 => a3;
+p3 := a4 => a3; p4 := a1 => a4;
+p5 := tocurve(a5 xyto a2, .75);
+p6 := tocurve(a5 yxto a4, .75);
+% note the usage of &&
+p7 := (a5 => a6) && (a6 => a1); 
+
+showflows p1, p2, p3, p4, p5, p6;
+startsnailpathstyle
+drawarrow p7 withdashes 1mm;
+stopsnailpathstyle
+
+annot(p1, "$p$"); annot(p2, "$f$");
+annot(p3, "$g$"); annot(p4, "$q$");
+annot(p5, "$x$"); annot(p6, "$y$");
+
+\stopexample
+\example[option=MP][]{Commutative diagram}{\externalfigure[figures/23.pdf]}
 
 \subject{Afterword}
 
