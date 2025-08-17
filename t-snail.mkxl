@@ -21,7 +21,7 @@ snailenv = {
      color = 'darkgray',
      directed = 'true',
      smooth = 'true',
-     offset = '.25BodyFontSize',
+     offset = '4pt',
      fillet = '.3BodyFontSize',
      -- 箭头
      ahvariant = 1,
@@ -353,26 +353,30 @@ enddef;
 % I’ve resorted to some obscure Chinese identifiers.
 def 有请竖亥 (expr a, b) =
   pair 山海经里的竖亥, 竖亥左手, 竖亥右手;
-  path 竖亥左右, 竖亥之路;
+  path 竖亥左右, 竖亥之路, 竖亥左路, 竖亥右路;
   竖亥左右 := center a -- center b;
-  if pair a: 竖亥左手 := a; fi;
+  if pair a: 竖亥左手 := a; 竖亥左路 := a; fi;
   if path a:
     if cycle a:
       竖亥左手 := center a;
+      竖亥左路 := 竖亥左手;
     else:
-      竖亥左手 := a;
+      竖亥左手 := point (length a) of a;
+      竖亥左路 := a;
     fi;
   fi;
-  if picture a: 竖亥左手 := center a; fi;
-  if pair b: 竖亥右手 := b; fi;
+  if picture a: 竖亥左手 := center a; 竖亥左路 := 竖亥左手; fi;
+  if pair b: 竖亥右手 := b; 竖亥右路 := b; fi;
   if path b:
     if cycle b:
       竖亥右手 := center b;
+      竖亥右路 := 竖亥右手;
     else:
-      竖亥右手 := b;
+      竖亥右手 := point 0 of b;
+      竖亥右路 := b;
     fi;
   fi;  
-  if picture b: 竖亥右手 := center b; fi;
+  if picture b: 竖亥右手 := center b; 竖亥右路 := 竖亥右手; fi;
   山海经里的竖亥 := .5[竖亥左手, 竖亥右手];
 enddef;
 
@@ -386,7 +390,7 @@ enddef;
 tertiarydef a => b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := 竖亥左手 -- 竖亥右手;
+    竖亥之路 := 竖亥左路 -- 竖亥右路;
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
@@ -394,44 +398,44 @@ enddef;
 tertiarydef a xto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := 竖亥左手 -- (xpart 竖亥右手, ypart 竖亥左手);
+    竖亥之路 := 竖亥左路 -- (xpart 竖亥右手, ypart 竖亥左手);
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
 tertiarydef a yto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := 竖亥左手 -- (xpart 竖亥左手, ypart 竖亥右手);
+    竖亥之路 := 竖亥左路 -- (xpart 竖亥左手, ypart 竖亥右手);
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
 tertiarydef a xyto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := 竖亥左手 -- (xpart 竖亥右手, ypart 竖亥左手) -- 竖亥右手;
+    竖亥之路 := 竖亥左路 -- (xpart 竖亥右手, ypart 竖亥左手) -- 竖亥右路;
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
 tertiarydef a yxto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := 竖亥左手 -- (xpart 竖亥左手, ypart 竖亥右手) -- 竖亥右手;
+    竖亥之路 := 竖亥左路 -- (xpart 竖亥左手, ypart 竖亥右手) -- 竖亥右路;
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
 tertiarydef a xyxto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := (竖亥左手 -- (xpart 山海经里的竖亥, ypart 竖亥左手))
-                -- ((xpart 山海经里的竖亥, ypart 竖亥右手) -- 竖亥右手);
+    竖亥之路 := (竖亥左路 -- (xpart 山海经里的竖亥, ypart 竖亥左手))
+                -- ((xpart 山海经里的竖亥, ypart 竖亥右手) -- 竖亥右路);
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
 tertiarydef a yxyto b =
   hide(
     有请竖亥(a, b);
-    竖亥之路 := (竖亥左手 -- (xpart 竖亥左手, ypart 山海经里的竖亥))
-               -- ((xpart 竖亥右手, ypart 山海经里的竖亥) -- 竖亥右手);
+    竖亥之路 := (竖亥左路 -- (xpart 竖亥左手, ypart 山海经里的竖亥))
+               -- ((xpart 竖亥右手, ypart 山海经里的竖亥) -- 竖亥右路);
     snailcutends(竖亥之路, a, b);
   ) (竖亥之路)
 enddef;
@@ -491,17 +495,11 @@ vardef smooth (expr p) =
 enddef;
 
 vardef tocurve(expr p, t) =
-  save n, a; numeric n; pair a[];
-  n := length p;
-  if n < 2:
-    p
+  save a, n; pair a[]; numeric n; n := length p;
+  if n < 2: p
   else:
-    for i = 0 upto n:
-      a[i] := point i of p;
-    endfor;
-    a[0] for i = 1 upto n -1:
-      .. t[a[i], .5[a[i - 1], a[i + 1]]]
-    endfor .. a[n]
+    for i = 0 upto n: a[i] := point i of p; endfor;
+    a[0] for i = 1 upto n -1: .. t[a[i], .5[a[i - 1], a[i + 1]]] endfor .. a[n]
   fi
 enddef;
 
