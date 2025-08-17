@@ -386,7 +386,7 @@ annotate(p2, "$p_2$");
 
 \section{A Few Examples}
 
-First, we need to define a macro that converts any regular or other type of path into a smooth curve. This macro ought to have been defined in the snail module, but placing its definition here showcases the programming flexibility of the MetaPost language. The snail module has no intention of hiding MetaPost; on the contray, it expects you to use it as much as possible from a MetaPost-programming perspective.
+To draw some unconventional diagrams, we need to define a macro that converts any regular or other type of path into a smooth curve. This macro ought to have been defined in the snail module, but placing its definition here showcases the programming flexibility of the MetaPost language. The snail module has no intention of hiding MetaPost; on the contray, it expects you to use it as much as possible from a MetaPost-programming perspective.
 
 \startMP
 vardef tocurve(expr p, t) =
@@ -529,6 +529,45 @@ Then you can get the following graphic.
 \placeExample[here][curved-starfish]{Curved starfish}{\externalfigure[figures/25.pdf]}
 
 In the example above, you can try to set the second argument of \type{toclosedcurve} to other values, e.g. 0.25, 0.5, or even -0.25, and see what happens.
+
+The snail module also is able to draw some easygoing diagram. The example below create a simple mind map with the curved regular paths.
+
+\startMP
+pair base; numeric d, u, t;
+numeric thickness;
+color branchcolor;
+d := 8cm; u := .5; t := .3;
+
+vardef branch(expr r, theta) =
+  (((r, 0) rotated theta) shifted base)
+enddef;
+
+def mind(expr a, content) =
+  begingroup
+    save p; path p; p := tocurve(base xyxto a, u);
+    snailenv.set("path.color", branchcolor);
+    snailenv.set("path.thickness", thickness);
+    startsnailpathstyle; draw p; stopsnailpathstyle;
+    annotate(section(p, t, 1), content);
+  endgroup
+enddef;
+\stopMP
+\startMP
+pair a[], b[];
+base := origin;
+a1 := branch(d, 50); a2 := branch(d, 30); a3 := branch(d, 10);
+branchcolor := darkred; thickness := 2pt;
+mind(a1, "first mind branch");
+mind(a2, "second mind branch");
+mind(a3, "third mind branch");
+
+base := a2;
+b1 := branch(d, 45); b2 := branch(d, 15);
+branchcolor := darkblue; thickness := 1pt;
+mind(b1, "first mind subbranch");
+mind(b2, "second mind subbranch");
+\stopMP
+\placeExample[here][mindmap]{Mind map}{\externalfigure[figures/26.pdf]}
 
 \subject{Afterword}
 
