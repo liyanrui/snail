@@ -18,7 +18,7 @@ Maybe everyone knows MetaPost is great at drawing accurate science diagrams. But
 
 Don't believe the above claim I made. Let's be real. I've never worked as a graphic designer. Visual tools are much faster and easier for design work than coding with MetaPost. Exactly like how most pepole prefer movies over books these days for storytelling.
 
-However, in this technological era, I wrote a small MetaPost module for drawing flowchart and diagrammatic illustrations. Is this somehow a lamentable act? Certainly not. I have never intended to resist technological progress. Our era pursues its trajectory; I pursue mine. The primary driver for writing this module was the absence of satisfactory flowchart software on my Linux desktop.
+However, in this technological era, I wrote a small MetaPost module for drawing flowchart and diagrammatic illustrations within \ConTeXt\ environment. Is this somehow a lamentable act? Certainly not. I have never intended to resist technological progress. Our era pursues its trajectory; I pursue mine. The primary driver for writing this module was the absence of satisfactory flowchart software on my Linux desktop.
 
 This module is named \boxquote{snail}. True to its name, it's slow at drawing diagrams.
 
@@ -30,7 +30,7 @@ Seven years gone in a blink and it's already 2025. Honestly I've achieved nothin
 
 \section{First Snail Diagram}
 
-This is the smallest possible snail drawing environment.
+This is the smallest snail drawing environment:
 
 \startTEX
 \usemodule[snail]
@@ -39,7 +39,7 @@ This is the smallest possible snail drawing environment.
 \stopMPpage
 \stopTEX
 
-All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
+To work with the snail module, you need \ConTeXt\ LMTX. All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
 
 \starttyping
 /BTEX\dollar/ETEX context foo.tex
