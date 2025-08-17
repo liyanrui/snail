@@ -281,7 +281,7 @@ annotate(snap(p, .3, 1), "road $p$");
 \stopexample
 \example[option=MP][section-label]{Placing annotation on section}{\externalfigure[figures/16.pdf]}
 
-Sometimes, you need the annotation text to stand vertically upright instead of conforming to the deformation of the path. You can use the \type{annot} fufill this requirement and its usage is same with \type{annotation}; see Example \in[annotation-tail-trans].
+Sometimes, you need the annotation text to stand vertically upright instead of conforming to the deformation of the path. You can use the \type{tag} fufill this requirement and its usage is same with \type{annotate}; see Example \in[annotation-tail-trans].
 
 \section{Irregular Nodes}
 
@@ -340,7 +340,7 @@ Some frequently-used parameters of the snail module are listed in the table belo
 \starttyping
 snailenv = {
   text = {
-     fontsize = '/BTEX\color[darkred]{BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{black}/ETEX', offset = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX'
+     fontsize = '/BTEX\color[darkred]{BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{black}/ETEX'
   },
   frame = {
      shape = '/BTEX\color[darkred]{fullsquare}/ETEX', background = {color = '/BTEX\color[darkred]{.9white}/ETEX'}, offset = '/BTEX\color[darkred]{BodyFontSize}/ETEX',
@@ -349,7 +349,7 @@ snailenv = {
   },
   path = {
      thickness = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{darkgray}/ETEX', directed = '/BTEX\color[darkred]{true}/ETEX',
-     smooth = '/BTEX\color[darkred]{true}/ETEX', offset = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
+     smooth = '/BTEX\color[darkred]{true}/ETEX', offset = '/BTEX\color[darkred]{.25BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
      ahvariant = 1, ahdimple = 1, ahlength = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX',
   },
   debug = '/BTEX\color[darkred]{false}/ETEX'
@@ -381,7 +381,7 @@ showflows p1, p2;
 annotate(p1, "$p_1$")
     rotatedaround(point .5 along p1, 90)
     shifted (-7pt, -7.5mm);
-annot(p1, "\inframed{$p_1$}")
+tag(p1, "\inframed{$p_1$}")
     shifted (4pt, -4.5mm);
 annotate(p2, "$p_2$");
 \stopexample
@@ -450,8 +450,8 @@ p7 := (a5 => a6) && (a6 => a1); % note the usage of &&
 showflows p1, p2, p3, p4, p5, p6;
 startsnailway; drawarrow p7 withdashes 1mm; stopsnailway;
 
-annot(p1, "$p$"); annot(p2, "$f$"); annot(p3, "$g$");
-annot(p4, "$q$"); annot(p5, "$x$"); annot(p6, "$y$");
+tag(p1, "$p$"); tag(p2, "$f$"); tag(p3, "$g$");
+tag(p4, "$q$"); tag(p5, "$x$"); tag(p6, "$y$");
 \stopMP
 \placeExample[here,force][]{Commutative diagram}{\externalfigure[figures/23.pdf]}
 
