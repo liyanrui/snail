@@ -278,6 +278,8 @@ annotate(section(p, .3, 1), "road $p$");
 \stopexample
 \example[option=MP][section-label]{Placing label on section}{\externalfigure[figures/16.pdf]}
 
+Sometimes, you need the annotation text to stand vertically upright instead of conforming to the deformation of the path. You can use the \type{annot} fufill this requirement and its usage is same with \type{annotation}; see Example \in[annotation-tail-trans].
+
 \section{Irregular Nodes}
 
 You can cretate your own shapes to serve as the node's frame by setting the module parameter \type{frame.shape}. For example, if you need a ellipse node, you only set \type{frame.shape} to \type{fullcircle}. If you want a circle node, you need to set \type{frame.isotropic} to \type{true}. 
@@ -372,11 +374,15 @@ Likewise, when using the \type{annotate} macro adds labels to a path, additional
 path p[];
 p1 := a1 xyto a2; p2 := a2 xto a3.frame;
 showflows p1, p2;
-annotate(p1, "$p_1$") rotatedaround(point .5 along p1, 90)
-                      shifted (-7pt, -.75cm);
-annotate(p2, "$p_2$"); 
+
+annotate(p1, "$p_1$")
+    rotatedaround(point .5 along p1, 90)
+    shifted (-7pt, -7.5mm);
+annot(p1, "\inframed{$p_1$}")
+    shifted (4pt, -4.5mm);
+annotate(p2, "$p_2$");
 \stopexample
-\example[option=MP][]{Label tail transforms}{\externalfigure[figures/21.pdf]}
+\example[option=MP][annotation-tail-trans]{Annotation tail transforms}{\externalfigure[figures/21.pdf]}
 
 \section{A Few Examples}
 
@@ -399,11 +405,9 @@ vardef tocurve(expr p, t) =
 enddef;
 \stopMP
 
-The key to the above code lies in the principle of linear interpolation. In MetaPost language, if $a_1$ and $a_2$ are both points, the syntax $t[a_1, a_2]$ is equivalent to $(1 - t) a_1 + ta_2$.
+The key to the above code lies in the principle of linear interpolation. In MetaPost language, if $a_1$ and $a_2$ are both points, the syntax $t[a_1, a_2]$ is equivalent to $(1 - t) a_1 + ta_2$. The range of $t$ is $[0, 1]$. By iterating through each value of $t$, you can traverse every point on the curve. In Example \in[annotation-tail-trans], the syntax \boxquote{\type{point .5 along p1}} expresses taking the point at $t = 0.5$. Now you maybe understand \type{tocurve}; the example below creates some curve path with it. Howerver, note that it only applies to open paths.
 
-The example below creates some curve path with \type{tocurve}.
-
-\startMP
+\startexample
 snailfam_t a;
 snail(a1, "$a_1$");
 snail(a2, "$a_2$") at (4cm, 4cm);
@@ -411,8 +415,7 @@ showsnails a1, a2;
 
 path e, f, p, q; string s;
 p := a1 xyto a2; q := a1 yxto a2;
-\stopMP
-\startexample
+
 pickup pencircle scaled 1pt;
 for t = .25, .5, .75:
   s := "{\tfxx $t=" & decimal t & "$}";
@@ -427,7 +430,7 @@ endfor;
 
 The following is an example of a commutative diagram, in which the \type{startsnailpathstyle} and \type{stopsnailpathstyle} macros create a temporary environment for drawing paths with MetaPost's \type{draw} and \type{drawarrow} primtive macros.
 
-\startexample
+\startMP
 snailfam_t a;
 slug(a1, "$X\times_Z Y$") at (-2cm, 2cm);
 slug(a2, "$X$") at (2cm, 2cm);
@@ -438,24 +441,94 @@ slug(a6, "$(x, y)$") at (-4cm, 4cm);
 showsnails a1, a2, a3, a4, a5, a6;
 
 path p[];
-p1 := a1 => a2; p2 := a2 => a3;
-p3 := a4 => a3; p4 := a1 => a4;
-p5 := tocurve(a5 xyto a2, .75);
-p6 := tocurve(a5 yxto a4, .75);
-% note the usage of &&
-p7 := (a5 => a6) && (a6 => a1); 
-
+p1 := a1 => a2; p2 := a2 => a3; p3 := a4 => a3; p4 := a1 => a4;
+p5 := tocurve(a5 xyto a2, .75); p6 := tocurve(a5 yxto a4, .75);
+p7 := (a5 => a6) && (a6 => a1); % note the usage of &&
 showflows p1, p2, p3, p4, p5, p6;
-startsnailpathstyle
-drawarrow p7 withdashes 1mm;
-stopsnailpathstyle
+startsnailpathstyle; drawarrow p7 withdashes 1mm; stopsnailpathstyle;
 
-annot(p1, "$p$"); annot(p2, "$f$");
-annot(p3, "$g$"); annot(p4, "$q$");
-annot(p5, "$x$"); annot(p6, "$y$");
+annot(p1, "$p$"); annot(p2, "$f$"); annot(p3, "$g$");
+annot(p4, "$q$"); annot(p5, "$x$"); annot(p6, "$y$");
+\stopMP
+\placeExample[here,force][]{Commutative diagram}{\externalfigure[figures/23.pdf]}
 
+The following code defines an irregular node whose frame is a starfish by means of a MetaPost macro we defined.
+
+\startMP
+def starfish(suffix obj)(expr content) =
+  % declare local variable t and p.
+  save t, p;
+  % define t and p
+  numeric t; t := 0.38197;
+  path p;
+  p:= (0, 1) -- t * (cosd 54, sind 54) -- (cosd 18, sind 18) 
+      -- t * (cosd 18, -sind 18) -- (cosd 54, -sind 54) -- t * (0, -1)
+      -- (-cosd 54, -sind 54) -- t * (-cosd 18, -sind 18) -- (-cosd 18, sind 18)
+      -- t * (-cosd 54, sind 54) -- cycle;
+  p := p randomized .1; % five-pointed star into starfish.
+  % let p as default frame.shape and create new node.
+  snailenv.set("frame.shape", "'p'");
+  snailenv.set("frame.isotropic", true);
+  snailenv.set("frame.offset", 2pt);
+  snail(obj, content);
+  % reset frame.shape
+  snailenv.set("frame.offset", BodyFontSize);
+  snailenv.set("frame.isotropic", false);
+  snailenv.set("frame.shape", "'fullsquare'");
+enddef;
+\stopMP
+\startexample
+% applying starfish.
+snail_t foo;
+starfish(foo, "I am a starfish.");
+snailenv.set("debug", true);
+showsnails foo;
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
+/BTEX\strut/ETEX
 \stopexample
-\example[option=MP][]{Commutative diagram}{\externalfigure[figures/23.pdf]}
+\example[option=MP][starfish]{Starfish node}{\externalfigure[figures/24.pdf]}
+
+If we further define a macro that turns a closed polygonal path into a closed curved one, we can create even stranger nodes. It is not difficult if you are familiar with the structure of a path that is cycled. See the following definition:
+
+\startMP
+vardef toclosedcurve(expr p, t) =
+  save n, a; numeric n; pair a[];
+  n := length p;
+  if n < 2:
+    p
+  else:
+    for i = 0 upto n: a[i] := point i of p; endfor;
+    a[-1] := a[n - 1];
+    for i = 0 upto n - 1:
+      t[a[i], .5[a[i - 1], a[i + 1]]] ..
+    endfor cycle
+  fi
+enddef;
+\stopMP
+
+If you apply \type{tocurve} in the definition of \type{starfish}, you can get a smooth starfish node. The only change is replacing
+
+\startMP
+p := p randomized .1;
+\stopMP
+
+with
+
+\startMP
+p := toclosedcurve(p, 0);
+\stopMP
+
+Then you can get the following graphic.
+
+\placeExample[here][curved-starfish]{Curved starfish}{\externalfigure[figures/25.pdf]}
+
+In the example above, you can try to set the second argument of \type{toclosedcurve} to other values, e.g. 0.25, 0.5, or even -0.25, and see what happens.
 
 \subject{Afterword}
 

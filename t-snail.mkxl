@@ -174,7 +174,7 @@ enddef;
 
 def snail_draw_anchors text all =
   begingroup
-    save s; numeric s; s := .3snailenv.get("text.fontsize");
+    save s; numeric s; s := .5snailenv.get("text.fontsize");
     forsuffixes foo = all:
       draw foo.中央 withpen pensquare scaled s withcolor transparent(1, .3, red);
       forsuffixes i = 乾位, 坤位, 艮位, 兑位, 巽位, 震位, 坎位, 离位:
@@ -489,6 +489,35 @@ vardef smooth (expr p) =
   endfor;
   new_p := new_p -- nodes[n];
   new_p
+enddef;
+
+vardef tocurve(expr p, t) =
+  save n, a; numeric n; pair a[];
+  n := length p;
+  if n < 2:
+    p
+  else:
+    for i = 0 upto n:
+      a[i] := point i of p;
+    endfor;
+    a[0] for i = 1 upto n -1:
+      .. t[a[i], .5[a[i - 1], a[i + 1]]]
+    endfor .. a[n]
+  fi
+enddef;
+
+vardef toclosedcurve(expr p, t) =
+  save n, a; numeric n; pair a[];
+  n := length p;
+  if n < 2:
+    p
+  else:
+    for i = 0 upto n: a[i] := point i of p; endfor;
+    a[-1] := a[n - 1];
+    for i = 0 upto n - 1:
+      t[a[i], .5[a[i - 1], a[i + 1]]] ..
+    endfor cycle
+  fi
 enddef;
 \stopMPinclusions
 
