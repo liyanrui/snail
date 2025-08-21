@@ -1,6 +1,6 @@
 \environment doc-style
 \starttext
-\title{The Snail Tutorial}
+\title{The Snail Module}
 \blank[line]
 \midaligned{Li Yanrui (lyr.m2@live.cn)}
 \useURL[snail][https://github.com/liyanrui/snail]
@@ -26,7 +26,7 @@ Its development has been even slower. Around 2018, while properly learning MetaP
 
 \useURL[ctxnotes][https://github.com/liyanrui/ConTeXt-notes]
 
-Seven years gone in a blink and it's already 2025. Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. This finally fulfilled my wish. Two years ago, after finishing \ConTeXt\ notes\footnote{Please see \boxquote{\from[ctxnotes]}.}, I'd wanted to write similar guides for MetaPost language. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
+Seven years gone in a blink and it's already 2025. Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
 
 \section{First Snail Diagram}
 
@@ -42,13 +42,13 @@ This is the smallest snail drawing environment:
 To work with the snail module, you need \ConTeXt\ LMTX. All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
 
 \starttyping
-/BTEX\dollar/ETEX context foo.tex
+context foo.tex
 \stoptyping
 
 or
 
 \starttyping
-/BTEX\dollar/ETEX context foo
+context foo
 \stoptyping
 
 Then you can get the \boxquote{foo.pdf} file in the same directory. The above process can be expressed as the following snail code.
@@ -58,9 +58,8 @@ Then you can get the \boxquote{foo.pdf} file in the same directory. The above pr
 \startMPpage
 snailfam_t a;
 slug(a1, "foo.tex");
-snail(a2, "\type{context} command") at (4cm, 0);
-slug(a3, "foo.pdf") at (4cm, -2cm);
-
+snail(a2, "{\darkred\type{context}}") at (3cm, 0);
+slug(a3, "foo.pdf") at (3cm, -2cm);
 showsnails a1, a2, a3;
 showflows a1 => a2, a2 => a3;
 \stopMPpage
@@ -94,7 +93,6 @@ snailfam_t a;
 snail(a1, "I am $a_1$") at (4cm, 0);
 slug(a2, "I am $a_2$") at (3cm, 1.5cm);
 avatar(a3, "demo.png", 3cm, "auto");
-
 showsnails a1, a2, a3;
 \stopexample
 \example[option=MP][kinds-of-nodes]{Three kinds of nodes}{\externalfigure[figures/02.pdf]}
@@ -110,7 +108,6 @@ snail_t foo;
 snail(foo, "I am foo");
 showsnails foo;
 
-% draw foo.anchors[0][0]
 pickup pensquare scaled 8pt;
 draw foo.anchors[0][0]
      withcolor transparent(1, .5, darkred);
@@ -145,7 +142,7 @@ snail(a, "Node a");
 snailenv.set("debug", true);
 showsnails a;
 \stopexample
-\example[option=MP][debug]{Node debug mode}{\externalfigure[figures/06.pdf][width=.2tw]}
+\example[option=MP][debug]{Node debug mode}{\externalfigure[figures/06.pdf]}
 
 With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a from b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
 
@@ -153,23 +150,23 @@ With help of anchor points, you can position a node by relative displacement wit
 snail_t foo, bar;
 snail(foo, "foo");
 snail(bar, "bar");
-put bar at foo.anchors[2][8] from bar.anchors[2][4];
-
+put bar at foo.anchors[2][8]
+        from bar.anchors[2][4];
 snailenv.set("debug", true);
 showsnails foo, bar;
 \stopexample
-\example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf][width=.35tw]}
+\example[option=MP][put-at]{Node relative displacement}{\externalfigure[figures/07.pdf]}
 
 If you feel hard to remember these indices of anchor points, you can name them by defining some MetaPost macro, for example:
 
 \startexample
-def est = anchors[1][1] enddef; def nth = anchors[1][5] enddef;
-def wst = anchors[1][9] enddef; def sth = anchors[1][13] enddef;
+def _e_ = anchors[1][1] enddef; def _n_ = anchors[1][5] enddef;
+def _w_ = anchors[1][9] enddef; def _s_ = anchors[1][13] enddef;
 
 snail_t foo;
 snail(foo, "demo");
 showsnails foo;
-forsuffixes it = est, nth, wst, sth:
+forsuffixes it = _e_, _w_, _n_, _s_:
   draw foo.it withpen pencircle scaled 4pt withcolor darkred;
 endfor;
 \stopexample
@@ -198,19 +195,14 @@ The \type{xyto} and \type{yxto} macros create regular paths with a single turn. 
 \startexample
 p1 := a yxto b;
 p2 := b xyto c;
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
+/BTEX\blank[3*line]/ETEX
 /BTEX\strut/ETEX
 \stopexample
 \example[option=MP][xyto-and-yxto]{Regular paths with single turn}{\externalfigure[figures/09.pdf]}
 
 \startexample
 p1 := a yxto b xyto c;
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
+/BTEX\blank[3*line]/ETEX
 /BTEX\strut/ETEX
 \stopexample
 \example[option=MP][complex-paths]{Regular paths with single turn}{\externalfigure[figures/10.pdf]}
@@ -236,26 +228,60 @@ road(p, a xyxto b);
 \stopexample
 \example[option=MP][road]{Smoothed paths}{\externalfigure[figures/12.pdf]}
 
-\section{Path Crossing}
+To draw some unconventional diagrams, we need to define a macro that converts any regular or closed path into a smooth curve, so we have the macros \type{tocurve} and \type{toclosedcurve}. The example below creates some curve path with \type{tocurve} that only applies to open paths.
+
+\startMP
+snailfam_t a;
+snail(a1, "$a_1$");
+snail(a2, "$a_2$") at (4cm, 4cm);
+showsnails a1, a2;
+
+path e, f, p, q; string s;
+p := a1 xyto a2; q := a1 yxto a2;
+\stopMP
+\startexample
+pickup pencircle scaled 1pt;
+for t = .25, .5, .75:
+  s := "{\tfxx $t=" & decimal t & "$}";
+  e := tocurve(p, t); f := tocurve(q, t);
+  drawarrow e withcolor transparent(1, .5, t * red);
+  annotate(e, s);
+  drawarrow f withcolor transparent(1, .5, t * blue);
+  annotate(f, s);
+endfor;
+\stopexample
+\example[option=MP][]{Curve paths}{\externalfigure[figures/22.pdf]}
+
+The second argument of \type{tocurve} is used to set the curve’s tension. Its usual range is [0, 1], but in fact there is no restriction—you may supply any value.
+
+The \type{toclosedcurve} can translate a closed path to a closed curve, see the following example. Its second argument has the same meaning as in \type{tocurve}.
+
+\startexample
+path p, q;
+p := fulldiamond xyscaled (6cm, 3cm);
+q := toclosedcurve(p, .5);
+
+drawpath p; drawpoints p;
+draw q withpen pencircle scaled 2pt
+       withcolor darkred;
+\stopexample
+\example[option=MP][closed-curve]{Closed curve}{\externalfigure[c.pdf]}
 
 Regular paths and the smoothed paths produced by \type{road}, are all ordinary path objects. Because they carry no special metadata, they can only be drawn one by one with MetaPost's \type{drawarrow} macro. Consequently, when paths intersect, it is difficult to add crossing indicators.
 
-The snail module provides the macro \type{showroads}, which draws all paths as arguments in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another.
+The snail module provides the macro \type{showroads}, which draws all paths as arguments in a single pass. Internally, it detects any intersections and renders them with short gaps in the lines to indicate that one path passes over another. Need to note that \type{showroads} can't process two paths crossing multiple times at present.
 
 \startexample
 pair a, b, c, d;
 a := (0,   0);  b := (4cm, 4cm);
 c := (0, 4cm);  d := (4cm,   0);
-
 path p, q;
-road(p, a yxyto b);
-road(q, c xyxto d);
-
+road(p, a yxyto b); road(q, c xyxto d);
 showroads p, q;
 \stopexample
 \example[option=MP][crossing]{Crossing paths}{\externalfigure[figures/13.pdf]}
 
-\section{Path Annotation}
+\section{Annotation}
 
 The snail module provides the \type{annotate} macro for annotating paths. This macro places some text based on the middle point of a path. Example \in[annotation] gives the usage of \type{annotate} and its side effect.
 
@@ -264,7 +290,6 @@ path p[];
 road(p1, (0, 0) xyxto (4cm, 3cm));
 road(p2, (5cm, 0) yxto (8cm, 3cm));
 showroads p1, p2;
-
 annotate(p1, "road $p_1$");
 annotate(p2, "road $p_2$");
 \stopexample
@@ -326,11 +351,33 @@ snail(a2, "parallelgram") at (0, -2.5cm);
 \stopexample
 \example[option=MP][more-strange]{More irregular nodes}{\externalfigure[figures/19.pdf]}
 
-In fact, node's frame can be any closed path, so that you can turn almost any such shape into a node' frame. After creating irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro.
+In fact, node's frame can be any closed path, so that you can turn almost any such shape into a node' frame. After creating irregular nodes, you can revert to snail's default node style with the \type{snailshapereset} macro. The following code defines an irregular node whose frame is a starfish with two macros we defined.
 
 \startMP
-snailshapereset;
+vardef make_starfish =
+  save t; numeric t; t := 0.38197;
+  ((0, 1) -- t * (cosd 54, sind 54) -- (cosd 18, sind 18) 
+   -- t * (cosd 18, -sind 18) -- (cosd 54, -sind 54) -- t * (0, -1)
+   -- (-cosd 54, -sind 54) -- t * (-cosd 18, -sind 18) -- (-cosd 18, sind 18)
+   -- t * (-cosd 54, sind 54) -- cycle) randomized .1
+enddef;
 \stopMP
+\startMP
+def starfish(suffix obj)(expr content) =
+  snailenv.set("frame.shape", "'make_starfish'");
+  snailenv.set("frame.isotropic", true);
+  snail(obj, content);
+  snailshapereset;
+enddef;
+\stopMP
+\startMP
+snail_t foo;
+starfish(foo, "Starfish");
+
+snailenv.set("debug", true);
+showsnails foo;
+\stopMP
+\placeExample[here][starfish]{Starfish node}{\externalfigure[figures/24.pdf]}
 
 \section{Module Parameters}
 
@@ -355,16 +402,25 @@ Some frequently-used parameters of the snail module are listed in the table belo
 \starttyping
 snailenv = {
   text = {
-     fontsize = '/BTEX\color[darkred]{BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{black}/ETEX'
+      fontsize = '/BTEX\color[darkred]{BodyFontSize}/ETEX',
+      color = '/BTEX\color[darkred]{black}/ETEX'
   },
   frame = {
-     shape = '/BTEX\color[darkred]{fullsquare}/ETEX', background = {color = '/BTEX\color[darkred]{.9white}/ETEX'}, offset = '/BTEX\color[darkred]{BodyFontSize}/ETEX',
-     thickness = '/BTEX\color[darkred]{.175BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{.75white}/ETEX', isotropic = '/BTEX\color[darkred]{false}/ETEX',
+     shape = '/BTEX\color[darkred]{fullsquare}/ETEX',
+     background = {color = '/BTEX\color[darkred]{.9white}/ETEX'},
+     offset = '/BTEX\color[darkred]{BodyFontSize}/ETEX',
+     thickness = '/BTEX\color[darkred]{.175BodyFontSize}/ETEX',
+     color = '/BTEX\color[darkred]{.75white}/ETEX',
+     isotropic = '/BTEX\color[darkred]{false}/ETEX',
      margin = '/BTEX\color[darkred]{3BodyFontSize}/ETEX',
   },
   path = {
-     thickness = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX', color = '/BTEX\color[darkred]{darkgray}/ETEX', directed = '/BTEX\color[darkred]{true}/ETEX',
-     smooth = '/BTEX\color[darkred]{true}/ETEX', offset = '/BTEX\color[darkred]{.25BodyFontSize}/ETEX', fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
+     thickness = '/BTEX\color[darkred]{.125BodyFontSize}/ETEX',
+     color = '/BTEX\color[darkred]{darkgray}/ETEX',
+     directed = '/BTEX\color[darkred]{true}/ETEX',
+     smooth = '/BTEX\color[darkred]{true}/ETEX',
+     offset = '/BTEX\color[darkred]{.25BodyFontSize}/ETEX',
+     fillet = '/BTEX\color[darkred]{.3BodyFontSize}/ETEX',
      ahvariant = 1, ahdimple = 1, ahlength = '/BTEX\color[darkred]{.5BodyFontSize}/ETEX',
   },
   debug = '/BTEX\color[darkred]{false}/ETEX'
@@ -383,6 +439,8 @@ snail(a1, "$a_1$") at (0, 2cm);
 snail(a2, "$a_2$") at (0, -2cm) rotated -60;
 snail(a3, "$a_3$") shifted (0, -2cm) rotated 60;
 showsnails a1, a2, a3;
+/BTEX\blank[line]/ETEX
+/BTEX\strut/ETEX
 \stopexample
 \example[option=MP][node-tail-trans]{Node tail transforms}{\externalfigure[figures/20.pdf]}
 
@@ -392,53 +450,41 @@ Likewise, when using the \type{annotate} macro adds labels to a path, additional
 path p[];
 p1 := a1 xyto a2; p2 := a2 xto a3.frame;
 showflows p1, p2;
-
 annotate(p1, "$p_1$")
     rotatedaround(point .5 along p1, 90)
     shifted (-7pt, -7.5mm);
-tag(p1, "\inframed{$p_1$}")
-    shifted (4pt, -4.5mm);
+tag(p1, "\inframed{$p_1$}") shifted (4pt, -4.5mm);
 annotate(p2, "$p_2$");
 \stopexample
 \example[option=MP][annotation-tail-trans]{Annotation tail transforms}{\externalfigure[figures/21.pdf]}
 
-\section{A Few Examples}
+\section{Empty node}
 
-To draw some unconventional diagrams, we need to define a macro that converts any regular or other type of path into a smooth curve. This macro ought to have been defined in the snail module, but placing its definition here showcases the programming flexibility of the MetaPost language. The snail module has no intention of hiding MetaPost; on the contray, it expects you to use it as much as possible from a MetaPost-programming perspective.
+When use the \type{slug} macro to create a frameless node, you can set its text to an empty string then you get an empty node; for example:
 
 \startMP
-vardef tocurve(expr p, t) =
-  save n, a; numeric n; pair a[]; n := length p;
-  if n < 2: p
-  else:
-    for i = 0 upto n: a[i] := point i of p; endfor;
-    a[0] for i = 1 upto n -1: .. t[a[i], .5[a[i - 1], a[i + 1]]] endfor .. a[n]
-  fi
-enddef;
+snail_t foo;
+slug(foo, "") at somewhere;
 \stopMP
 
-The key to the above code lies in the principle of linear interpolation. In MetaPost language, if $a_1$ and $a_2$ are both points, the syntax $t[a_1, a_2]$ is equivalent to $(1 - t) a_1 + ta_2$. The range of $t$ is $[0, 1]$. By iterating through each value of $t$, you can traverse every point on the curve. In Example \in[annotation-tail-trans], the syntax \boxquote{\type{point .5 along p1}} expresses taking the point at $t = 0.5$. Now you maybe understand \type{tocurve}; the example below creates some curve path with it. Howerver, note that it only applies to open paths.
+In fact, an empty node is an invisible square which size is \type{BodyFontSize}---the font size of text. Bug you can display its all anchor points.
 
-\startexample
-snailfam_t a;
-snail(a1, "$a_1$");
-snail(a2, "$a_2$") at (4cm, 4cm);
-showsnails a1, a2;
+When I added the empty-node feature, I hadn't yet figured out how it would actually be used. I simply followed the intuition that \quotation{where there is substance, there must also be vold,} and gave the \type{slug} macro this capability. The only useage I can think of for it right now is to serve as a spacer between two nodes, so the layout no longer needs an explicit dimension. For example,
 
-path e, f, p, q; string s;
-p := a1 xyto a2; q := a1 yxto a2;
+\startMP
+snail_t empty, foo, bar;
+slug(empty, "");
+snail(foo, "i am foo");
 
-pickup pencircle scaled 1pt;
-for t = .25, .5, .75:
-  s := "{\tfxx $t=" & decimal t & "$}";
-  e := tocurve(p, t); f := tocurve(q, t);
-  drawarrow e withcolor transparent(1, .5, t * red);
-  annotate(e, s);
-  drawarrow f withcolor transparent(1, .5, t * blue);
-  annotate(f, s);
-endfor;
-\stopexample
-\example[option=MP][]{Curve paths}{\externalfigure[figures/22.pdf]}
+put empty at foo.anchors[2][2] from empty.anchors[2][6];
+snail(bar, "i am bar") at empty.anchors[2][2] from bar.anchors[2][6];
+
+snailenv.set("debug", true);
+showsnails empty, foo, bar;
+\stopMP
+\placeExample[force][empty-node]{Empty node usage}{\externalfigure[b.pdf]}
+
+\section{A Few Examples}
 
 The following is an example of a commutative diagram, in which the \type{startsnailway} and \type{stopsnailway} macros create a temporary environment for drawing paths with MetaPost's \type{draw} and \type{drawarrow} primtive macros.
 
@@ -465,122 +511,6 @@ tag(p1, "$p$"); tag(p2, "$f$"); tag(p3, "$g$");
 tag(p4, "$q$"); tag(p5, "$x$"); tag(p6, "$y$");
 \stopMP
 \placeExample[here,force][]{Commutative diagram}{\externalfigure[figures/23.pdf]}
-
-The following code defines an irregular node whose frame is a starfish by means of a MetaPost macro we defined.
-
-\startMP
-def starfish(suffix obj)(expr content) =
-  % declare local variable t and p.
-  save t, p;
-  % define t and p
-  numeric t; t := 0.38197;
-  path p;
-  p:= (0, 1) -- t * (cosd 54, sind 54) -- (cosd 18, sind 18) 
-      -- t * (cosd 18, -sind 18) -- (cosd 54, -sind 54) -- t * (0, -1)
-      -- (-cosd 54, -sind 54) -- t * (-cosd 18, -sind 18) -- (-cosd 18, sind 18)
-      -- t * (-cosd 54, sind 54) -- cycle;
-  p := p randomized .1; % five-pointed star into starfish.
-  % let p as default frame.shape and create new node.
-  snailenv.set("frame.shape", "'p'");
-  snailenv.set("frame.isotropic", true);
-  snailenv.set("frame.offset", 2pt);
-  snail(obj, content);
-  % reset frame.shape
-  snailenv.set("frame.offset", BodyFontSize);
-  snailenv.set("frame.isotropic", false);
-  snailenv.set("frame.shape", "'fullsquare'");
-enddef;
-\stopMP
-\startexample
-% applying starfish.
-snail_t foo;
-starfish(foo, "I am a starfish.");
-snailenv.set("debug", true);
-showsnails foo;
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-/BTEX\strut/ETEX
-\stopexample
-\example[option=MP][starfish]{Starfish node}{\externalfigure[figures/24.pdf]}
-
-If we further define a macro that turns a closed polygonal path into a closed curved one, we can create even stranger nodes. It is not difficult if you are familiar with the structure of a path that is cycled. See the following definition:
-
-\startMP
-vardef toclosedcurve(expr p, t) =
-  save n, a; numeric n; pair a[];
-  n := length p;
-  if n < 2:
-    p
-  else:
-    for i = 0 upto n: a[i] := point i of p; endfor;
-    a[-1] := a[n - 1];
-    for i = 0 upto n - 1:
-      t[a[i], .5[a[i - 1], a[i + 1]]] ..
-    endfor cycle
-  fi
-enddef;
-\stopMP
-
-If you apply \type{tocurve} in the definition of \type{starfish}, you can get a smooth starfish node. The only change is replacing
-
-\startMP
-p := p randomized .1;
-\stopMP
-
-with
-
-\startMP
-p := toclosedcurve(p, 0);
-\stopMP
-
-Then you can get the following graphic.
-
-\placeExample[here][curved-starfish]{Curved starfish}{\externalfigure[figures/25.pdf]}
-
-In the example above, you can try to set the second argument of \type{toclosedcurve} to other values, e.g. 0.25, 0.5, or even -0.25, and see what happens.
-
-The snail module also is able to draw some easygoing diagram. The example below create a simple mind map with the curved regular paths.
-
-\startMP
-pair base; numeric d, u, t;
-numeric thickness;
-color branchcolor;
-d := 8cm; u := .5; t := .3;
-
-vardef branch(expr r, theta) =
-  (((r, 0) rotated theta) shifted base)
-enddef;
-
-def mind(expr a, content) =
-  begingroup
-    save p; path p; p := tocurve(base xyxto a, u);
-    snailenv.set("path.color", branchcolor);
-    snailenv.set("path.thickness", thickness);
-    startsnailway; draw p; stopsnailway;
-    annotate(snap(p, t, 1), content);
-  endgroup
-enddef;
-\stopMP
-\startMP
-pair a[], b[];
-base := origin; a1 := branch(d, 50); a2 := branch(d, 30); a3 := branch(d, 10);
-branchcolor := darkred; thickness := 2pt;
-\stopMP
-\startMP
-mind(a1, "first mind branch");
-mind(a2, "second mind branch");
-mind(a3, "third mind branch");
-
-base := a2; b1 := branch(d, 45); b2 := branch(d, 15);
-branchcolor := darkblue; thickness := 1pt;
-mind(b1, "first mind subbranch"); mind(b2, "second mind subbranch");
-\stopMP
-\placeExample[here][mindmap]{Mind map}{\externalfigure[figures/26.pdf]}
 
 \subject{Afterword}
 

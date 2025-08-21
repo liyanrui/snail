@@ -1,10 +1,10 @@
 \setupinteraction[state=start, focus=standard, color=darkred]
 % layout
 \setuppapersize[A4][A4]
-\setuplayout[backspace=2.5cm,width=16.5cm,
+\setuplayout[backspace=3cm,width=15cm,
              topspace=1.5cm,header=1.5cm,
              height=27.2cm,footer=1cm]
-
+%\showframe
 \setuphead[title][header=empty, footer=empty, style=\bfc, align={middle,broad}]
 \setuphead[subject,section][style=\bfa]
 
@@ -30,7 +30,7 @@
 path p, q;
 numeric w, h, u;
 u := BodyFontSize;
-w := OverlayWidth; h := .825OverlayHeight;
+w := OverlayWidth; h := .85OverlayHeight;
 color framecolor; framecolor := white randomized (.7, .7, .7);
 pickup pencircle scaled 1pt;
 % upper left corner

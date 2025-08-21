@@ -211,6 +211,7 @@ def snail(suffix obj) (expr content) text somewhere =
     fi;
     t := t enlarged snailenv.get("frame.offset");
     make_snail_body(obj, c, bbwidth t, bbheight t);
+    make_anchors obj; % for using anchors in somewhere statement.
     obj := obj somewhere;
     obj.frame := obj.frame somewhere;
     make_anchors obj;
@@ -287,6 +288,7 @@ def slug (suffix obj) (expr a) text somewhere =
     obj.content := textext("\snailframed{" & a & "}");
     obj := image (draw obj.content withcolor snailenv.get("text.color"); );
   fi;
+  make_anchors obj; % for using anchors in somewhere statement.
   obj := obj somewhere;
   make_anchors obj;
 enddef;
@@ -303,6 +305,7 @@ def avatar (suffix obj) (expr a, w, h) text somewhere =
       if numeric h: obj := image ( draw p xysized (h * s, h); ); fi;
     fi;
     obj := obj shifted -(center obj);
+    make_anchors obj; % for using anchors in somewhere statement.
     obj := obj somewhere;
     make_anchors obj;
   endgroup
