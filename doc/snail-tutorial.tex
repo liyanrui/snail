@@ -14,7 +14,7 @@
 
 \subject{Introduction}
 
-Maybe everyone knows MetaPost is great at drawing accurate science diagrams. But that's not the whole story! Think of it this way, it's actually a programming language for drawing vector graphics with simple syntax. You can write code to create the same great things as in those industry software (e.g., Adobe Illustrator, CorelDraw or Inkscape).
+Maybe everyone knows MetaPost is great at drawing accurate science diagrams. But that's not the whole story. Think of it this way, it's actually a programming language for drawing vector graphics with simple syntax. You can write code to create the same great things as in those industry software (e.g., Adobe Illustrator, CorelDraw or Inkscape).
 
 Don't believe the above claim I made. Let's be real. I've never worked as a graphic designer. Visual tools are much faster and easier for design work than coding with MetaPost. Exactly like how most pepole prefer movies over books these days for storytelling.
 
@@ -24,9 +24,7 @@ This module is named \boxquote{snail}. True to its name, it's slow at drawing di
 
 Its development has been even slower. Around 2018, while properly learning MetaPost for the first time, I wrote the version 1 as practice work. It did not work well. In fact, after finishing it, I showed it off to a few friends then never used it again. In 2023, I relearned MetaPost and created the version 2. This one actually worked---I'd say it worked well. But I discovered MetaPost supports Chinese variable and macro names, so I built this version as a Chinese diagramming language. Both the variables and macros got quirky Chinese names. That's why I've never showed it to anyone since finishing it.
 
-\useURL[ctxnotes][https://github.com/liyanrui/ConTeXt-notes]
-
-Seven years gone in a blink and it's already 2025. Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. Along the way, third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
+Seven years gone in a blink and it's already 2025. Honestly I've achieved nothing remarkable. Feeling low, I revisited MetaPost and wrote some documentation. Along the way, the third version of snail took shape. Maybe this is all I'm capable of, simple tools for simple needs.
 
 \section{First Snail Diagram}
 
@@ -39,7 +37,9 @@ This is the smallest snail drawing environment:
 \stopMPpage
 \stopTEX
 
-To work with the snail module, you need \ConTeXt\ LMTX. All that's left is to write some MetaPost code inside the \type{MPpage} environment. To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
+All that's left is to write some MetaPost code inside the \type{MPpage} environment.
+
+To compile a \TEX\ source file \boxquote{foo.tex} into \boxquote{foo.pdf}, in your terminal or comand window, you can excute the command 
 
 \starttyping
 context foo.tex
@@ -144,14 +144,14 @@ showsnails a;
 \stopexample
 \example[option=MP][debug]{Node debug mode}{\externalfigure[figures/06.pdf]}
 
-With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a from b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
+With help of anchor points, you can position a node by relative displacement with the snail syntax \boxquote{\type{put node at a aligned b}}. Example \in[put-at] aligns the anchor point \type{bar.anchors[2][4]} with the anchor point \type{foo.anchors[2][8]}.
 
 \startexample
 snail_t foo, bar;
 snail(foo, "foo");
 snail(bar, "bar");
 put bar at foo.anchors[2][8]
-        from bar.anchors[2][4];
+        aligned bar.anchors[2][4];
 snailenv.set("debug", true);
 showsnails foo, bar;
 \stopexample
@@ -476,7 +476,7 @@ snail_t empty, foo, bar;
 slug(empty, "");
 snail(foo, "i am foo");
 
-put empty at foo.anchors[2][2] from empty.anchors[2][6];
+put empty at foo.anchors[2][2] aligned empty.anchors[2][6];
 snail(bar, "i am bar") at empty.anchors[2][2] from bar.anchors[2][6];
 
 snailenv.set("debug", true);
