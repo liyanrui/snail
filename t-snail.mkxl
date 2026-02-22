@@ -342,18 +342,13 @@ enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]
-def put suffix obj =
-  do_put(obj)
-enddef;
-def do_put(suffix obj) text there =
-  obj := obj there;
+def put (suffix obj, anchor) text there =
+  show str obj & "." & str anchor;
+  obj := (obj shifted -scantokens(str obj & "." & str anchor)) there;
   make_anchors obj;
 enddef;
 
-def at text somthing = shifted (somthing) enddef;
-primarydef a aligned b =
-   a - b
-enddef;
+def at text something = shifted (something) enddef;
 \stopMPinclusions
 
 \startMPinclusions[+]

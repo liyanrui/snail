@@ -1,0 +1,2095 @@
+local utilitydata = { }
+
+utilitydata.comment={
+ ["escape"]="[===[ ... ]===]",
+ ["file"]="snail-tutorial",
+ ["format"]="cont-en",
+ ["stamp"]="2026.02.19 11:49",
+ ["version"]=0x1.547ae147ae148p+0,
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.variables then utilitydata.job.variables = { } end
+
+utilitydata.job.variables.checksums={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.variables then utilitydata.job.variables = { } end
+
+utilitydata.job.variables.collected={
+ ["macros"]={},
+ ["randomseed"]=0x1.545a8102dcbp-5,
+ ["sectionblockorder"]={},
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.structure then utilitydata.job.structure = { } end
+
+utilitydata.job.structure.collected={
+ ["branches"]={},
+ ["name"]="",
+ ["type"]="text",
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.positions then utilitydata.job.positions = { } end
+
+utilitydata.job.positions.collected={
+ ["columnarea"]={
+  {
+   ["c"]=1,
+   ["i"]=1,
+   ["p"]=1,
+   ["x"]=5594039,
+  },
+  {
+   ["c"]=2,
+   ["i"]=1,
+   ["p"]=1,
+   ["x"]=20168961,
+  },
+ },
+ ["free"]={
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=10637804,
+   ["k"]=1,
+   ["p"]=2,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=12961703,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=7262118,
+   ["k"]=1,
+   ["p"]=3,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=25251632,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8540652,
+   ["k"]=1,
+   ["p"]=3,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=4096612,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9092182,
+   ["k"]=1,
+   ["p"]=4,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=31917408,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=12614909,
+   ["k"]=1,
+   ["p"]=4,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=10372653,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8393476,
+   ["k"]=1,
+   ["p"]=5,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=41393476,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=15385229,
+   ["k"]=1,
+   ["p"]=5,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=20996055,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=10637804,
+   ["k"]=1,
+   ["p"]=5,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=6394635,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8131660,
+   ["k"]=1,
+   ["p"]=6,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=23535900,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8540652,
+   ["k"]=1,
+   ["p"]=6,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=8934480,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=7928621,
+   ["k"]=1,
+   ["p"]=7,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=41858331,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=6443500,
+   ["k"]=1,
+   ["p"]=7,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=30402639,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=6063964,
+   ["k"]=1,
+   ["p"]=7,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=18277907,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=10782593,
+   ["k"]=1,
+   ["p"]=8,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=39004359,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8540652,
+   ["k"]=1,
+   ["p"]=8,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=24336163,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9991349,
+   ["k"]=1,
+   ["p"]=8,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=4022966,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=7503707,
+   ["k"]=1,
+   ["p"]=9,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=36489313,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9589228,
+   ["k"]=1,
+   ["p"]=9,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=16258053,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=5394924,
+   ["k"]=1,
+   ["p"]=9,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=7952781,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=8540652,
+   ["k"]=1,
+   ["p"]=10,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=34399100,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9595374,
+   ["k"]=1,
+   ["p"]=10,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=18742958,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=15998841,
+   ["k"]=1,
+   ["p"]=11,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=20520477,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9589228,
+   ["k"]=1,
+   ["p"]=13,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=36254117,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=9589228,
+   ["k"]=1,
+   ["p"]=13,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=20644139,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=16204604,
+   ["k"]=1,
+   ["p"]=14,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=23306304,
+  },
+  {
+   ["bo"]=786432,
+   ["d"]=293600,
+   ["h"]=17459410,
+   ["k"]=1,
+   ["p"]=15,
+   ["to"]=786432,
+   ["w"]=27970197,
+   ["x"]=5594039,
+   ["y"]=22195678,
+  },
+ },
+ ["p"]={
+  {
+   ["i"]=1,
+   ["p"]=1,
+   ["r"]="textarea:1",
+   ["y"]=46218658,
+  },
+  44383650,
+  42286498,
+  {
+   ["i"]=2,
+   ["p"]=1,
+   ["r"]="columnarea:1",
+   ["y"]=42286498,
+  },
+  40844706,
+  39402914,
+  37961122,
+  36519330,
+  35077538,
+  {
+   ["i"]=3,
+   ["p"]=1,
+   ["r"]="columnarea:2",
+   ["y"]=42286498,
+  },
+  40844706,
+  39402914,
+  37961122,
+  36519330,
+  35077538,
+  {
+   ["i"]=1,
+   ["p"]=1,
+   ["r"]="textarea:1",
+   ["y"]=30490018,
+  },
+  24853922,
+  20266402,
+  13581730,
+  12139938,
+  {
+   ["i"]=1,
+   ["p"]=2,
+   ["r"]="textarea:2",
+   ["y"]=49000520,
+  },
+  41484441,
+  36252524,
+  34898007,
+  33475348,
+  30341369,
+  28986852,
+  27053933,
+  25699416,
+  8591352,
+  4022965,
+  {
+   ["i"]=1,
+   ["p"]=3,
+   ["r"]="textarea:3",
+   ["y"]=48685948,
+  },
+  47308724,
+  44146046,
+  42768822,
+  40278454,
+  33593782,
+  23416624,
+  15814448,
+  {
+   ["i"]=1,
+   ["p"]=4,
+   ["r"]="textarea:4",
+   ["y"]=49000520,
+  },
+  41796022,
+  30082400,
+  23773994,
+  8537645,
+  {
+   ["i"]=1,
+   ["p"]=5,
+   ["r"]="textarea:5",
+   ["y"]=39558468,
+  },
+  19161047,
+  {
+   ["i"]=1,
+   ["p"]=6,
+   ["r"]="textarea:6",
+   ["y"]=47165512,
+  },
+  39432264,
+  34844744,
+  21700892,
+  {
+   ["i"]=1,
+   ["p"]=7,
+   ["r"]="textarea:7",
+   ["y"]=40023323,
+  },
+  28567631,
+  16442899,
+  4891613,
+  {
+   ["i"]=1,
+   ["p"]=8,
+   ["r"]="textarea:8",
+   ["y"]=37291766,
+  },
+  34883008,
+  22623570,
+  18117660,
+  {
+   ["i"]=1,
+   ["p"]=9,
+   ["r"]="textarea:9",
+   ["y"]=47167858,
+  },
+  34656651,
+  31119271,
+  14425391,
+  6120119,
+  {
+   ["i"]=1,
+   ["p"]=10,
+   ["r"]="textarea:10",
+   ["y"]=47165512,
+  },
+  32564092,
+  16907950,
+  5355878,
+  {
+   ["i"]=1,
+   ["p"]=11,
+   ["r"]="textarea:11",
+   ["y"]=43443068,
+  },
+  37300771,
+  16078965,
+  10976598,
+  9603313,
+  7493404,
+  6120119,
+  {
+   ["i"]=1,
+   ["p"]=12,
+   ["r"]="textarea:12",
+   ["y"]=49000520,
+  },
+  44413000,
+  12938770,
+  8775922,
+  5236978,
+  {
+   ["i"]=1,
+   ["p"]=13,
+   ["r"]="textarea:13",
+   ["y"]=34439118,
+  },
+  16247719,
+  12055688,
+  10694296,
+  8217268,
+  {
+   ["i"]=1,
+   ["p"]=14,
+   ["r"]="textarea:14",
+   ["y"]=40297340,
+  },
+  18849856,
+  7307216,
+  {
+   ["i"]=1,
+   ["p"]=15,
+   ["r"]="textarea:15",
+   ["y"]=43443068,
+  },
+  40441520,
+  17739230,
+  14200286,
+ },
+ ["page"]={
+  {
+   ["h"]=55380990,
+   ["w"]=39158276,
+   ["x"]=0,
+   ["y"]=0,
+  },
+ },
+ ["shared"]={
+  ["x_h_d"]={},
+  ["x_h_d_hs"]={
+   {
+    ["d"]=293600,
+    ["h"]=754976,
+    ["hs"]=27970197,
+    ["x"]=5594039,
+   },
+   {
+    ["d"]=293600,
+    ["h"]=754976,
+    ["hs"]=13395275,
+    ["x"]=5594039,
+   },
+   {
+    ["d"]=293600,
+    ["h"]=754976,
+    ["hs"]=13395275,
+    ["x"]=20168961,
+   },
+  },
+  ["x_y_w_h"]={
+   {
+    ["h"]=46057587,
+    ["w"]=27970197,
+    ["x"]=5594039,
+    ["y"]=3729365,
+   },
+  },
+  ["y_w_h_d"]={
+   {
+    ["d"]=293600,
+    ["h"]=8095008,
+    ["w"]=13395275,
+    ["y"]=34946466,
+   },
+  },
+ },
+ ["text"]={
+  {
+   ["i"]=1,
+   ["p"]=1,
+  },
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+ },
+ ["textarea"]={
+  {
+   ["i"]=1,
+   ["p"]=1,
+  },
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+ },
+ ["user"]={},
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.datasets then utilitydata.job.datasets = { } end
+
+utilitydata.job.datasets.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.pagestates then utilitydata.job.pagestates = { } end
+
+utilitydata.job.pagestates.collected={
+ ["float"]={ 2, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 11, 13, 13, 14, 15 },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.specials then utilitydata.structures.specials = { } end
+
+utilitydata.structures.specials.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.sections then utilitydata.structures.sections = { } end
+
+utilitydata.structures.sections.collected={
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["hidenumber"]=true,
+  ["language"]="en",
+  ["numbers"]=1,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=2,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=3,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=4,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=5,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=6,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=7,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=8,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=9,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=10,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["language"]="en",
+  ["numbers"]=11,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+ {
+  ["block"]="bodypart",
+  ["conversionset"]="default",
+  ["hidenumber"]=true,
+  ["language"]="en",
+  ["numbers"]=11,
+  ["separatorset"]="default",
+  ["set"]="all",
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.counters then utilitydata.structures.counters = { } end
+
+utilitydata.structures.counters.collected={
+ ["Example"]={
+  { 0, 0, 26 },
+ },
+ ["chemical"]={
+  { 0, 0 },
+ },
+ ["combination"]={
+  { 0 },
+ },
+ ["endnote"]={
+  { 0 },
+ },
+ ["figure"]={
+  { 0, 0 },
+ },
+ ["float"]={
+  { 0, 0 },
+ },
+ ["footnote"]={
+  { 0 },
+ },
+ ["formula"]={
+  { 0, 0 },
+ },
+ ["graphic"]={
+  { 0, 0 },
+ },
+ ["intermezzo"]={
+  { 0, 0 },
+ },
+ ["itemgroup:itemize"]={
+  { 0, 0 },
+ },
+ ["itemgroup:itemize:note"]={
+  { 0, 0 },
+ },
+ ["linenote"]={
+  { 0 },
+ },
+ ["mathnote"]={
+  { 0 },
+ },
+ ["paragraph"]={
+  { 0, 0 },
+ },
+ ["publicationnote"]={
+  { 0 },
+ },
+ ["realpage"]={
+  { 16 },
+ },
+ ["subpage"]={
+  { 16 },
+ },
+ ["table"]={
+  { 0, 0 },
+ },
+ ["textnote:note"]={
+  { 0 },
+ },
+ ["userpage"]={
+  { 16 },
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.lists then utilitydata.structures.lists = { } end
+
+utilitydata.structures.lists.collected={
+ {
+  ["metadata"]=12,
+  ["numberdata"]=14,
+  ["references"]={
+   ["internal"]=1,
+   ["realpage"]=1,
+   ["section"]=0,
+   ["x"]=33564236,
+   ["y"]=48840098,
+  },
+  ["titledata"]={
+   ["bookmark"]="The Snail Module",
+   ["label"]="chapter",
+   ["title"]="The Snail Module",
+  },
+ },
+ {
+  ["metadata"]=15,
+  ["numberdata"]=16,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=2,
+   ["realpage"]=1,
+   ["section"]=1,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=32325026,
+  },
+  ["titledata"]={
+   ["bookmark"]="Introduction",
+   ["label"]="section",
+   ["title"]="Introduction",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=18,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=3,
+   ["realpage"]=2,
+   ["section"]=2,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=43290750,
+  },
+  ["titledata"]={
+   ["bookmark"]="First Snail Diagram",
+   ["label"]="section",
+   ["title"]="First Snail Diagram",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=21,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=4,
+   ["realpage"]=2,
+   ["reference"]="first-diagram",
+   ["section"]=2,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=23599507,
+  },
+  ["titledata"]={
+   ["title"]="Your first diagram",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=23,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=5,
+   ["realpage"]=2,
+   ["section"]=3,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=10397661,
+  },
+  ["titledata"]={
+   ["bookmark"]="Nodes",
+   ["label"]="section",
+   ["title"]="Nodes",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=25,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=6,
+   ["realpage"]=3,
+   ["reference"]="kinds-of-nodes",
+   ["section"]=3,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=32513750,
+  },
+  ["titledata"]={
+   ["title"]="Three kinds of nodes",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=26,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=7,
+   ["realpage"]=3,
+   ["section"]=4,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=17649456,
+  },
+  ["titledata"]={
+   ["bookmark"]="Anchors",
+   ["label"]="section",
+   ["title"]="Anchors",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=28,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=8,
+   ["realpage"]=3,
+   ["reference"]="center-anchor",
+   ["section"]=4,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=12637264,
+  },
+  ["titledata"]={
+   ["title"]="Center anchor",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=30,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=9,
+   ["realpage"]=4,
+   ["reference"]="first-anchor-level",
+   ["section"]=4,
+   ["view"]="standard",
+   ["x"]=12120425,
+   ["y"]=41009590,
+  },
+  ["titledata"]={
+   ["title"]="First anchor level",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=32,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=10,
+   ["realpage"]=4,
+   ["reference"]="second-anchor-level",
+   ["section"]=4,
+   ["view"]="standard",
+   ["x"]=12120448,
+   ["y"]=22987562,
+  },
+  ["titledata"]={
+   ["title"]="Second anchor level",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=34,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=11,
+   ["realpage"]=5,
+   ["reference"]="debug",
+   ["section"]=4,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=49786952,
+  },
+  ["titledata"]={
+   ["title"]="Node debug mode",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=36,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=12,
+   ["realpage"]=5,
+   ["reference"]="put-at",
+   ["section"]=4,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=36381284,
+  },
+  ["titledata"]={
+   ["title"]="Node relative displacement",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=38,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=13,
+   ["realpage"]=5,
+   ["reference"]="own-anchor",
+   ["section"]=4,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=17032439,
+  },
+  ["titledata"]={
+   ["title"]="Your own names for anchor points",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=39,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=14,
+   ["realpage"]=6,
+   ["section"]=5,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=49000520,
+  },
+  ["titledata"]={
+   ["bookmark"]="Regular Paths",
+   ["label"]="section",
+   ["title"]="Regular Paths",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=41,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=15,
+   ["realpage"]=6,
+   ["reference"]="xto-and-yto",
+   ["section"]=5,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=31667560,
+  },
+  ["titledata"]={
+   ["title"]="Simplest regular paths",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=43,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=16,
+   ["realpage"]=6,
+   ["reference"]="xyto-and-yxto",
+   ["section"]=5,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=17475132,
+  },
+  ["titledata"]={
+   ["title"]="Regular paths with single turn",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=45,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=17,
+   ["realpage"]=7,
+   ["reference"]="complex-paths",
+   ["section"]=5,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=49786952,
+  },
+  ["titledata"]={
+   ["title"]="Regular paths with single turn",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=47,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=18,
+   ["realpage"]=7,
+   ["reference"]="two-turns",
+   ["section"]=5,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=36846139,
+  },
+  ["titledata"]={
+   ["title"]="Regular paths with two turns",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=49,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=19,
+   ["realpage"]=7,
+   ["reference"]="road",
+   ["section"]=5,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=24341871,
+  },
+  ["titledata"]={
+   ["title"]="Smoothed paths",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=51,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=20,
+   ["realpage"]=8,
+   ["section"]=5,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=49786952,
+  },
+  ["titledata"]={
+   ["title"]="Curve paths",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=53,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=21,
+   ["realpage"]=8,
+   ["reference"]="closed-curve",
+   ["section"]=5,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=32876815,
+  },
+  ["titledata"]={
+   ["title"]="Closed curve",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=55,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=22,
+   ["realpage"]=8,
+   ["reference"]="crossing",
+   ["section"]=5,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=14014315,
+  },
+  ["titledata"]={
+   ["title"]="Crossing paths",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=56,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=23,
+   ["realpage"]=9,
+   ["section"]=6,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=49000520,
+  },
+  ["titledata"]={
+   ["bookmark"]="Annotation",
+   ["label"]="section",
+   ["title"]="Annotation",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=58,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=24,
+   ["realpage"]=9,
+   ["reference"]="annotation",
+   ["section"]=6,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=43993020,
+  },
+  ["titledata"]={
+   ["title"]="Path annotations",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=60,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=25,
+   ["realpage"]=9,
+   ["reference"]="path-section",
+   ["section"]=6,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=25847281,
+  },
+  ["titledata"]={
+   ["title"]="Path section",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=62,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=26,
+   ["realpage"]=9,
+   ["reference"]="section-label",
+   ["section"]=6,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=13347705,
+  },
+  ["titledata"]={
+   ["title"]="Placing annotation on section",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=63,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=27,
+   ["realpage"]=10,
+   ["section"]=7,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=49000520,
+  },
+  ["titledata"]={
+   ["bookmark"]="Irregular Nodes",
+   ["label"]="section",
+   ["title"]="Irregular Nodes",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=65,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=28,
+   ["realpage"]=10,
+   ["reference"]="ellipse-node",
+   ["section"]=7,
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=42939752,
+  },
+  ["titledata"]={
+   ["title"]="Ellipse node",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=67,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=29,
+   ["realpage"]=10,
+   ["reference"]="more-strange",
+   ["section"]=7,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=28338332,
+  },
+  ["titledata"]={
+   ["title"]="More irregular nodes",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=69,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=30,
+   ["realpage"]=11,
+   ["reference"]="starfish",
+   ["section"]=7,
+   ["view"]="standard",
+   ["x"]=12153814,
+   ["y"]=36519318,
+  },
+  ["titledata"]={
+   ["title"]="Starfish node",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=70,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=31,
+   ["realpage"]=11,
+   ["section"]=8,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=17908994,
+  },
+  ["titledata"]={
+   ["bookmark"]="Module Parameters",
+   ["label"]="section",
+   ["title"]="Module Parameters",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=71,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=32,
+   ["realpage"]=12,
+   ["section"]=9,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=10610930,
+  },
+  ["titledata"]={
+   ["bookmark"]="Tail Transforms",
+   ["label"]="section",
+   ["title"]="Tail Transforms",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=73,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=33,
+   ["realpage"]=13,
+   ["reference"]="node-tail-trans",
+   ["section"]=9,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=45843345,
+  },
+  ["titledata"]={
+   ["title"]="Node tail transforms",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=75,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=34,
+   ["realpage"]=13,
+   ["reference"]="annotation-tail-trans",
+   ["section"]=9,
+   ["used"]="standard",
+   ["view"]="standard",
+   ["x"]=5594039,
+   ["y"]=30233367,
+  },
+  ["titledata"]={
+   ["title"]="Annotation tail transforms",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=76,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=35,
+   ["realpage"]=13,
+   ["section"]=10,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=18062718,
+  },
+  ["titledata"]={
+   ["bookmark"]="Empty node",
+   ["label"]="section",
+   ["title"]="Empty node",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=78,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=36,
+   ["realpage"]=14,
+   ["reference"]="empty-node",
+   ["section"]=10,
+   ["view"]="standard",
+   ["x"]=9726335,
+   ["y"]=39510908,
+  },
+  ["titledata"]={
+   ["title"]="Empty node usage",
+  },
+ },
+ {
+  ["metadata"]=17,
+  ["numberdata"]=79,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=37,
+   ["realpage"]=14,
+   ["section"]=11,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=20684864,
+  },
+  ["titledata"]={
+   ["bookmark"]="A Few Examples",
+   ["label"]="section",
+   ["title"]="A Few Examples",
+  },
+ },
+ {
+  ["metadata"]=19,
+  ["numberdata"]=81,
+  ["prefixdata"]=22,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=38,
+   ["realpage"]=15,
+   ["section"]=11,
+   ["view"]="standard",
+   ["x"]=11581238,
+   ["y"]=39655088,
+  },
+  ["titledata"]={
+   ["title"]="Commutative diagram",
+  },
+ },
+ {
+  ["metadata"]=15,
+  ["numberdata"]=82,
+  ["references"]={
+   ["block"]="bodypart",
+   ["internal"]=39,
+   ["realpage"]=15,
+   ["section"]=12,
+   ["used"]="standard",
+   ["x"]=33564236,
+   ["y"]=19574238,
+  },
+  ["titledata"]={
+   ["bookmark"]="Afterword",
+   ["label"]="section",
+   ["title"]="Afterword",
+  },
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.pages then utilitydata.structures.pages = { } end
+
+utilitydata.structures.pages.collected={
+ {
+  ["block"]="bodypart",
+  ["number"]=1,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=2,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=3,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=4,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=5,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=6,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=7,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=8,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=9,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=10,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=11,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=12,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=13,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=14,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+ {
+  ["block"]="bodypart",
+  ["number"]=15,
+  ["numberdata"]=83,
+  ["prefixdata"]=84,
+  ["state"]="start",
+ },
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.references then utilitydata.structures.references = { } end
+
+utilitydata.structures.references.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.references then utilitydata.structures.references = { } end
+
+utilitydata.structures.references.referred={
+ { 1, 1 },
+ { 5, 15 },
+ { 6, 17 },
+ { 6, 19 },
+ { 6, 21 },
+ { 6, 23 },
+ { 6, 25 },
+ { 9, 27 },
+ { 9, 29 },
+ { 9, 31 },
+ { 9, 33 },
+ { 10, 35 },
+ { 13, 37 },
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.parwrappers then utilitydata.job.parwrappers = { } end
+
+utilitydata.job.parwrappers.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.objects then utilitydata.job.objects = { } end
+
+utilitydata.job.objects.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.itemgroups then utilitydata.structures.itemgroups = { } end
+
+utilitydata.structures.itemgroups.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.synonyms then utilitydata.structures.synonyms = { } end
+
+utilitydata.structures.synonyms.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.registers then utilitydata.structures.registers = { } end
+
+utilitydata.structures.registers.collected={
+}
+
+if not utilitydata.structures then utilitydata.structures = { } end
+if not utilitydata.structures.blocks then utilitydata.structures.blocks = { } end
+
+utilitydata.structures.blocks.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.linkedlists then utilitydata.job.linkedlists = { } end
+
+utilitydata.job.linkedlists.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.files then utilitydata.job.files = { } end
+
+utilitydata.job.files.collected={
+}
+
+if not utilitydata.publications then utilitydata.publications = { } end
+
+utilitydata.publications.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.meshedup then utilitydata.job.meshedup = { } end
+
+utilitydata.job.meshedup.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.fileobjreferences then utilitydata.job.fileobjreferences = { } end
+
+utilitydata.job.fileobjreferences.collected={
+}
+
+if not utilitydata.job then utilitydata.job = { } end
+if not utilitydata.job.embedded then utilitydata.job.embedded = { } end
+
+utilitydata.job.embedded.collected={
+}
+
+utilitydata.job.packed={
+ ["index"]={
+  { 0, 0, 0 },
+  { 0, 0, 1 },
+  { 0, 0, 2 },
+  { 0, 0, 3 },
+  { 0, 0, 4 },
+  { 0, 0, 5 },
+  { 0, 0, 6 },
+  { 0, 0, 7 },
+  { 0, 0, 8 },
+  { 0, 0, 9 },
+  { 0, 0, 10 },
+  {
+   ["catcodes"]=9,
+   ["coding"]="tex",
+   ["kind"]="section",
+   ["level"]=2,
+   ["name"]="title",
+   ["nolist"]=true,
+  },
+  { 0, 0 },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["hidenumber"]=true,
+   ["language"]="en",
+   ["numbers"]=13,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["catcodes"]=9,
+   ["coding"]="tex",
+   ["kind"]="section",
+   ["level"]=3,
+   ["name"]="subject",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["hidenumber"]=true,
+   ["language"]="en",
+   ["numbers"]=1,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["catcodes"]=9,
+   ["coding"]="tex",
+   ["increment"]="yes",
+   ["kind"]="section",
+   ["level"]=3,
+   ["name"]="section",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=2,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["catcodes"]=9,
+   ["coding"]="tex",
+   ["kind"]="float",
+   ["level"]=3,
+   ["name"]="Example",
+  },
+  { 1 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=20,
+  },
+  {
+   ["connector"]=".",
+   ["prefix"]="yes",
+   ["segments"]="2:2",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=3,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 2 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=24,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=4,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 3 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=27,
+  },
+  { 4 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=29,
+  },
+  { 5 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=31,
+  },
+  { 6 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=33,
+  },
+  { 7 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=35,
+  },
+  { 8 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=37,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=5,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 9 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=40,
+  },
+  { 10 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=42,
+  },
+  { 11 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=44,
+  },
+  { 12 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=46,
+  },
+  { 13 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=48,
+  },
+  { 14 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=50,
+  },
+  { 15 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=52,
+  },
+  { 16 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=54,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=6,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 17 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=57,
+  },
+  { 18 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=59,
+  },
+  { 19 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=61,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=7,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 20 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=64,
+  },
+  { 21 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=66,
+  },
+  { 22 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=68,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=8,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=9,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 23 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=72,
+  },
+  { 24 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=74,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=10,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 25 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=77,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["language"]="en",
+   ["numbers"]=11,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  { 26 },
+  {
+   ["conversionset"]="subfloats",
+   ["counter"]="Example",
+   ["level"]=1,
+   ["numbers"]=80,
+  },
+  {
+   ["block"]="bodypart",
+   ["conversionset"]="default",
+   ["hidenumber"]=true,
+   ["language"]="en",
+   ["numbers"]=11,
+   ["separatorset"]="default",
+   ["set"]="all",
+  },
+  {
+   ["conversionset"]="pagenumber",
+  },
+  {
+   ["connector"]="–",
+   ["prefix"]="no",
+   ["set"]="part",
+  },
+ },
+ ["keys"]={
+  ["directives"]=true,
+  ["metadata"]=true,
+  ["numberdata"]=true,
+  ["numbers"]=true,
+  ["ownnumbers"]=true,
+  ["pagedata"]=true,
+  ["prefixdata"]=true,
+  ["processors"]=true,
+  ["sectiondata"]=true,
+  ["specification"]=true,
+ },
+ ["skip"]={
+  ["datasets"]=true,
+  ["positions"]=true,
+  ["userdata"]=true,
+ },
+ ["version"]=0x1.051eb851eb852p+0,
+}
+
+return utilitydata
