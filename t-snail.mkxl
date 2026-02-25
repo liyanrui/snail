@@ -343,8 +343,7 @@ enddef;
 
 \startMPinclusions[+]
 def put (suffix obj, anchor) text there =
-  show str obj & "." & str anchor;
-  obj := (obj shifted -scantokens(str obj & "." & str anchor)) there;
+  obj := (obj shifted -obj.anchor) there;
   make_anchors obj;
 enddef;
 
