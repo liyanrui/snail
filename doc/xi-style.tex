@@ -1,0 +1,76 @@
+\startenvironment xi-style
+\usemodule[zhfonts]
+\setupzhfonts[mono][regular=simkai]
+\usecolors[crayola] % 使用更为丰富的颜色
+
+\setuppapersize[A4][A4]
+\setuplayout[backspace=2cm,width=17cm,
+             topspace=0cm,header=1cm,
+             height=29cm,footer=1cm]
+
+\setuppagenumbering[alternative=singlesided, location=right]
+%\showframe
+\setupindenting[first,always,2em]
+% 行距:1.5 倍的正文字体尺寸,即1.5 * 10.5pt
+\setupinterlinespace[line=15.75pt]
+
+\def\calleecolor{darkblue}
+\setupinteraction[state=start,
+                  focus=standard,
+                  color=\calleecolor,
+                  contrastcolor=\calleecolor]
+
+% 抄録环境的设置
+\setuptyping[bodyfont=9pt,escape=yes,lines=no]
+\def\cfunc#1{\color[darkred]{\m{\langle\text{\type{#1}}\rangle}}}
+\def\cmacro#1{\cfunc{#1}}
+\def\ctype#1{\cfunc{#1}}
+\def\cvar#1{\cfunc{#1}}
+\def\cfrag#1{\cfunc{#1}}
+
+% Bash
+\definetyping[BASH]
+% C
+\definetyping[C]
+% PYTHON
+\definetyping[PYTHON]
+
+% 参考文献
+%\setupbibtex[database=ref]
+%\setuppublications[alternative=lyr]
+%\def\Cite#1{\high{\small\cite[#1]}}
+
+
+% 标题
+\setupheads[indentnext=yes]
+\definepagebreak[headpagebreak][yes, header, footer, odd]
+\setuphead[chapter,title][style=\bfc, align=center]
+\setuphead[section, subject][style=\bfb]
+\setuphead[subsection, subsubject][style=\bfa]
+\definehead[preface][title]
+\definehead[appendix][subject]
+\setuphead[title,chapter][header=empty,footer=empty]
+% 书签
+\setupinteractionscreen[option=bookmark]
+\placebookmarks
+  [preface, subject, title, chapter,section, subsection, subsubsection, appendix][force=yes]
+
+% 列表
+\setupitemize[packed]
+
+% 目录
+\setupcombinedlist[content][alternative=c,interaction=pagenumber,list={title,chapter,section}]
+\setuphead[title][incrementnumber=list]
+\definehead[TOC][title]
+\setuplist[title,chapter][style=bold,pagenumber=no,
+                          before={\blank[halfline]}, after={\blank[halfline]}]
+% misc
+\setupcaptions[style=\tfx,headstyle=\normal,align={broad,middle}]
+
+% 脚注里的中文断行
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][textstyle=bold,setups={footnote:hanzi}]
+\setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
+\stopenvironment
