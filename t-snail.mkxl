@@ -425,6 +425,26 @@ def showdashedroads text paths =
     drawoptions();
     endgroup
 enddef;
+vardef connect(suffix a, b) =
+    save p, a_c, b_c, thi, comp;
+    path p; pair a_c, b_c, comp; numeric thi;
+    a_c := center a; b_c := center b;
+    p := a_c -- b_c;
+    thi := snailmod.get("path.thickness");
+    comp := thi * unitvector(b_c - a_c); % 边框线宽补偿
+    show comp;
+    if known a.frame:
+        p := p cutbefore (a.frame shifted comp);
+    else:
+        p := p cutbefore (boundingbox a);
+    fi;
+    if known b.frame:
+        p := p cutafter (b.frame shifted -comp);
+    else:
+        p := p cutafter (boundingbox b);
+    fi;
+    p
+enddef;
 vardef tag(expr p, f, s) text somewhere =
     save pic_s, c, v;
     picture pic_s; pair c, v[];
