@@ -1,10 +1,6 @@
-# Snail
-
 The **snail** package is a MetaPost module within the ConTeXt LMTX environment, designed for creating flowcharts and similar procedural graphics.
 
 ![Demo](demo.png)
-
-## Installation
 
 Assuming you have properly installed the ConTeXt LMTX environment following the [installation instructions](https://wiki.contextgarden.net/Introduction/Installation) on the ConTeXt wiki, and that your ConTeXt LMTX installation directory is `/opt/context`, proceed with the installation as follows:
 
@@ -17,9 +13,4 @@ $ cp t-snail.mkxl $SNAIPATH
 $ context --generate
 ```
 
-## Tutorial
-
-An English guide is available in `doc` directory. It's the snail-tutorial.pdf file.
-
-There also is a Chinese guide is available at https://zhuanlan.zhihu.com/p/1938871262509273817
 
