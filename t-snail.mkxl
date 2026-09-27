@@ -41,12 +41,12 @@ def snail_mod_set(expr k, v) =
     endgroup
 enddef;
 def snail_mod_reset(expr parameter) =
-    if parameter = "frame.shape":
-        snailmod.set(parameter, "fullsquare");
-    fi;
-    if parameter = "frame.isotropic":
-        snailmod.set(parameter, false); 
-    fi;
+    if parameter = "frame.shape": snailmod.set(parameter, "fullsquare"); fi;
+    if parameter = "frame.isotropic": snailmod.set(parameter, false); fi;
+    if parameter = "frame.padding": snailmod.set(parameter, ".5BodyFontSize"); fi;
+    if parameter = "frame.margin": snailmod.set(parameter, "2BodyFontSize"); fi;
+    if parameter = "frame.color": snailmod.set(parameter, "black"); fi;
+    if parameter = "frame.thickness": snailmod.set(parameter, "1pt"); fi;
     if parameter = "debug":
         snailmod.set(parameter, false);
     fi;

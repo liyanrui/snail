@@ -4,7 +4,7 @@
 {\ssd 蜗行}
 \blank
 {李延瑞（lyr.m2@live.cn）}\\
-{2026.09.01}
+{2026.09.27}
 \blank[14cm]
 \stopstandardmakeup
 
@@ -3923,17 +3923,17 @@ fi
 
 @ 流程图节点 # <snailmod 后缀宏> ^+
 def snail_mod_reset(expr parameter) =
-    if parameter = "frame.shape":
-        snailmod.set(parameter, "fullsquare");
-    fi;
-    if parameter = "frame.isotropic":
-        snailmod.set(parameter, false); 
-    fi;
+    if parameter = "frame.shape": snailmod.set(parameter, "fullsquare"); fi;
+    if parameter = "frame.isotropic": snailmod.set(parameter, false); fi;
+    if parameter = "frame.padding": snailmod.set(parameter, ".5BodyFontSize"); fi;
+    if parameter = "frame.margin": snailmod.set(parameter, "2BodyFontSize"); fi;
+    if parameter = "frame.color": snailmod.set(parameter, "black"); fi;
+    if parameter = "frame.thickness": snailmod.set(parameter, "1pt"); fi;
     # 扩充 snail_mod_reset 宏 @
 enddef;
 @
 
-\noindent 上述宏定义里只提供了 \type{snailmod.frame.shape} 参数的重置实现，至于其他参数，待实现其重置时，再予以扩充。基于 \type{snailmod} 的 \type{reset} 后缀，则上述示例中用于构造椭圆节点的宏可修改为
+\noindent 上述宏定义里预留了扩充区域。基于 \type{snailmod} 的 \type{reset} 后缀，则上述示例中用于构造椭圆节点的宏可修改为
 
 \starttyping
 def ellipse(suffix obj)(expr content) text somewhere =
@@ -5049,6 +5049,20 @@ xi -c your/path/to/ctx.conf -t -e "代码片段名" -o 程序源码文件 snail.
 \subject{小结}
 
 现在，也许你能够明白为何 \type{xi} 程序的名字在汉语是为何是「兮」了。这个程序实际上什么也没有创造，它只是设法将排版系统和编程语言连接了起来，亦即 \type{xi} 的本性为空，它之所以能够存在，是因为排版系统与编程语言的缘起。
+
+
+\title{许可证}
+
+本文学程序由程序代码和文档两部分构成，分别适用不同的自由许可证。
+
+\startitemize
+\item {\bf 程序代码}：本文档及其源文档内的全部程序代码，以 GNU 通用公共许可证（GNU GPL）第 2 版或任何后续版本发布。你可以根据自由软件基金会发布的 GPL 条款重新分发和/或修改这些代码。
+\item {\bf 文档作品}：本文档及其源文档内的说明文字，在 GNU 自由文档许可证（GNU FDL）第 1.3 版或任何后续版本条款下，授予复制、分发和/或修改本文档的许可；无不变章节，无前封面文字，无后封面文字。
+\stopitemize
+
+\useURL[gpl][https://www.gnu.org/licenses/gpl-2.0.html]
+\useURL[gfdl][https://www.gnu.org/licenses/fdl-1.3.html]
+GPL 全文见 \from[gpl]；GFDL 全文见 \from[gfdl]。
 
 \title{后记}
 
