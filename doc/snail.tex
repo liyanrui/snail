@@ -1102,17 +1102,32 @@ drawarrow b xyto c withcolor darkgreen;
 \starttyping
 /BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 xyxto 和 yxyto 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-42]{42}\inoutermargin{\darkred{42}}/ETEX
 tertiarydef a xyxto b =
-    a xyto .5[a, b] yxto b
+    begingroup
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 获取 a 和 b 的中点 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
+    a xyto c yxto b
+    endgroup
 enddef;
 tertiarydef a yxyto b =
-    a yxto .5[a, b] xyto b
+    begingroup
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 获取 a 和 b 的中点 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
+    a yxto c xyto b
+    endgroup
 enddef;
+\stoptyping
+
+\noindent 上述代码中引用的代码片段定义如下：
+
+\starttyping
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 获取 a 和 b 的中点 c }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-43]{43}\inoutermargin{\darkred{43}}/ETEX
+save pa, pb, c; path pa, pb; pair c;
+pa := a; pb := b;
+c := .5[(point (length pa) of pa), (point 0 of pb)];
 \stoptyping
 
 为了方便后文在示例构造正则路径，我将上述定义的一些宏汇集到一起：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则路径宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-43]{43}\inoutermargin{\darkred{43}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则路径宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-44]{44}\inoutermargin{\darkred{44}}/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 xto 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-36]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 yto 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-37]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 xyto 和 yxto 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-40]>/ETEX
@@ -1122,9 +1137,9 @@ enddef;
 以下示例用于演示 \type{xyxto} 和 \type{yxyto} 宏的用法并验证其效果：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 xyxto 和 yxyto 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-44]{44}\inoutermargin{\darkred{44}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 xyxto 和 yxyto 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-45]{45}\inoutermargin{\darkred{45}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义点 a, b 和 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-30]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 画出 a, b, c 并予以标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-32]>/ETEX
 pickup pencircle scaled 1pt;
@@ -1148,7 +1163,7 @@ drawarrow b yxyto c withcolor darkgreen;
 想必你还记得 \in[label] 节所述的 \type{textext} 宏，它能够将文字变为画面——\type{picture} 对象。\METAPOST\ 以字符串类型亦即 \type{string} 类型表达文字。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-45]{45}\inoutermargin{\darkred{45}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-46]{46}\inoutermargin{\darkred{46}}/ETEX
 string hello;
 picture hello_pic;
 hello := "Hello!";
@@ -1162,7 +1177,7 @@ hello_pic := textext(hello);
 \METAFUN\ 提供了 \type{bbwidth} 和 \type{bbheight} 宏，可用于计算路径或画面的宽度和高度，计算结果是数值——\METAPOST\ 用 \type{numeric} 类型表达数值。这两个宏的用法如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-46]{46}\inoutermargin{\darkred{46}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-47]{47}\inoutermargin{\darkred{47}}/ETEX
 numeric w, h;
 w := bbwidth hello_pic;
 h := bbheight hello_pic;
@@ -1171,7 +1186,7 @@ h := bbheight hello_pic;
 \noindent 基于 \type{w} 和 \type{h} 的值，便可为 \type{hello_pic} 构造边框：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 为 hello_pic 构造边框 hello_frame }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-47]{47}\inoutermargin{\darkred{47}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 为 hello_pic 构造边框 hello_frame }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-48]{48}\inoutermargin{\darkred{48}}/ETEX
 path hello_frame;
 hello_frame := (-.5w, -.5h) -- (.5w, -.5h) -- (.5w, .5h) -- (-.5w, .5h) --cycle;
 \stoptyping
@@ -1179,7 +1194,7 @@ hello_frame := (-.5w, -.5h) -- (.5w, -.5h) -- (.5w, .5h) -- (-.5w, .5h) --cycle;
 \noindent 最后将 \type{hello_pic} 和 \type{hello_frame} 合并为一个画面：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-48]{48}\inoutermargin{\darkred{48}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-49]{49}\inoutermargin{\darkred{49}}/ETEX
 picture framed_hello;
 framed_hello := image(
     draw hello_pic;
@@ -1190,12 +1205,12 @@ framed_hello := image(
 \noindent 将上述过程合并到一起，然后画出该过程构造的文本框：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-49]{49}\inoutermargin{\darkred{49}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-50]{50}\inoutermargin{\darkred{50}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-45]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 hello_pic 构造边框 hello_frame }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-47]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-48]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-47]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 hello_pic 构造边框 hello_frame }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-48]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-49]>/ETEX
 draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 \stopMPpage
 \stoptyping
@@ -1205,13 +1220,13 @@ draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 实际上 \METAFUN\ 提供了 \type{boundingbox} 宏，可以简化路径或画面的边框的构造过程，其用法如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ boundingbox 示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-50]{50}\inoutermargin{\darkred{50}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ boundingbox 示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-51]{51}\inoutermargin{\darkred{51}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-45]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-47]>/ETEX
 path hello_frame;
 hello_frame := boundingbox hello_pic;
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-48]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-49]>/ETEX
 draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 \stopMPpage
 \stoptyping
@@ -1221,10 +1236,10 @@ draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 虽然有 \type{boundingbox} 宏，但基于 \type{bbwidth} 和 \type{bbheight} 手动构造边框的方式依然是必须的，因为后者有机会为边框四周增加一些留白。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 有留白的文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-51]{51}\inoutermargin{\darkred{51}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 有留白的文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-52]{52}\inoutermargin{\darkred{52}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-45]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义字符串 hello 并将其变为画面 hello_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-46]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 计算 hello_pic 的宽 w 和高 h }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-47]>/ETEX
 path hello_frame;
 numeric padding;
 padding := 4pt;
@@ -1232,7 +1247,7 @@ hello_frame := (-.5w - padding, -.5h - padding)
                -- (.5w + padding, -.5h - padding)
                -- (.5w + padding, .5h + padding)
                -- (-.5w - padding, .5h + padding) --cycle;
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-48]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 合并 hello_pic 和 hello_frame 为 framed_hello }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-49]>/ETEX
 draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 \stopMPpage
 \stoptyping
@@ -1242,7 +1257,7 @@ draw framed_hello scaled 7; % 放大 7 倍，看得更为清楚
 一旦理解了文本框对象的构造过程，便可将该过程封装为变量宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-52]{52}\inoutermargin{\darkred{52}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-53]{53}\inoutermargin{\darkred{53}}/ETEX
 vardef framed_text(expr s, padding) =
     save s_pic, w, h, s_frame;
     picture s_pic; numeric w, h; path s_frame;
@@ -1261,9 +1276,9 @@ enddef;
 \noindent 宏 \type{framed_text} 的用法如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-53]{53}\inoutermargin{\darkred{53}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-54]{54}\inoutermargin{\darkred{54}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-52]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-53]>/ETEX
 draw framed_text("hello", 4pt) withcolor darkred;
 draw framed_text("world", 4pt) shifted (2cm, 0) withcolor darkblue;
 \stopMPpage
@@ -1349,7 +1364,7 @@ pair foo.center, foo.urcorner, ...
 下面的代码，基于 \type{suffix} 类型的宏参数，定义宏 \type{make_anchors}，用于任意路径或画面对象构造 17 个常用的锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-54]{54}\inoutermargin{\darkred{54}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-55]{55}\inoutermargin{\darkred{55}}/ETEX
 def make_anchors(suffix obj) =
     pair obj.中央, obj.东北, obj.西北, obj.西南, obj.东南;
     pair obj.子门, obj.午门, obj.卯门, obj.酉门;
@@ -1369,10 +1384,10 @@ enddef;
 \noindent 你需要谅解我使用了古奥的十二地支作为锚点的名字，并非我故弄玄虚，而是我实在不如古人善于取名。以下为宏 \type{make_anchors} 的测试代码：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 make_anchors 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-55]{55}\inoutermargin{\darkred{55}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 make_anchors 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-56]{56}\inoutermargin{\darkred{56}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-52]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-54]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-53]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-55]>/ETEX
 picture foo;
 foo := framed_text("Foo", 4pt) scaled 7;
 make_anchors(foo);
@@ -1400,11 +1415,11 @@ endfor;
 有文本框及其锚点，结合正则路径，便可画一些简单的流程图了，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-56]{56}\inoutermargin{\darkred{56}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-57]{57}\inoutermargin{\darkred{57}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-52]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-54]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-53]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 make_anchors 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-55]>/ETEX
 picture foo, bar;
 foo := framed_text("Foo", 4pt);
 bar := framed_text("Bar", 4pt) shifted (6cm, 2cm);
@@ -1434,7 +1449,7 @@ enddef;
 \noindent \METAPOST\ 语言为带后缀的名字提供了专门的 \type{for} 语法，即 \type{forsuffixes}，基于该语法可以遍历一些带后缀的名字甚至后缀本身，故而上述代码可略微简化为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 framed_text_class 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-57]{57}\inoutermargin{\darkred{57}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 framed_text_class 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-58]{58}\inoutermargin{\darkred{58}}/ETEX
 def framed_text_class(suffix name) =
     picture name;
     forsuffixes i = 中央, 东北, 西北, 西南, 东南,
@@ -1455,7 +1470,7 @@ framed_text_class(foo);
 基于类的概念，便可将文本框对象及其锚点的声明和赋值过程分离，从而可以解决 \type{make_anchors} 宏多次调用导致的锚点变量重复声明的问题，故而 \type{make_anchors} 宏可简化为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ make_anchors 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-58]{58}\inoutermargin{\darkred{58}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ make_anchors 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-59]{59}\inoutermargin{\darkred{59}}/ETEX
 def make_anchors(suffix obj) =
     obj.中央 := center obj;
     obj.东北 := urcorner obj; obj.西北 := ulcorner obj;
@@ -1472,7 +1487,7 @@ enddef;
 宏 \type{framed_text} 的定义也要作一些修改，除了省去文本框对象的声明之外，在构造出文本框对象后，顺便算出其锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏的新版本 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-59]{59}\inoutermargin{\darkred{59}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏的新版本 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-60]{60}\inoutermargin{\darkred{60}}/ETEX
 def framed_text(suffix obj)(expr s, padding) =
     save s_pic, w, h, s_frame;
     picture s_pic; numeric w, h; path s_frame;
@@ -1491,7 +1506,7 @@ enddef;
 \noindent 注意，上述宏定义出现了两种宏参数并存的情况，这些参数需要按类型分开写，每种类型的参数放在单独的小括号里。当文本框的位置发生变化时，其锚点应当自动更新，要解决该问题，需要为文本框的定位定义一个宏，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 put_framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-60]{60}\inoutermargin{\darkred{60}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 put_framed_text 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-61]{61}\inoutermargin{\darkred{61}}/ETEX
 def put_framed_text(suffix obj)(expr position) =
    % 先将 obj 复位，即令其中心与原点重合
    obj := obj shifted -obj.中央;
@@ -1505,13 +1520,13 @@ enddef;
 基于上述定义的宏，上一节的流程图示例便可以简化为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar 之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-61]{61}\inoutermargin{\darkred{61}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar 之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-62]{62}\inoutermargin{\darkred{62}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text_class 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-57]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-58]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏的新版本 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-59]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 put_framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-60]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 framed_text_class 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-58]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-59]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏的新版本 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-60]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 put_framed_text 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-61]>/ETEX
 framed_text_class(foo); framed_text(foo, "Foo", 4pt);
 framed_text_class(bar); framed_text(bar, "Bar", 4pt); put_framed_text(bar, (6cm, 2cm));
 draw foo; draw bar;
@@ -1581,7 +1596,7 @@ foo(a); foo a; bar(a); bar a;
 借助 \type{text} 类型参数，能够让 \in[class] 节中 \type{framed_text_class} 在语义上变得更优雅一些，例如令其支持一次声明多个文本框对象：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text_class 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-62]{62}\inoutermargin{\darkred{62}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text_class 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-63]{63}\inoutermargin{\darkred{63}}/ETEX
 def framed_text_class text names =
     forsuffixes i = names:
         picture i;
@@ -1606,7 +1621,7 @@ framed_text_class foo, bar;
 为了在定义文本框时能够直接确定其位置，也为了能随时改变文本框的位置，用一个名字更短的宏 \type{at} 代替 \type{shifted} 是有必要的，亦即
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 at 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-63]{63}\inoutermargin{\darkred{63}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 at 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-64]{64}\inoutermargin{\darkred{64}}/ETEX
 def at text position = shifted (position) enddef;
 \stoptyping
 
@@ -1615,7 +1630,7 @@ def at text position = shifted (position) enddef;
 重新定义 \type{framed_text} 宏，为其增加一个 \type{text} 类型的参数，以接受文本框的位置信息：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-64]{64}\inoutermargin{\darkred{64}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-65]{65}\inoutermargin{\darkred{65}}/ETEX
 def framed_text(suffix obj)(expr s, padding) text somewhere =
     begingroup
     save s_pic, w, h, s_frame;
@@ -1645,7 +1660,7 @@ framed_text(foo, "Foo", 4pt) at (3cm, 2cm);
 重新定义 \type{put_framed_text} 宏，将文本框的位置信息也表示为 \type{text} 类型的参数：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ put_framed_text 宏的新版本 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-65]{65}\inoutermargin{\darkred{65}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ put_framed_text 宏的新版本 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-66]{66}\inoutermargin{\darkred{66}}/ETEX
 def put_framed_text(suffix obj) text somewhere =
    obj := obj shifted -obj.中央;
    obj := obj somewhere;
@@ -1665,11 +1680,11 @@ put_framed_text(foo) at (5cm, 1cm);
 至此 \in[class] 节最后的的示例可进化为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar 之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-66]{66}\inoutermargin{\darkred{66}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-62]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo -> bar 之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-67]{67}\inoutermargin{\darkred{67}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-65]>/ETEX
 framed_text_class foo, bar;
 framed_text(foo, "Foo", 4pt); framed_text(bar, "Bar", 4pt) at (6cm, 2cm);
 draw foo; draw bar;
@@ -1693,7 +1708,7 @@ drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle withcolor darkred;
 第二种曲线路径构造方法是构造穿过某些指定点的曲线，这种曲线称为插值曲线。\METAPOST\ 的 \type{..} 语法可构造插值曲线，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 曲线插值示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-67]{67}\inoutermargin{\darkred{67}}/ETEX 
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 曲线插值示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-68]{68}\inoutermargin{\darkred{68}}/ETEX 
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义点 a, b 和 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-30]>/ETEX
 path p;
@@ -1708,7 +1723,7 @@ draw p withpen pencircle withcolor darkred;
 第三种曲线路径构造方法是让曲线逼近指定的点，即控制点，而非穿过它们。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 曲线逼近示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-68]{68}\inoutermargin{\darkred{68}}/ETEX 
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 曲线逼近示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-69]{69}\inoutermargin{\darkred{69}}/ETEX 
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义点 a, b 和 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-30]>/ETEX
 path p;
@@ -1723,7 +1738,7 @@ draw p withpen pencircle withcolor darkred;
 \indentation 含有一个控制点的曲线段是二次曲线，即抛物线。\METAPOST\ 允许一段曲线最多只能有两个控制点，用于构造三次曲线，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 三次曲线逼近示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-69]{69}\inoutermargin{\darkred{69}}/ETEX 
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 三次曲线逼近示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-70]{70}\inoutermargin{\darkred{70}}/ETEX 
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义点 a, b 和 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-30]>/ETEX
 pair d; d := (8cm, 3cm);
@@ -1743,7 +1758,7 @@ draw d; label.bot("$d$", d);
 若是仅仅想让正则路径变得柔和一些，仅用插值曲线便可达成目的。下面逐步手工构造一条带有圆角过渡的路径，以此揭示正则路径的柔化原理。首先，用 \type{xyto} 宏构造一条直角路径 \type{p}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造直角路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-70]{70}\inoutermargin{\darkred{70}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造直角路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-71]{71}\inoutermargin{\darkred{71}}/ETEX
 pair a, b;
 a := (0, 0); b := (6cm, 3cm);
 path p; p := a xyto b;
@@ -1752,7 +1767,7 @@ path p; p := a xyto b;
 \noindent \type{p} 由三个节点构成，取其第 2 个节点，亦即序号为 1 的节点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 取 p 的第 2 个节点，表示 c，并将其画出来 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-71]{71}\inoutermargin{\darkred{71}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 取 p 的第 2 个节点，表示 c，并将其画出来 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-72]{72}\inoutermargin{\darkred{72}}/ETEX
 pair c;
 c := point 1 of p;
 draw c withpen pensquare scaled 4pt withcolor darkred;
@@ -1761,7 +1776,7 @@ draw c withpen pensquare scaled 4pt withcolor darkred;
 \noindent 然后在路径 \type{a -- c} 的末端 \type{5mm} 处取点 \type{d}，在路径 \type{c -- b} 的始端 \type{5mm} 处取点 \type{e}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 在路径 p 上 c 点前后各取一点，分别为 d 和 e }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-72]{72}\inoutermargin{\darkred{72}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 在路径 p 上 c 点前后各取一点，分别为 d 和 e }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-73]{73}\inoutermargin{\darkred{73}}/ETEX
 pair d, e;
 d := point -5mm on (a -- c);
 e := point  5mm on (c -- b);
@@ -1772,12 +1787,12 @@ e := point  5mm on (c -- b);
 现在基于点 \type{a}，\type{d}，\type{c}，\type{e} 以及 \type{b}，可以构造有圆角过渡的路径 \type{q}，并将其画出：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造含有圆角过渡的路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-73]{73}\inoutermargin{\darkred{73}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造含有圆角过渡的路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-74]{74}\inoutermargin{\darkred{74}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造直角路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-70]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 取 p 的第 2 个节点，表示 c，并将其画出来 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-71]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 在路径 p 上 c 点前后各取一点，分别为 d 和 e }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-72]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造直角路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-71]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 取 p 的第 2 个节点，表示 c，并将其画出来 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-72]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 在路径 p 上 c 点前后各取一点，分别为 d 和 e }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-73]>/ETEX
 path q;
 q := (a -- d) .. (e -- b);
 drawpath q;
@@ -1860,7 +1875,7 @@ foo(a);
 基于数字后缀，可以将路径所有节点保存为一个序列，然后除始末节点外，每个中间节点可以构造由两个点构成的子序列，即节点前后所取的辅助点，它们会作为圆角过渡区域的起点和终点。该过程如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 设圆角半径为 r，为路径 p 构造节点序列 c[] 和辅助点序列 h[][] }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-74]{74}\inoutermargin{\darkred{74}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 设圆角半径为 r，为路径 p 构造节点序列 c[] 和辅助点序列 h[][] }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-75]{75}\inoutermargin{\darkred{75}}/ETEX
 numeric m, n;
 pair c[], h[][];
 n := length p; m := n - 1;
@@ -1878,7 +1893,7 @@ h[n][0] := c[n]; h[n][1] := c[n];
 \noindent 然后基于 \in[fillet] 节所述的方法，构造含有圆角的路径 \type{q}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造含有圆角的路径 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-75]{75}\inoutermargin{\darkred{75}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造含有圆角的路径 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-76]{76}\inoutermargin{\darkred{76}}/ETEX
 path q;
 q := c[0] -- h[1][0];
 for i = 1 upto m:
@@ -1889,11 +1904,11 @@ endfor;
 将上述过程合并起来，便可得到可将正则路径柔化的宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-76]{76}\inoutermargin{\darkred{76}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-77]{77}\inoutermargin{\darkred{77}}/ETEX
 vardef smooth_regular_path(expr p, r) =
     save c, h, q;
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 设圆角半径为 r，为路径 p 构造节点序列 c[] 和辅助点序列 h[][] }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-74]>/ETEX
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造含有圆角的路径 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-75]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 设圆角半径为 r，为路径 p 构造节点序列 c[] 和辅助点序列 h[][] }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-75]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造含有圆角的路径 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-76]>/ETEX
     q
 enddef;
 \stoptyping
@@ -1901,10 +1916,10 @@ enddef;
 以下为 \type{smooth_regular_path} 宏的测试代码：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-77]{77}\inoutermargin{\darkred{77}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-78]{78}\inoutermargin{\darkred{78}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-76]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-77]>/ETEX
 pair a, b; a := (0, 0); b := (6cm, 3cm); label.lft("$a$", a); label.rt("$b$", b);
 path p, q; p := a xyxto b; q := smooth_regular_path(p, 5mm);
 drawpath q; drawpoints q;
@@ -1922,7 +1937,7 @@ drawpath q; drawpoints q;
 以下示例构造了一条插值曲线，每个节点处皆设定了切向：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以方向控制曲线形状 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-78]{78}\inoutermargin{\darkred{78}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以方向控制曲线形状 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-79]{79}\inoutermargin{\darkred{79}}/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义点 a, b 和 c }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-30]>/ETEX
 path p;
@@ -1937,7 +1952,7 @@ draw p; drawpoints p;
 利用节点切向，可无需构造节点序列 \type{c[]} 和辅助点序列 \type{h[][]}，从而简化路径自动柔化过程：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-79]{79}\inoutermargin{\darkred{79}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-80]{80}\inoutermargin{\darkred{80}}/ETEX
 vardef smooth_regular_path(expr p, r) =
     save a, b, c, n, m, q; pair a, b, c, c[]; numeric n, m; path q;
     n := length p; m := n - 1;
@@ -1958,10 +1973,10 @@ enddef;
 以下代码用于测试新定义的 \type{smooth_regular_path} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试新的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-80]{80}\inoutermargin{\darkred{80}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试新的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-81]{81}\inoutermargin{\darkred{81}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-79]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-80]>/ETEX
 pair a, b; a := (0, 0); b := (6cm, 3cm); label.lft("$a$", a); label.rt("$b$", b);
 path p, q; p := a xyxto b; q := smooth_regular_path(p, 5mm);
 drawpath q; drawpoints q;
@@ -1975,9 +1990,9 @@ drawpath q; drawpoints q;
 也许你已经注意到了，\type{xyxto} 和 \type{yxyto} 构造的正则路径，路径的中段存在一个冗余节点，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 含有冗余节点的正则路径示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-81]{81}\inoutermargin{\darkred{81}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 含有冗余节点的正则路径示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-82]{82}\inoutermargin{\darkred{82}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
 pair a, b;
 a := (0, 0); b := (6cm, 3cm); label.lft("$a$", a); label.rt("$b$", b);
 path p; p := a xyxto b;
@@ -1995,7 +2010,7 @@ label.rt("$c$", .5[a, b]);
 在处理正则路径柔化时，我们已经熟悉了在路径节点的遍历过程中构造新路径的方法，只需故技重演，便可消除正则路径上的冗余节点，唯一的难点在于，给定三个点，如何判断它们共线。解决这个问题，需要一点向量代数的知识，即两个单位向量的点积为 1 表示两个向量平行，为 0 则表示两个向量垂直。\METAPOST\ 提供了 \type{dotprod} 运算符宏，可以计算两个向量的点积，故而三点共线检测过程可定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-82]{82}\inoutermargin{\darkred{82}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-83]{83}\inoutermargin{\darkred{83}}/ETEX
 vardef is_colinear(expr a, b, c) =
     save result, v; boolean result; pair v[];
     v[1] := unitvector(b - a); v[2] := unitvector(c - b);
@@ -2013,7 +2028,7 @@ enddef;
 基于 \type{is_colinear} 宏，可将正则路径冗余节点消除过程定义为：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-83]{83}\inoutermargin{\darkred{83}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-84]{84}\inoutermargin{\darkred{84}}/ETEX
 vardef simplify_regular_path(expr p) =
     save q, n, m, a, b, c; 
     path q; numeric n, m; pair a, b, c;
@@ -2038,11 +2053,11 @@ enddef;
 以下代码用于测试 simplify_regular_path 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试  simplify_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-84]{84}\inoutermargin{\darkred{84}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试  simplify_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-85]{85}\inoutermargin{\darkred{85}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-82]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-84]>/ETEX
 pair a, b; a := (0, 0); b := (6cm, 3cm);
 path p, q; p := a xyxto b; q := simplify_regular_path(p);
 % 将 p 向左偏移，然后将其与 q 并列画出
@@ -2066,7 +2081,7 @@ drawpath p; drawpoints p; drawpath q; drawpoints q;
 最聪明的方法是算出两条路径的交点，然后在交点处作文章。\METAPOST\ 语言提供了运算符宏 \type{intersectionpoint}，可用于计算两条路径的交点。例如，对以下路径
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-85]{85}\inoutermargin{\darkred{85}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-86]{86}\inoutermargin{\darkred{86}}/ETEX
 path p, q;
 p := (0, 0) .. (3cm, 1cm) .. (5cm, 2cm) .. (7cm, 0);
 q := (1cm, 3cm) .. (3cm, 0) .. (3cm, -1cm);
@@ -2075,9 +2090,9 @@ q := (1cm, 3cm) .. (3cm, 0) .. (3cm, -1cm);
 \noindent 计算交点并将其画出：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算两条路径的交点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-86]{86}\inoutermargin{\darkred{86}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算两条路径的交点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-87]{87}\inoutermargin{\darkred{87}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-85]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-86]>/ETEX
 pair a; a := p intersectionpoint q;
 drawpath p; drawpath q;
 draw a withpen pencircle scaled 4pt withcolor darkred;
@@ -2104,9 +2119,9 @@ pair a; a := point 1.25 of p;
 基于 \type{intersectiontimes} 返回结果是 \type{pair} 类型，其第 $x$ 分量是交点在宏左侧路径上的时间，$y$ 分量是交点在宏右侧路径上的时间，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算两条路径的相交时间 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-87]{87}\inoutermargin{\darkred{87}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 计算两条路径的相交时间 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-88]{88}\inoutermargin{\darkred{88}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-85]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义插值曲线路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-86]>/ETEX
 pair a; a := p intersectiontimes q;
 drawpath p; drawpath q;
 draw point (xpart a) of p withpen pencircle scaled 8pt;
@@ -2123,7 +2138,7 @@ draw point (ypart a) of q withpen pencircle scaled 4pt withcolor white;
 如果两条路径存在多个交点，例如以下两条路径存在 2 个交点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义存在两个交点的路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-88]{88}\inoutermargin{\darkred{88}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义存在两个交点的路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-89]{89}\inoutermargin{\darkred{89}}/ETEX
 path p, q;
 p := (0, -2cm) .. (2cm, 0cm) .. (4cm, 2cm) .. (6cm, -2cm);
 q := (-1cm, 0) -- (8cm, 0);
@@ -2134,7 +2149,7 @@ q := (-1cm, 0) -- (8cm, 0);
 \METAPOST\ 宏 \type{cutbefore} 和 \type{cutafter} 可以在路径上的一点处切断路径，前者会保留切割点之前的部分，后者会保留切割点之后的部分。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 p 和 q 的一个交点 a 切割 p，得到 p1 和 p2 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-89]{89}\inoutermargin{\darkred{89}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 p 和 q 的一个交点 a 切割 p，得到 p1 和 p2 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-90]{90}\inoutermargin{\darkred{90}}/ETEX
 path p[]; pair a;
 a := p intersectionpoint q;
 p1 := p cutafter a;
@@ -2148,7 +2163,7 @@ p2 := p2 cutbefore (point 3mm on p2);
 以下代码实现了 \type{p1} 和 \type{p2} 分别与 \type{q} 求交的过程：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ p1 和 p2 分别与 q 求交，对 p1 和 p2 继续切割 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-90]{90}\inoutermargin{\darkred{90}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ p1 和 p2 分别与 q 求交，对 p1 和 p2 继续切割 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-91]{91}\inoutermargin{\darkred{91}}/ETEX
 path p[][]; pair b;
 b := p1 intersectiontimes q;
 if b <> (-1, -1):
@@ -2171,11 +2186,11 @@ fi;
 以下代码将上述过程合并起来，并将所得结果画出：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以路径 p 和 q 的两个交点分割 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-91]{91}\inoutermargin{\darkred{91}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以路径 p 和 q 的两个交点分割 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-92]{92}\inoutermargin{\darkred{92}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在两个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-88]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 p 和 q 的一个交点 a 切割 p，得到 p1 和 p2 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-89]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ p1 和 p2 分别与 q 求交，对 p1 和 p2 继续切割 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-90]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在两个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-89]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 p 和 q 的一个交点 a 切割 p，得到 p1 和 p2 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-90]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ p1 和 p2 分别与 q 求交，对 p1 和 p2 继续切割 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-91]>/ETEX
 if (known p[1][1]) and (known p[1][2]):
     drawpath p[1][1]; drawpath p[1][2];
 else:
@@ -2200,7 +2215,7 @@ label.top("$p$", point 2 of p); label.top("$q$", point .5 of q);
 在上述分割 \type{p} 的过程中，可以用一个数组收集每次获取的交点，当 \type{p} 的所有分割结果与 \type{q} 再无交点时，便可得到 \type{p} 与 \type{q} 的所有交点，这个过程可表示为递归形式，而 \METAPOST\ 的普通宏和变量宏皆支持递归展开，故而可定义获得两条路径所有交点的 \type{all_breakpoints} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-92]{92}\inoutermargin{\darkred{92}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-93]{93}\inoutermargin{\darkred{93}}/ETEX
 def all_breakpoints(expr p, q, r)(suffix breakpoints, n) =
     begingroup
     save a, b, s; pair a, b; path s[];
@@ -2222,7 +2237,7 @@ enddef;
 以存在三个交点的路径
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-93]{93}\inoutermargin{\darkred{93}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-94]{94}\inoutermargin{\darkred{94}}/ETEX
 path p, q;
 p := (0, -2cm) .. (2cm, 0cm) .. (4cm, 2cm) .. (6cm, -2cm) .. (8cm, 1cm);
 q := (-1cm, 1cm) -- (10cm, -1cm);
@@ -2231,10 +2246,10 @@ q := (-1cm, 1cm) -- (10cm, -1cm);
 \noindent 测试 \type{all_breakpoints} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 all_breakpoints 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-94]{94}\inoutermargin{\darkred{94}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 all_breakpoints 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-95]{95}\inoutermargin{\darkred{95}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-92]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 pair breakpoints[];
 numeric n;
 n := 0;
@@ -2252,10 +2267,10 @@ endfor;
 一旦能够算出两条路径的所有交点，在每个交点处画上一团背景色，覆盖在位于底层的路径上，只要合理安排路径和交点的绘制顺序，便可得到类似图 \in[05-03] 的效果。\METAPOST\ 内置了一个 \type{color} 类型的全局变量 \type{background}，通过它可以获得背景色，默认是白色。以下代码便是这一设想的实现：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 具有欺骗性的路径断开效果 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-95]{95}\inoutermargin{\darkred{95}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 具有欺骗性的路径断开效果 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-96]{96}\inoutermargin{\darkred{96}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-92]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 all_breakpoints 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 pair breakpoints[]; numeric n; n := 0;
 all_breakpoints(p, q, 3mm, breakpoints, n);
 drawpath p; 
@@ -2273,9 +2288,9 @@ drawpath q;
 求出路径所有交点后，无论是分割路径，还是在交点处以背景色覆盖，都是聪明的办法，因为仅仅实现 \type{all_breakpoints} 宏就已经很考验编程能力了。实际上有一种更简单的路径断开效果模拟方法，即在画每条路径之前，先以较粗的画笔和背景色将路径先画一遍，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 更具欺骗性的路径断开效果 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-96]{96}\inoutermargin{\darkred{96}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 更具欺骗性的路径断开效果 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-97]{97}\inoutermargin{\darkred{97}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 draw p withpen pencircle scaled 5mm withcolor background; drawpath p;
 draw q withpen pencircle scaled 5mm withcolor background; drawpath q;
 \stopMPpage
@@ -2288,9 +2303,9 @@ draw q withpen pencircle scaled 5mm withcolor background; drawpath q;
 虽然 \METAPOST\ 提供了背景色变量，但实际上这个变量并不会用于填充图形的背景，确切而言，\METAPOST\ 并未给所绘图形赋予背景。\METAFUN\ 实现的 \type{addbackground} 宏可以为已绘制的图形增加背景色，可以用它揭露上述路径断开骗术的真相：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 揭开路径断开骗术 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-97]{97}\inoutermargin{\darkred{97}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 揭开路径断开骗术 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-98]{98}\inoutermargin{\darkred{98}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 draw p withpen pencircle scaled 5mm withcolor background; drawpath p;
 draw q withpen pencircle scaled 5mm withcolor background; drawpath q;
 addbackground withcolor darkyellow;
@@ -2302,9 +2317,9 @@ addbackground withcolor darkyellow;
 \indentation 当我们用这种带有背景色的路径连接流程图中的文本框时，图 \in[05-07] 预示着一个问题，即背景色会对文本框有所侵蚀。要解决该问题，在绘制路径背景之前，先对路径的首尾切除少许，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 消除背景路径两端侵蚀区 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-98]{98}\inoutermargin{\darkred{98}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 消除背景路径两端侵蚀区 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-99]{99}\inoutermargin{\darkred{99}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 numeric thickness; thickness := 5mm;
 path p_bg, q_bg;
 p_bg := p cutbefore (point .5thickness on p);
@@ -2322,7 +2337,7 @@ addbackground withcolor darkyellow;
 \indentation 基于上述示例，将这种最简单的带背景路径的绘制过程定义为宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 draw_path_with_background 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-99]{99}\inoutermargin{\darkred{99}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 draw_path_with_background 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-100]{100}\inoutermargin{\darkred{100}}/ETEX
 def draw_path_with_background(expr thickness) text paths =
     begingroup
     save p_bg; path p_bg;
@@ -2341,10 +2356,10 @@ enddef;
 以下代码用于测试 \type{draw_path_with_background} 宏并展示其用法：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 draw_path_with_background 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-100]{100}\inoutermargin{\darkred{100}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 draw_path_with_background 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-101]{101}\inoutermargin{\darkred{101}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_path_with_background 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-99]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-93]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_path_with_background 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-100]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义存在三个交点的路径 p 和 q }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-94]>/ETEX
 drawoptions(withpen pencircle scaled 4pt withcolor darkred);
 draw_path_with_background(5mm) p, q;
 addbackground withcolor darkyellow;
@@ -2385,7 +2400,7 @@ addbackground withcolor darkyellow;
 从现在开始，我将所有满足上述两个条件的封闭路径称为标准图形，由此引申出一个问题，对于一个非标准的图形，如何通过平移和缩放运算将其转化为标准图形？该问题的一个答案是
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-101]{101}\inoutermargin{\darkred{101}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-102]{102}\inoutermargin{\darkred{102}}/ETEX
 vardef convert_to_standard_shape(expr p) =
     save f, w, h, s, q;
     numeric f, w, h; path q;
@@ -2404,7 +2419,7 @@ enddef;
 在 \in[class] 节里，文本框的锚点在面向对象编程的视角下成为文本框的属性。由于文本框的边框不再局限于矩形，也应当作为文本框的一个属性，故而将 \type{framed_text_class} 宏修改为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-102]{102}\inoutermargin{\darkred{102}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-103]{103}\inoutermargin{\darkred{103}}/ETEX
 def framed_text_class text names =
     forsuffixes i = names:
         picture i;
@@ -2430,7 +2445,7 @@ framed_text_class foo;
 假设文本框对象拥有了某种边框，且该边框未必为矩形，为文本框构造锚点的宏 \type{make_anchors} 应当如何修改使之能够构造出合理的锚点呢？我想出的方法是先为边框构造为包围盒，由于包围盒是矩形，可基于它构造出一套锚点，然后从边框中心点出发与每个锚点构造连线，这些连线必然会与边框相交，取交点作为边框上的锚点。该过程的实现如下
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-103]{103}\inoutermargin{\darkred{103}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-104]{104}\inoutermargin{\darkred{104}}/ETEX
 def make_anchors(suffix obj) =
     begingroup
     save frame, a; path frame; pair a[][];
@@ -2456,7 +2471,7 @@ enddef;
 可以通过手工模拟一个菱形文本框，验证 \type{make_anchors} 是否能够算出菱形上的锚点。首先，声明文本框对象 \type{foo}，并将其边框设置为菱形：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义菱形文本框 foo 并为其构造锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-104]{104}\inoutermargin{\darkred{104}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义菱形文本框 foo 并为其构造锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-105]{105}\inoutermargin{\darkred{105}}/ETEX
 framed_text_class foo;
 foo.边框 := fulldiamond xyscaled (6cm, 3cm);
 foo := image(draw foo.边框);
@@ -2468,7 +2483,7 @@ make_anchors(foo);
 为了能直观呈现 \type{foo} 锚点的计算过程，再手工构造一个矩形文本框 \type{bar}，使其边框刚好能包含 \type{foo} 的菱形边框，然后也为 \type{bar} 构造锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义矩形文本框 bar，并为其构造锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-105]{105}\inoutermargin{\darkred{105}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义矩形文本框 bar，并为其构造锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-106]{106}\inoutermargin{\darkred{106}}/ETEX
 framed_text_class bar;
 bar.边框 := fullsquare xyscaled (6cm, 3cm);
 bar := image(draw bar.边框);
@@ -2478,12 +2493,12 @@ make_anchors(bar);
 将上述代码片段合并起来，便可用于测试 \type{make_anchors} 宏，并呈现其工作原理：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 make_anchors 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-106]{106}\inoutermargin{\darkred{106}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 make_anchors 宏版本之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-107]{107}\inoutermargin{\darkred{107}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义菱形文本框 foo 并为其构造锚点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-104]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义矩形文本框 bar，并为其构造锚点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-105]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-104]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义菱形文本框 foo 并为其构造锚点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-105]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义矩形文本框 bar，并为其构造锚点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-106]>/ETEX
 draw foo; draw bar;
 pickup pencircle scaled 4pt;
 forsuffixes i = 东北, 西北, 西南, 东南,
@@ -2502,14 +2517,14 @@ endfor;
 现在考虑改进 \in[positioning] 节定义的第三个版本的 \type{framed_text} 宏，令其能以参数的形式接受文本框的边框形状，从而将文本框形状的定义权交给用户。\type{framed_text} 宏的第四个版本定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-107]{107}\inoutermargin{\darkred{107}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-108]{108}\inoutermargin{\darkred{108}}/ETEX
 def framed_text(suffix obj)(expr s, shape, padding) text somewhere =
     begingroup
     save s_pic, s_frame;
     picture s_pic; path s_frame;
     s_pic := textext(s);
     s_frame := convert_to_standard_shape(shape);
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 放大 s_frame，使之足以囊括 s_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-110]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 放大 s_frame，使之足以囊括 s_pic }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-111]>/ETEX
     obj := image(draw s_pic; draw s_frame) somewhere;
     obj.边框 := s_frame somewhere;
     make_anchors(obj);
@@ -2522,7 +2537,7 @@ enddef;
 可以试着先用一种粗暴的办法来解决上述问题。首先，为 \type{s_pic} 构造含有留白的包围盒：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-108]{108}\inoutermargin{\darkred{108}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-109]{109}\inoutermargin{\darkred{109}}/ETEX
 save w, h, s_box;
 numeric w, h; path s_box;
 w := bbwidth s_pic; h := bbheight s_pic;
@@ -2533,7 +2548,7 @@ s_box := (-.5w - padding, -.5h - padding) -- (.5w + padding, -.5h - padding)
 \noindent 然后以一定的速度放大 \type{s_frame}，在此过程中不断探测 \type{s_frame} 的中心到 \type{s_box} 角点的路径是否与 \type{s_frame} 相交，若相交则停止探测，并以当前放大倍数的 \type{s_frame} 作为文本框的边框。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以一定的速度放大 s_frame，直至它能包含 s_box }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-109]{109}\inoutermargin{\darkred{109}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以一定的速度放大 s_frame，直至它能包含 s_box }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-110]{110}\inoutermargin{\darkred{110}}/ETEX
 save p, q, a, c, f, t;
 path p, q; pair a, c[]; boolean f; numeric t;
 c[0] := (0, 0);
@@ -2561,9 +2576,9 @@ s_frame := s_frame scaled t;
 合并上述两个片段，
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 放大 s_frame，使之足以囊括 s_pic }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-110]{110}\inoutermargin{\darkred{110}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以一定的速度放大 s_frame，直至它能包含 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 放大 s_frame，使之足以囊括 s_pic }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-111]{111}\inoutermargin{\darkred{111}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以一定的速度放大 s_frame，直至它能包含 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-110]>/ETEX
 \stoptyping
 
 \noindent 如何放大 \type{s_frame}，这一问题便得以解决，只是所得边框会有 1mm 的误差，若要追求精确，可以缩小 \type{s_frame} 的放大速度的量级，但误差总是存在的。
@@ -2571,12 +2586,12 @@ s_frame := s_frame scaled t;
 以下代码用于测试本节的 \type{framed_text} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 椭圆文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-111]{111}\inoutermargin{\darkred{111}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 椭圆文本框示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-112]{112}\inoutermargin{\darkred{112}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-101]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之四 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-107]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-104]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之四 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
 framed_text_class foo;
 framed_text(foo, "Foo", fullcircle xyscaled (4cm, 2cm), 4pt);
 draw foo;
@@ -2592,7 +2607,7 @@ endfor;
 实际上 \type{s_frame} 的放大倍数实际上不必从 \type{1mm} 开始，它可以从 \type{s_box} 的宽度和高度中的较大者的 0.5 倍开始，原因是 \type{s_frame} 放大后必须包含 \type{s_box}。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-112]{112}\inoutermargin{\darkred{112}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-113]{113}\inoutermargin{\darkred{113}}/ETEX
 save p, q, a, c, f, t;
 path p, q; pair a, c[]; boolean f; numeric t;
 c[0] := (0, 0);
@@ -2618,15 +2633,15 @@ s_frame := s_frame scaled t;
 \noindent 于是便有了 \type{framed_text} 的第五个版本：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之五 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-113]{113}\inoutermargin{\darkred{113}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之五 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-114]{114}\inoutermargin{\darkred{114}}/ETEX
 def framed_text(suffix obj)(expr s, shape, padding) text somewhere =
     begingroup
     save s_pic, s_frame;
     picture s_pic; path s_frame;
     s_pic := textext(s);
     s_frame := convert_to_standard_shape(shape);
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-112]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-113]>/ETEX
     obj := image(draw s_pic; draw s_frame) somewhere;
     obj.边框 := s_frame somewhere;
     make_anchors(obj);
@@ -2641,7 +2656,7 @@ enddef;
 首先，构造两个文本框：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造菱形文本框 foo 和椭圆文本框 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-114]{114}\inoutermargin{\darkred{114}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造菱形文本框 foo 和椭圆文本框 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-115]{115}\inoutermargin{\darkred{115}}/ETEX
 framed_text_class foo, bar;
 framed_text(foo, "Foo", fulldiamond xyscaled (4, 2), 4pt);
 framed_text(bar, "Bar", fullcircle xyscaled(3, 1), 4pt) shifted (4cm, 3cm);
@@ -2650,7 +2665,7 @@ framed_text(bar, "Bar", fullcircle xyscaled(3, 1), 4pt) shifted (4cm, 3cm);
 基于文本框的中心构造正则路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 foo 和 bar 的中心构造正则路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-115]{115}\inoutermargin{\darkred{115}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 foo 和 bar 的中心构造正则路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-116]{116}\inoutermargin{\darkred{116}}/ETEX
 path p;
 p := foo.中央 xyxto bar.中央;
 \stoptyping
@@ -2658,7 +2673,7 @@ p := foo.中央 xyxto bar.中央;
 以 \type{foo} 和 \type{bar} 的边框裁剪路径 \type{p} 的两端落入边框之内的部分：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 裁剪 p 的两端落入 foo 和 bar 边框内的部分 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-116]{116}\inoutermargin{\darkred{116}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 裁剪 p 的两端落入 foo 和 bar 边框内的部分 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-117]{117}\inoutermargin{\darkred{117}}/ETEX
 pair a, b;
 a := p intersectionpoint foo.边框; b := p intersectionpoint bar.边框;
 p := (p cutbefore a) cutafter b;
@@ -2669,17 +2684,17 @@ p := (p cutbefore a) cutafter b;
 将上述片段合并起来，便可得到连接 \type{foo} 和 \type{bar} 的正则路径 \type{p}，然后将它们都画出来：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 自动锚点构造过程示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-117]{117}\inoutermargin{\darkred{117}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 自动锚点构造过程示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-118]{118}\inoutermargin{\darkred{118}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-76]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-101]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之五 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-113]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造菱形文本框 foo 和椭圆文本框 bar }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-114]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 foo 和 bar 的中心构造正则路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-115]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 裁剪 p 的两端落入 foo 和 bar 边框内的部分 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-116]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-77]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-104]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之五 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-114]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造菱形文本框 foo 和椭圆文本框 bar }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-115]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 foo 和 bar 的中心构造正则路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-116]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 裁剪 p 的两端落入 foo 和 bar 边框内的部分 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-117]>/ETEX
 p := smooth_regular_path(p, 2mm);
 draw foo; draw bar;
 drawarrow p withpen pencircle scaled 1pt withcolor darkred;
@@ -2734,7 +2749,7 @@ path p; p := foo fxyxto bar;
 以下代码演示了上述三种取点语法的作用，
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径的三种取点方法 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-118]{118}\inoutermargin{\darkred{118}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径的三种取点方法 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-119]{119}\inoutermargin{\darkred{119}}/ETEX
 \startMPpage
 path p; pair a, b[], c;
 p := (0, 0) -- (1cm, 1cm) .. (3cm, -1cm) .. (5cm, 1cm) -- (7cm , 0);
@@ -2762,7 +2777,7 @@ draw c withcolor magenta; label.ulft("$c$", c);
 \METAPOST\ 原语 \type{direction} 可与路径取点语法中的 \type{of}，\type{on} 以及 \type{along} 配合，从而在路径上指定位置获得路径切向。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径切向示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-119]{119}\inoutermargin{\darkred{119}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径切向示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-120]{120}\inoutermargin{\darkred{120}}/ETEX
 \startMPpage
 path p; pair a, v;
 p := fullcircle xyscaled (6cm, 3cm);
@@ -2783,7 +2798,7 @@ endfor;
 \indentation 算出路径上某点的切向后，用 \METAPOST\ 的 \type{angle} 原语可以算出该切向的角度值，用该角度值旋转标注文字，便可使之顺应路径走向。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 确定文字标注在路径上的方位示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-120]{120}\inoutermargin{\darkred{120}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 确定文字标注在路径上的方位示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-121]{121}\inoutermargin{\darkred{121}}/ETEX
 \startMPpage
 path p; picture a; pair c, t; numeric f;
 p := (0, -2cm) .. controls (3cm, 2cm) and (5cm, -4cm) .. (7cm, -2cm);
@@ -2830,7 +2845,7 @@ a := a shifted ((.5(bbheight a) + 2pt) * up);
 经过上一节的演练，应当熟悉了如何在路径指定位置处确定文字标注方位过程，我将该过程封装为宏 \type{tag}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-121]{121}\inoutermargin{\darkred{121}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-122]{122}\inoutermargin{\darkred{122}}/ETEX
 vardef tag(expr p, f, s) text somewhere =
     save a, c, v; picture a; pair c, v;
     a := textext(s) somewhere;
@@ -2845,10 +2860,10 @@ enddef;
 以下代码用于测试 \type{tag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 tag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-122]{122}\inoutermargin{\darkred{122}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 tag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-123]{123}\inoutermargin{\darkred{123}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-121]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
 path p; numeric f;
 p := (0, -2cm) .. controls (3cm, 2cm) and (5cm, -4cm) .. (7cm, -2cm);
 f := .625;
@@ -2866,7 +2881,7 @@ draw tag(p, f, "foo") at (2.5mm * up);
 Lua\METAFUN\ 提供了 \type{lmt_followtext} 宏，能够让标注文字紧密贴合路径的形状。例如若路径是弯曲的，则标注文字也会变得同样弯曲。为了演示这个宏的用法，先构造一条曲线路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造曲线路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-123]{123}\inoutermargin{\darkred{123}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 构造曲线路径 p }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-124]{124}\inoutermargin{\darkred{124}}/ETEX
 path p;
 p := (0, 0) .. (1cm, 1cm) .. (3cm, 0) .. (5cm, 2cm);
 \stoptyping
@@ -2874,9 +2889,9 @@ p := (0, 0) .. (1cm, 1cm) .. (3cm, 0) .. (5cm, 2cm);
 \noindent 然后调用 \type{lmt_followtext} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-124]{124}\inoutermargin{\darkred{124}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-125]{125}\inoutermargin{\darkred{125}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle;
 draw lmt_followtext [text = "This is a demo.", path = p];
 \stopMPpage
@@ -2887,9 +2902,9 @@ draw lmt_followtext [text = "This is a demo.", path = p];
 \indentation 若你不希望文字扩张充满整条路径,可以用 \type{spread} 参数加以抑制：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-125]{125}\inoutermargin{\darkred{125}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-126]{126}\inoutermargin{\darkred{126}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle;
 draw lmt_followtext [text = "This is a demo.", path = p, spread = false];
 \stopMPpage
@@ -2900,9 +2915,9 @@ draw lmt_followtext [text = "This is a demo.", path = p, spread = false];
 \noindent 使用 \type{reverse} 参数还可以控制标注文字出现在路径的对面：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-126]{126}\inoutermargin{\darkred{126}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-127]{127}\inoutermargin{\darkred{127}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle;
 draw lmt_followtext [text = "This is a demo.", path = p, spread = false, reverse = true];
 \stopMPpage
@@ -2913,9 +2928,9 @@ draw lmt_followtext [text = "This is a demo.", path = p, spread = false, reverse
 看上去，\type{lmt_followtext} 的功能比我们定义的 \type{tag} 宏更为强大，然而美中不知之处是，前者构造的文字标注过于贴近路径，倘若路径的粗度再大一些，会与文字产生一些重叠，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-127]{127}\inoutermargin{\darkred{127}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 弯曲的标注文字之四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-128]{128}\inoutermargin{\darkred{128}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle scaled 6pt withcolor darkgray;
 draw lmt_followtext [text = "This is a demo.", path = p, spread = false];
 \stopMPpage
@@ -2932,7 +2947,7 @@ draw lmt_followtext [text = "This is a demo.", path = p, spread = false];
 对于给定的路径 \type{p}，一个简单粗暴的路径偏置算法可由以下代码实现：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-128]{128}\inoutermargin{\darkred{128}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-129]{129}\inoutermargin{\darkred{129}}/ETEX
 vardef offset_path(expr p, d) =
     save c, t, v, q;
     pair c, t, v; path q;
@@ -2954,10 +2969,10 @@ enddef;
 以下代码可以测 \type{offset_path} 宏，并将所得结果作为文字标注路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-129]{129}\inoutermargin{\darkred{129}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-130]{130}\inoutermargin{\darkred{130}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-128]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-129]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 path q;
 q := offset_path(p, 4pt);
 draw p withpen pencircle scaled 6pt withcolor darkgray;
@@ -2973,10 +2988,10 @@ draw lmt_followtext[path = q, text = "This is a demo.", spread = false];
 对上述示例略作修改：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-130]{130}\inoutermargin{\darkred{130}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-131]{131}\inoutermargin{\darkred{131}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-128]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 offset_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-129]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 path q;
 q := offset_path(p, -4pt);
 draw p withpen pencircle scaled 6pt withcolor darkgray;
@@ -2992,7 +3007,7 @@ draw lmt_followtext[path = q, text = "This is a demo.", spread = false, reverse 
 \type{offset_path} 是基于原路径的 100 个采样点构造出新的路径。一般情况下，无需得到精确的偏置路径，可以根据原路径的节点数量确定采样点数。例如，若原路径由 4 个节点构成，这意味着路径分为三段，若每段取 5 个采样点，一共可以取 15 个采样点，从中去掉 2 个重复的，结果只需要 13 个采样点便可完成新路径的构造了。基于这一设想，改进上述的 \type{offset_path} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-131]{131}\inoutermargin{\darkred{131}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-132]{132}\inoutermargin{\darkred{132}}/ETEX
 vardef offset_path(expr p, d) =
     save c, t, v, f, k, n, delta, q;
     pair c, t, v; numeric f, k, n, delta; path q;
@@ -3015,10 +3030,10 @@ enddef;
 \noindent 以下代码用于测试上述重新定义的 \type{offset_path} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-132]{132}\inoutermargin{\darkred{132}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 offset_path 宏之三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-133]{133}\inoutermargin{\darkred{133}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-131]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 path q;
 q := offset_path(p, 4pt);
 draw p withpen pencircle scaled 6pt withcolor darkgray;
@@ -3036,7 +3051,7 @@ draw lmt_followtext[path = q, text = "This is a demo.", spread = false];
 基于上一节对路径等距偏置方法的探讨，定义 \type{followtag} 宏，以实现可弯曲的路径标注文字：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-133]{133}\inoutermargin{\darkred{133}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-134]{134}\inoutermargin{\darkred{134}}/ETEX
 vardef followtag(expr p, s, d) =
     save q; path q;
     q := offset_path(p, d);
@@ -3051,11 +3066,11 @@ enddef;
 以下代码用于测试 \type{followtag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 followtag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-134]{134}\inoutermargin{\darkred{134}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 followtag 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-135]{135}\inoutermargin{\darkred{135}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-131]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-133]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-134]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle scaled 6pt withcolor darkgray;
 draw followtag(p, "This is a demo.", 4pt);
 \stopMPpage
@@ -3064,11 +3079,11 @@ draw followtag(p, "This is a demo.", 4pt);
 路径贴靠标注宏 \type{followtag} 宏虽然能够让标注文字位于路径的上方或下方，但是标注文字总是处于路径的中段，无法像 \type{tag} 宏那样能够在路径上定位放置。不过，这个问题并不难解决，只需从待标注路径上截取指定的一段作为标注文字的贴靠路径，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径定位贴靠标注示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-135]{135}\inoutermargin{\darkred{135}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径定位贴靠标注示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-136]{136}\inoutermargin{\darkred{136}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-131]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-133]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-134]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle scaled 6pt withcolor darkgray;
 pair a, b; path q;
 a := point .7 along p; b := point .9 along p;
@@ -3083,7 +3098,7 @@ draw followtag(q, "demo", 4pt);
 为方便从路径上截取一段作为文字标注贴靠路径，可将该过程定义为宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 snap 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-136]{136}\inoutermargin{\darkred{136}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 snap 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-137]{137}\inoutermargin{\darkred{137}}/ETEX
 vardef snap(expr p, a, b) =
     ((p cutbefore (point a along p)) cutafter (point b along p))
 enddef;
@@ -3092,12 +3107,12 @@ enddef;
 \noindent 于是上述路径定位贴靠标注示例可简化为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径定位贴靠标注示例之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-137]{137}\inoutermargin{\darkred{137}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径定位贴靠标注示例之二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-138]{138}\inoutermargin{\darkred{138}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-131]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-133]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 snap 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-136]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-123]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 followtag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-134]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 snap 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-137]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 构造曲线路径 p }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-124]>/ETEX
 draw p withpen pencircle scaled 6pt withcolor darkgray;
 draw followtag(snap(p, .7, .9), "demo", 4pt);
 \stopMPpage
@@ -3122,7 +3137,7 @@ draw followtag(snap(p, .7, .9), "demo", 4pt);
 流程图中文字的字号和默认颜色，用以下全局变量表达：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-138]{138}\inoutermargin{\darkred{138}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-139]{139}\inoutermargin{\darkred{139}}/ETEX
 numeric style.text_fontsize; style.text_fontsize := BodyFontSize;
 color style.text_color; style.text_color := black;
 \stoptyping
@@ -3132,7 +3147,7 @@ color style.text_color; style.text_color := black;
 文本框样式可由以下全局变量表示：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-139]{139}\inoutermargin{\darkred{139}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-140]{140}\inoutermargin{\darkred{140}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 path style.frame_shape; % 默认不作设定，边框形状
 color style.frame_background; style.frame_background := white; % 文本框背景色
 numeric style.frame_padding; style.frame_padding := .5BodyFontSize; % 边框留白
@@ -3143,20 +3158,20 @@ color style.frame_color; style.frame_color := black; % 边框颜色
 \noindent 上述片段使用了 \type{xi} 程序支持的同名代码片段合并语法，可以用 \type{+} 符号为既有的代码片段补充内容。基于文字和文本框的样式变量，\type{framed_text} 宏可以改进为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-140]{140}\inoutermargin{\darkred{140}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-141]{141}\inoutermargin{\darkred{141}}/ETEX
 def framed_text(suffix obj)(expr s) text somewhere =
     begingroup
     save s_pic, s_frame, padding, w, h;
     picture s_pic; path s_frame; numeric padding, w, h;
     s_pic := textext(s);
     padding := style.frame_padding;
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
     if unknown style.frame_shape:
         s_frame := s_box;
     else:
         w := bbwidth s_box; h := bbheight s_box;
         s_frame := convert_to_standard_shape(style.frame_shape);
-        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-112]>/ETEX
+        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-113]>/ETEX
     fi;
     obj := image(draw s_pic withcolor style.text_color;
                  draw s_frame withpen pencircle scaled style.frame_thickness
@@ -3170,11 +3185,11 @@ enddef;
 以下代码用于测试 \type{framed_text} 的第六个版本：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以默认样式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-141]{141}\inoutermargin{\darkred{141}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以默认样式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-142]{142}\inoutermargin{\darkred{142}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-138]>/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-144]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-142]>/ETEX/BTEX\ <\in[xi-148]>/ETEX/BTEX\ <\in[xi-152]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-140]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-140]>/ETEX/BTEX\ <\in[xi-145]>/ETEX/BTEX\ <\in[xi-150]>/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-143]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-141]>/ETEX
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
 draw foo; draw bar;
@@ -3184,11 +3199,11 @@ draw foo; draw bar;
 \noindent 上述代码中引用的片段「一些稳定下来的宏」是一些不再发生演变的宏的汇总：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-142]{142}\inoutermargin{\darkred{142}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-101]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-143]{143}\inoutermargin{\darkred{143}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text_class 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-103]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ make_anchors 宏版本之三 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-104]>/ETEX
 \stoptyping
 
 \noindent 后续这个片段还会加入一些新稳定下来的宏。上述示例所得结果如图 \in[08-01] 所示。
@@ -3198,11 +3213,11 @@ draw foo; draw bar;
 若 \type{style.frame_shape} 未设定，则以包含留白的文本包围盒为边框，那么倘若该变量有定义呢？如以下示例：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 根据设定的边框样式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-143]{143}\inoutermargin{\darkred{143}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 根据设定的边框样式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-144]{144}\inoutermargin{\darkred{144}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-138]>/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-144]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-142]>/ETEX/BTEX\ <\in[xi-148]>/ETEX/BTEX\ <\in[xi-152]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-140]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-140]>/ETEX/BTEX\ <\in[xi-145]>/ETEX/BTEX\ <\in[xi-150]>/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-143]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之六 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-141]>/ETEX
 style.frame_shape := fullcircle;
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
@@ -3223,29 +3238,29 @@ path style.frame_shape;
 新修改的 \type{framed_text} 宏及其上一个版本，对于给定的边框作标准化处理后再放大的过程中，宽度和高度方向是呈等比例放大的，然而很多时候，我们未必希望如此。例如，图 \in[08-02] 对应的示例，给定的边框是 \type{fullcircle}，即单位圆，当它套住含有留白的文字包围盒之后，如果我们希望它变成椭圆呢？那需要增加一个样式变量：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-144]{144}\inoutermargin{\darkred{144}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-145]{145}\inoutermargin{\darkred{145}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 boolean style.frame_isotropic; style.frame_isotropic := false; % 边框等比例缩放开关
 \stoptyping
 
 \noindent 上述变量的默认值表示不对边框的标准图形进行等比例缩放。为了实现边框的标准图形非等比例放大，\type{framed_text} 宏需修改为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-145]{145}\inoutermargin{\darkred{145}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-146]{146}\inoutermargin{\darkred{146}}/ETEX
 def framed_text(suffix obj)(expr s) text somewhere =
     begingroup
     save s_pic, s_frame, padding, w, h;
     picture s_pic; path s_frame; numeric padding, w, h;
     s_pic := textext(s);
     padding := style.frame_padding;
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
     if unknown style.frame_shape:
         s_frame := s_box;
     else:
         w := bbwidth s_box; h := bbheight s_box;
         s_frame := convert_to_standard_shape(style.frame_shape);
-        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-112]>/ETEX
+        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-113]>/ETEX
         if not style.frame_isotropic:
-            /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-146]>/ETEX
+            /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-147]>/ETEX
         fi;
     fi;
     obj := image(draw s_pic withcolor style.text_color;
@@ -3260,7 +3275,7 @@ enddef;
 \noindent 在 \type{s_frame} 等比例放大后，只需对其宽高比加以控制，便可得到非等比例放大效果，该过程的实现如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-146]{146}\inoutermargin{\darkred{146}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-147]{147}\inoutermargin{\darkred{147}}/ETEX
 save s_frame_w, s_frame_h; numeric s_frame_w, s_frame_h;
 s_frame_w := bbwidth s_frame; s_frame_h := bbheight s_frame;
 if w > h:
@@ -3275,11 +3290,11 @@ fi;
 以下代码用于测试非等比例边框的构造效果，如愿以偿，得到的是两个椭圆边框：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以非等比例的方式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-147]{147}\inoutermargin{\darkred{147}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以非等比例的方式构造文本框 foo 和 bar }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-148]{148}\inoutermargin{\darkred{148}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-138]>/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-144]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-142]>/ETEX/BTEX\ <\in[xi-148]>/ETEX/BTEX\ <\in[xi-152]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-145]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-140]>/ETEX/BTEX\ <\in[xi-145]>/ETEX/BTEX\ <\in[xi-150]>/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-143]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-146]>/ETEX
 style.frame_shape := fullcircle;
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
@@ -3292,8 +3307,8 @@ draw foo; draw bar;
 现在，将第七个版本的 \type{framed_text} 加入稳定宏集：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-148]{148}\inoutermargin{\darkred{148}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-145]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-149]{149}\inoutermargin{\darkred{149}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ framed_text 宏版本之七 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-146]>/ETEX
 \stoptyping
 
 \noindent 不过，如此一来，倘若使用 \type{xi} 提取示例代码，上一节的示例调用的 \type{framed_text} 宏会出现两个版本，为避免这种情况，需要使用 \type{xi} 的 \type{--beginning} 和 \type{--end} 选项设定代码抽取范围。对于 \type{framed_text} 最新版本导致的问题，只需使用 \type{--end} 选项即可，例如
@@ -3310,7 +3325,7 @@ $ xi -t --end "为了实现边框的标准图形非等比例放大" \
 路径的默认样式由以下变量定义：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-149]{149}\inoutermargin{\darkred{149}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-150]{150}\inoutermargin{\darkred{150}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 color style.path_color; style.path_color := black; % 路径颜色
 numeric style.path_thickness; style.path_thickness := 1pt; % 路径粗度
 numeric style.path_fillet; style.path_fillet := 6pt; % 路径圆角半径
@@ -3320,7 +3335,7 @@ boolean style.path_background; style.path_background := true; % 是否开启路�
 \noindent 基于上述变量，为正则路径定义专门的绘制宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-150]{150}\inoutermargin{\darkred{150}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-151]{151}\inoutermargin{\darkred{151}}/ETEX
 def draw_regular_paths text paths =
     begingroup
     save tmp_path, bg_path, bg_thickness;
@@ -3346,15 +3361,15 @@ enddef;
 \noindent 以下代码用于测试 \type{draw_regular_path} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 draw_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-151]{151}\inoutermargin{\darkred{151}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试 draw_regular_path 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-152]{152}\inoutermargin{\darkred{152}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-138]>/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-144]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-79]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-82]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-142]>/ETEX/BTEX\ <\in[xi-148]>/ETEX/BTEX\ <\in[xi-152]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-150]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图样式变量 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-139]>/ETEX/BTEX\ <\in[xi-140]>/ETEX/BTEX\ <\in[xi-145]>/ETEX/BTEX\ <\in[xi-150]>/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-80]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-84]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-143]>/ETEX/BTEX\ <\in[xi-149]>/ETEX/BTEX\ <\in[xi-153]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-151]>/ETEX
 style.frame_shape := fullcircle;
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
@@ -3368,12 +3383,12 @@ draw_regular_paths foo.卯门 xyxto bar.酉门, foo.子门 yxyto bar.午门;
 将上述示例相关的宏也汇入稳定宏集：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-152]{152}\inoutermargin{\darkred{152}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-79]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-82]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-150]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 一些稳定下来的宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-153]{153}\inoutermargin{\darkred{153}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-80]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-84]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 draw_regular_paths 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-151]>/ETEX
 \stoptyping
 
 \section{路径箭头}
@@ -3385,7 +3400,7 @@ draw_regular_paths foo.卯门 xyxto bar.酉门, foo.子门 yxyto bar.午门;
 在流程图样式里，选用以下变量控制箭头形状：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-153]{153}\inoutermargin{\darkred{153}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图样式变量 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-154]{154}\inoutermargin{\darkred{154}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 ahvariant := 1;
 ahdimple := 1;
 ahlength := 5style.path_thickness;
@@ -3425,7 +3440,7 @@ boolean style.path_background; style.path_background := true; % 是否开启路�
 \noindent 由于 \METAPOST\ 语言中的变量必须先声明，然后方能赋值，这两个过程不能合而为一，导致上述代码显得颇为冗余。然而，若是用 Lua 表语法，则与上述代码对应的 Lua 表可写为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-154]{154}\inoutermargin{\darkred{154}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-155]{155}\inoutermargin{\darkred{155}}/ETEX
 \startluacode
 style = {
     text = {fontsize = 'BodyFontSize', color = 'black'},
@@ -3445,7 +3460,7 @@ style = {
 之前我们已经多次用过字符串，亦即用双引号包含的文本，实际上它是 \type{string} 类型的值。\METAPOST\ 有一个非常奇怪的原语 \type{scantokens}，它可以将字符串转化为 \METAPOST\ 代码，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ scantokens 示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-155]{155}\inoutermargin{\darkred{155}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ scantokens 示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-156]{156}\inoutermargin{\darkred{156}}/ETEX
 \startMPpage
 string a;
 a := "draw fullsquare scaled 2cm withpen pencircle withcolor darkred";
@@ -3458,8 +3473,8 @@ scantokens(a);
 \METAPOST\ 提供的另一个奇怪的原语是 \type{runscript}，它可以执行一段 Lua 代码，并将所得结果交由 \type{scantokens} 原语翻译为 \METAPOST\ 代码，这意味着通过 \type{runscript}，我们可以获得 Lua 表中元素的值，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 从 Lua 样式表中取值示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-156]{156}\inoutermargin{\darkred{156}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 从 Lua 样式表中取值示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-157]{157}\inoutermargin{\darkred{157}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-155]>/ETEX
 \startMPpage
 numeric path_fillet;
 path_fillet := runscript("return style.path.fillet");
@@ -3472,8 +3487,8 @@ show "path fillet: " & decimal (path_fillet/pt) & "pt";
 同理，基于 \type{runscript} 也能在 \METAPOST\ 代码里修改 Lua 表中元素的值，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 从 MetaPost 代码里修改 Lua 样式表中元素的值 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-157]{157}\inoutermargin{\darkred{157}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-154]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 从 MetaPost 代码里修改 Lua 样式表中元素的值 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-158]{158}\inoutermargin{\darkred{158}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 以 Lua 表定义的流程图样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-155]>/ETEX
 \startMPpage
 runscript("style.path.fillet = '10pt'");
 numeric path_fillet;
@@ -3491,7 +3506,7 @@ show "path fillet: " & decimal (path_fillet/pt) & "pt";
 流程图样式的 Lua 表中元素的访问过程可定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Lua 样式表中元素访问宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-158]{158}\inoutermargin{\darkred{158}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Lua 样式表中元素访问宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-159]{159}\inoutermargin{\darkred{159}}/ETEX
 def get_style(expr anything) =
   runscript("style" & anything)
 enddef;
@@ -3507,7 +3522,7 @@ path_fillet := get_style("path.fillet");
 修改流程图样式的 Lua 表中元素的过程可定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Lua 样式表中元素修改宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-159]{159}\inoutermargin{\darkred{159}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Lua 样式表中元素修改宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-160]{160}\inoutermargin{\darkred{160}}/ETEX
 def set_style(expr k, v) =
     begingroup
     save s; string s;
@@ -3543,7 +3558,7 @@ set_style("frame.color", a);
 现在，我要告诉你 \METAPOST\ 除了普通宏、变量宏和运算符宏之外，还有一种宏，其行为像变量宏，但是其名字可以有后缀。这种宏通常用于功能的分发，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义后缀宏 style }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-160]{160}\inoutermargin{\darkred{160}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义后缀宏 style }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-161]{161}\inoutermargin{\darkred{161}}/ETEX
 vardef style@#(text anything) =
     save s; string s; s := str @#;
     if s = "get": get_style(anything) fi
@@ -3603,7 +3618,7 @@ style.set("frame.shape", "begingroup path unknown_path; unknown_path endgroup");
 \noindent 为了方便起见，可以定义一个通用的 \type{reset_style} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 reset_style 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-161]{161}\inoutermargin{\darkred{161}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 reset_style 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-162]{162}\inoutermargin{\darkred{162}}/ETEX
 def reset_style(expr k) =
     if k = "frame.shape":
         style.set(k, "begingroup path unknown_path; unknown_path endgroup");
@@ -3626,7 +3641,7 @@ enddef;
 \METAPOST\ 的 \type{input} 原语用于在当前文件里载入所指定文件的内容，若后者为 \METAPOST\ 代码，它们可以是你定义的宏。假设你定义的宏位于 \type{foo.mp} 文件，其内容为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo.mp 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-162]{162}\inoutermargin{\darkred{162}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ foo.mp 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-163]{163}\inoutermargin{\darkred{163}}/ETEX
 vardef hello =
     save p; path p; p := fullsquare xyscaled (4cm, 2cm);
     image(
@@ -3642,7 +3657,7 @@ enddef;
 假设在 \type{foo.mp} 文件所在目录里有 \type{bar.tex} 文件，其内容为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ bar.tex 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-163]{163}\inoutermargin{\darkred{163}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ bar.tex 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-164]{164}\inoutermargin{\darkred{164}}/ETEX
 \startMPpage
 input foo.mp;
 draw hello;
@@ -3692,7 +3707,7 @@ $ context --generate
 完成上述工作后，将 \type{t-foo.mkxl} 的内容修改为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-foo.mkxl 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-164]{164}\inoutermargin{\darkred{164}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-foo.mkxl 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-165]{165}\inoutermargin{\darkred{165}}/ETEX
 \writestatus{loading}{ConTeXt User Module / foo}
 \startmodule[foo]
 \startMPinclusions
@@ -3714,7 +3729,7 @@ enddef;
 现在假设你的 \TEX\ 目录树存在上述 \type{t-foo.mkxl}，则上一节的 \type{bar.tex} 需修改为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 使用 foo 模块的 bar.tex 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-165]{165}\inoutermargin{\darkred{165}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 使用 foo 模块的 bar.tex 文件内容 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-166]{166}\inoutermargin{\darkred{166}}/ETEX
 \usemodule[foo]
 \startMPpage
 draw hello;
@@ -3730,7 +3745,7 @@ draw hello;
 本文档前言中提到的《\CONTEXT\ 蹊径》的第 3 章讲述了如何为 \CONTEXT\ 安装汉字字体以及排版中文文档的基本方法，第 15 章介绍了我写的 zhfonts 模块的用法。如果你在 ConTeXt 的 TeX 目录树里安装了 zhfonts 模块，并且为 \CONTEXT\ 安装了 zhfonts 默认使用的字体，那么在 \METAPOST\ 代码里，可以为图形制作中文标注。例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ MetaPost 图形中文标注示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-166]{166}\inoutermargin{\darkred{166}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ MetaPost 图形中文标注示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-167]{167}\inoutermargin{\darkred{167}}/ETEX
 \usemodule[zhfonts]
 \startMPpage
 % 设置箭头形状
@@ -3759,7 +3774,7 @@ draw textext("汉字") shifted ((point .5 along p) shifted (0, 8pt));
 流程图节点分为三种，无框节点、有框节点和插图节点。无框节点，即没有边框图形的文字。有框节点，即之前章节里探讨多次的文本框。插图节点是由外部图形构成的节点，当然至此为止，我尚未言及如何基于外部图形构造 \type{picture} 类型对象。这三种节点，无论是否有边框，它们都拥有默认的锚点。这三种节点皆需要以 \type{snail_t} 宏声明，该宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-167]{167}\inoutermargin{\darkred{167}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-168]{168}\inoutermargin{\darkred{168}}/ETEX
 def snail_t text objs =
     forsuffixes it = objs:
         picture it; % 节点对象
@@ -3773,7 +3788,7 @@ enddef;
 \noindent \type{snail_t} 宏的行为类似前面章节探讨的 \type{framed_text_class} 宏，主要是利用了比喻，缩短了宏名，此外宏名中的 \type{_t} 后缀，是 \type{_type} 的简写。上述代码中所用的 \type{anchorname} 宏，其定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-168]{168}\inoutermargin{\darkred{168}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-169]{169}\inoutermargin{\darkred{169}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
 def anchorname text obj = 
     pair obj.anchors[][];
     forsuffixes it = 中央, 东北, 西北, 西南, 东南,
@@ -3790,7 +3805,7 @@ enddef;
 考虑到你也可能存在命名恐惧症，当你不想为每个流程图节点取名字，也可以使用 \type{snailfam_t} 定义节点数组，该宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-169]{169}\inoutermargin{\darkred{169}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-170]{170}\inoutermargin{\darkred{170}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def snailfam_t text objs =
     forsuffixes it = objs:
         picture it[];
@@ -3806,7 +3821,7 @@ enddef;
 在开始定义节点构造宏之前，需要先给出节点的样式定义，我们采用 Lua 表结构表达流程图样式。以下代码先给出节点样式的默认设定：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Snail 模块样式表 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-170]{170}\inoutermargin{\darkred{170}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Snail 模块样式表 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-171]{171}\inoutermargin{\darkred{171}}/ETEX
 \startluacode
 snailmod = {
     text = {fontsize = 'BodyFontSize', color = 'black', offset = '(0, 0)'},
@@ -3815,7 +3830,7 @@ snailmod = {
         thickness = '1pt', color = 'black', isotropic = 'false',
         padding = '.5BodyFontSize', margin = '2BodyFontSize'
     },
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 其他元素的样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 其他元素的样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-212]>/ETEX
 }
 \stopluacode
 \stoptyping 
@@ -3825,7 +3840,7 @@ snailmod = {
 下面定义的两个宏分别用于访问和修改上述 Lua 表：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-171]{171}\inoutermargin{\darkred{171}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-172]{172}\inoutermargin{\darkred{172}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
 /BTEX\color[darkmagenta]{<模块参数访问和设定>}/ETEX
 % 该宏用于获取模块参数
 def snail_mod_get(expr anything) =
@@ -3851,13 +3866,13 @@ enddef;
 基于后缀宏机制，为样式表的访问和修改过程定义界面：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-172]{172}\inoutermargin{\darkred{172}}/ETEX/BTEX\color[darkmagenta]{\ <模块参数访问和设定>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-173]{173}\inoutermargin{\darkred{173}}/ETEX/BTEX\color[darkmagenta]{\ <模块参数访问和设定>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkmagenta]{<snailmod 后缀宏>}/ETEX
 vardef snailmod@#(text anything) =
     save s; string s; s := str @#;
     if s = "get": snail_mod_get(anything) fi
     if s = "set": snail_mod_set(anything) fi
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-182]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-183]>/ETEX
 enddef;
 \stoptyping
 
@@ -3868,7 +3883,7 @@ enddef;
 虽然用于构造三种流程图节点的宏尚未定义出来，但是基于前面一些章节的探索，结合 \type{snail_t} 以及样式表的定义，可以先将节点的锚点构造过程定义出来，如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-173]{173}\inoutermargin{\darkred{173}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-174]{174}\inoutermargin{\darkred{174}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def make_anchors suffix obj =
     begingroup
     obj.中央 := center obj;
@@ -3929,7 +3944,7 @@ enddef;
 定义 \type{snail_draw_anchors} 宏，用于画出一系列节点的锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-174]{174}\inoutermargin{\darkred{174}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-175]{175}\inoutermargin{\darkred{175}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def snail_draw_anchors text all =
     begingroup
     save s, p; numeric s; path p;
@@ -3959,7 +3974,7 @@ enddef;
 \noindent 上述代码所用的 \type{anchorsize} 设定，其定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-175]{175}\inoutermargin{\darkred{175}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-176]{176}\inoutermargin{\darkred{176}}/ETEX
 anchorsize = '4pt',
 \stoptyping
 
@@ -3968,7 +3983,7 @@ anchorsize = '4pt',
 我将构造无框节点的宏取名为 \type{slug}，即蛞蝓（读作「阔余」），俗称鼻涕虫，像是没有壳的蜗牛，其定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-176]{176}\inoutermargin{\darkred{176}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-177]{177}\inoutermargin{\darkred{177}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
         obj.content := nullpicture;
@@ -3989,7 +4004,7 @@ enddef;
 \noindent 上述代码里的 \type{nullpicture} 表示空画面对象。对于非空的无框节点，虽然无需绘制其边框，但是却使用 \CONTEXT\ 宏 \tex{slug} 构造节点文字。\tex{slug} 的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-177]{177}\inoutermargin{\darkred{177}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-178]{178}\inoutermargin{\darkred{178}}/ETEX
 \defineframed[slug][offset=.25em, frame=off]
 \stoptyping
 
@@ -4000,12 +4015,12 @@ enddef;
 以下示例构造了两个无框节点，并画出它们的锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试无框节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-178]{178}\inoutermargin{\darkred{178}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试无框节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-179]{179}\inoutermargin{\darkred{179}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
 snail_t foo, bar;
 slug(foo, "Foo"); slug(bar, "Bar") at (4cm, 2cm);
 draw foo; draw bar;
@@ -4018,12 +4033,12 @@ snail_draw_anchors foo, bar; % 画出 foo 和 bar 的锚点
 若令节点文本为空字符串，用 \type{slug} 宏可以构造空节点。空节点能用来做什么呢？事实上，我并未想好它的用法，只是出于某种有实必有虚的念头而不得不实现它。不过，我能想到的一个场景是，空间点可以作为实节点的间隔，使得节点布局无需显式设定尺度，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 空节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-179]{179}\inoutermargin{\darkred{179}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 空节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-180]{180}\inoutermargin{\darkred{180}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
 snail_t a, b, empty;
 slug(a, "Node a");
 slug(empty, "") at a.震位;
@@ -4042,20 +4057,20 @@ snail_draw_anchors a, empty, b;
 之前在多个章节里探讨了有框节点的构造，现在虽然是完全重新为其设计一个构造宏，但所用算法未变，仅仅是将节点构造过程与 Lua 样式表关联起来。用于构造有框节点的宏，其名为 \type{snail}，意为\hbox{「蜗牛」}，与模块同名，象征流程图中最为普遍的节点。\type{snail} 宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-180]{180}\inoutermargin{\darkred{180}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-101]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-181]{181}\inoutermargin{\darkred{181}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
 def snail(suffix obj)(expr s) text somewhere =
     begingroup
     save s_pic, s_frame, padding, w, h;
     picture s_pic; path s_frame; numeric padding, w, h;
     s_pic := textext(s) shifted snailmod.get("text.offset");
     padding := snailmod.get("frame.padding");
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-108]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 为 s_pic 构造含有留白的包围盒 s_box }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-109]>/ETEX
     w := bbwidth s_box; h := bbheight s_box;
     s_frame := convert_to_standard_shape(snailmod.get("frame.shape"));
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-112]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 更快的 s_frame 放大过程 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-113]>/ETEX
     if not snailmod.get("frame.isotropic"):
-        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-146]>/ETEX
+        /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 调整 s_frame 的宽高比 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-147]>/ETEX
     fi;
     obj := image(draw s_pic withcolor snailmod.get("text.color");
                  draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
@@ -4074,13 +4089,13 @@ enddef;
 以下代码用于测试有框节点的构造过程及基本效果：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试有框节点及其锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-181]{181}\inoutermargin{\darkred{181}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试有框节点及其锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-182]{182}\inoutermargin{\darkred{182}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
 def ellipse(suffix obj)(expr content) text somewhere =
     snailmod.set("frame.shape", "fullcircle");
     snail(obj, content) somewhere;
@@ -4100,7 +4115,7 @@ snail_draw_anchors foo, bar;
 \indentation 上述示例暴露出一个问题，当我们出于需要而修改样式表中的一些参数之后，若想恢复其原值，前提是需要记住或能够查阅到其原值。该过程对于模块的用户而言颇不友好。要解决该问题，需要为 \type{snailmod} 宏增加一个样式重置后缀：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-182]{182}\inoutermargin{\darkred{182}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-183]{183}\inoutermargin{\darkred{183}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if s = "reset":
     snail_mod_reset(anything)
 fi
@@ -4109,7 +4124,7 @@ fi
 \noindent \type{snail_mod_reset} 宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-183]{183}\inoutermargin{\darkred{183}}/ETEX/BTEX\color[darkmagenta]{\ <snailmod 后缀宏>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-184]{184}\inoutermargin{\darkred{184}}/ETEX/BTEX\color[darkmagenta]{\ <snailmod 后缀宏>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
 def snail_mod_reset(expr parameter) =
     if parameter = "frame.shape":
         snailmod.set(parameter, "fullsquare");
@@ -4117,7 +4132,7 @@ def snail_mod_reset(expr parameter) =
     if parameter = "frame.isotropic":
         snailmod.set(parameter, false); 
     fi;
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-206]>/ETEX/BTEX\ <\in[xi-212]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-190]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-213]>/ETEX
 enddef;
 \stoptyping
 
@@ -4138,7 +4153,7 @@ enddef;
 用于构造插图节点的宏叫作 \type{avatar}，意为化身，表示蜗牛通过图像的形式幻化成各种形态。在定义 \type{avatar} 宏之前，需要了解一下 \METAPOST\ 语言如何引入外部图片，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 引入外部图片示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-184]{184}\inoutermargin{\darkred{184}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 引入外部图片示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-185]{185}\inoutermargin{\darkred{185}}/ETEX
 \startMPpage
 picture a;
 a := externalfigure "foo.png";
@@ -4157,7 +4172,7 @@ drawarrow (0, 0) -- (4.5cm, 0); drawarrow (0, 0) -- (0, 4.5cm);
 掌握上述上述知识，便可定义 \type{avatar} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-185]{185}\inoutermargin{\darkred{185}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-186]{186}\inoutermargin{\darkred{186}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def avatar (suffix obj) (expr a, w, h) text somewhere =
     begingroup
     save p, f; picture p; numeric f;
@@ -4187,13 +4202,13 @@ enddef;
 以下代码用于测试 \type{avatar} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 插图节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-186]{186}\inoutermargin{\darkred{186}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 插图节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-187]{187}\inoutermargin{\darkred{187}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 avatar(bar, "foo.png", 2cm, "auto") at (6cm, 2cm);
@@ -4214,7 +4229,7 @@ snail_draw_anchors foo, bar;
 定义 \type{showsnails} 宏，实现一次画多个蜗牛：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-187]{187}\inoutermargin{\darkred{187}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-188]{188}\inoutermargin{\darkred{188}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showsnails text all =
   begingroup
     for it = all: draw it; endfor;
@@ -4230,14 +4245,14 @@ enddef;
 \noindent 如果流程图样式表中的参数 \type{snailmod.debug} 值为 \type{'true'}，\type{showsnails} 会将节点的锚点一并画出。现在，将这个参数补充到流程图样式表中，
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-188]{188}\inoutermargin{\darkred{188}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-189]{189}\inoutermargin{\darkred{189}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 debug = 'false',
 \stoptyping
 
 \noindent 并为其定义重操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-189]{189}\inoutermargin{\darkred{189}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-190]{190}\inoutermargin{\darkred{190}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "debug":
     snailmod.set(parameter, false);
 fi;
@@ -4259,8 +4274,8 @@ snailmod.reset("debug");
 将之前定义的 \type{at} 宏也作为节点辅助宏，然后定义 \type{put} 宏，用于将节点放置在指定位置：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-190]{190}\inoutermargin{\darkred{190}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-63]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-191]{191}\inoutermargin{\darkred{191}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
 def put (suffix obj, anchor) text there =
   obj := (obj shifted -obj.anchor) there;
   if known obj.frame: obj.frame := (obj.frame shifted -obj.anchor) there; fi;
@@ -4289,19 +4304,19 @@ put(foo, 中央) at (3cm, 2cm);
 在探讨如何构造流程图节点之间的路径前，需要向流程图样式表中增加路径样式的定义：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-191]{191}\inoutermargin{\darkred{191}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-192]{192}\inoutermargin{\darkred{192}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 path = {
     thickness = '1pt', color = 'black', background = 'true',
     smooth = 'true', fillet = '.5BodyFontSize',
     arrow = 'true', ahvariant = 1, ahdimple = 1, ahlength = '.5BodyFontSize',
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充路径样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-205]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充路径样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-206]>/ETEX
 },
 \stoptyping
 
 \noindent 上述样式表中设定了路径箭头的样式，先将其转化为 \METAPOST\ 为箭头定义的全局变量的值：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-192]{192}\inoutermargin{\darkred{192}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-193]{193}\inoutermargin{\darkred{193}}/ETEX
 ahvariant := snailmod.get("path.ahvariant");
 ahdimple := snailmod.get("path.ahdimple");
 ahlength := snailmod.get("path.ahlength");
@@ -4314,11 +4329,11 @@ ahlength := snailmod.get("path.ahlength");
 定义 \type{road} 宏，用于构造蜗牛之间的路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-193]{193}\inoutermargin{\darkred{193}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-43]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-79]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-82]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-194]{194}\inoutermargin{\darkred{194}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-80]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 simplify_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-84]>/ETEX
 vardef road(expr p) =
     if snailmod.get("path.smooth"):
         smooth_regular_path(simplify_regular_path(p), snailmod.get("path.fillet"))
@@ -4333,7 +4348,7 @@ enddef;
 \type{snailmod.path.smooth} 参数的值默认是 \type{true}，倘若将其值修改为 \type{false}，则 \type{road} 会将正则路径作为结果。下面为该参数定义重置操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-194]{194}\inoutermargin{\darkred{194}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-195]{195}\inoutermargin{\darkred{195}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "path.smooth":
     snailmod.set(parameter, true);
 fi;
@@ -4342,7 +4357,7 @@ fi;
 将 \in[path-style] 节定义的 \type{draw_regular_paths} 宏改造为 \type{showroads} 宏，用于显示一系列路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-195]{195}\inoutermargin{\darkred{195}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-196]{196}\inoutermargin{\darkred{196}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showroads text paths =
     begingroup
     save bg_path, bg, thi, bg_thi, has_arrow, road_color;
@@ -4350,13 +4365,13 @@ def showroads text paths =
     boolean has_arrow; color road_color;
     bg := snailmod.get("path.background");
     thi := snailmod.get("path.thickness");
-    bg_thi := 12 * thi;
+    bg_thi := 7 * thi;
     has_arrow := snailmod.get("path.arrow");
     road_color := snailmod.get("path.color");
     for i = paths:
         if bg:
-            bg_path := i cutbefore (point bg_thi on i);
-            bg_path := bg_path cutafter (point -bg_thi on bg_path);
+            bg_path := i cutbefore (point .5bg_thi on i);
+            bg_path := bg_path cutafter (point -.5bg_thi on bg_path);
             draw bg_path withpen pencircle scaled bg_thi withcolor background;
         fi;
         
@@ -4373,12 +4388,12 @@ enddef;
 以下代码用于测试 \type{road} 和 \type{showroads} 宏，结果如图 \in[12-01] 所示。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-196]{196}\inoutermargin{\darkred{196}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-197]{197}\inoutermargin{\darkred{197}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4404,7 +4419,7 @@ q := a_0\;..\;b_1\;..\;b2\;..\;\cdots\;..\;b_{n-1}\;..\;a_n;
 为了回答这个问题，先将上述算法定义为宏 \type{tocurve}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-197]{197}\inoutermargin{\darkred{197}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-198]{198}\inoutermargin{\darkred{198}}/ETEX
 vardef tocurve(expr p, t) =
     save a, n; pair a[]; numeric n;
     n := length p;
@@ -4425,13 +4440,13 @@ a[0] .. t[a[1], .5[a[0], a[1]]] .. ... .. t[a[n - 1], .5[a[n - 2], a[n]]] .. a[n
 以下示例用于测试 \type{tocurve} 的效果：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-198]{198}\inoutermargin{\darkred{198}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-199]{199}\inoutermargin{\darkred{199}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-197]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4445,10 +4460,10 @@ showroads tocurve(foo.卯门 xyxto bar.酉门, .75), road(foo.子门 yxyto bar.�
 \indentation 上述示例调用 \type{tocurve} 宏时，其第 2 个参数取 0.75，该参数决定 \type{tocurve} 所构造曲线的弯曲程度。以下示例可展示该参数对曲线形状的影响：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ tocurve 第二个参数的几何意义 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-199]{199}\inoutermargin{\darkred{199}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ tocurve 第二个参数的几何意义 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-200]{200}\inoutermargin{\darkred{200}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-121]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-197]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
 pair a, b; path p, q;
 a := (0, 0); b := (5cm, 5cm);
 p := a -- (5cm, 0) -- b;
@@ -4473,7 +4488,7 @@ draw b withcolor darkblue; label.urt("$b$", b);
 如果让 \type{tocurve} 构造的曲线封闭，结果会如何呢？设 $p$ 为封闭路径，则其节点集合 $\{a_0, a_1, \cdots, a_n\}$ 不再区分端点和中间节点了，而是每个节点皆为中间节点，亦即在封闭路径中， $a_0$ 和 $a_n$ 是同一个节点，并且需要由其本身及其前后两个节点确定 $b_0$，亦即 $b_n$。$a_0$ 的前一个点是 $a_{n - 1}$。基于这些条件，可以定义一个能基于封闭路径构造封闭曲线的宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-200]{200}\inoutermargin{\darkred{200}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-201]{201}\inoutermargin{\darkred{201}}/ETEX
 vardef toclosedcurve(expr p, t) =
     save a, n; pair a[]; numeric n;
     n := length p;
@@ -4489,10 +4504,10 @@ enddef;
 以下代码可测试 \type{toclosedcurve} 宏并揭示其第 2 个参数的几何意义：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-201]{201}\inoutermargin{\darkred{201}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-202]{202}\inoutermargin{\darkred{202}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-121]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-200]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
 path p, q;
 p := fullsquare xyscaled (4cm, 1cm);
 draw p withpen pencircle scaled 2pt withcolor darkred;
@@ -4509,10 +4524,10 @@ endfor;
 上述示例基于一个矩形构造出来的封闭曲线像是一系列略微有些不规则的圆，如图 \in[12-04] 所示，也许这并不能让你觉得正则封闭曲线有什么用处。倘若将矩形换成一个有些扁的菱形，也许就会让你觉得 \type{toclosedcurve} 有些用处，例如以下示例可基于菱形构造似椭圆而非椭圆的封闭曲线，结果如图 \in[12-05] 所示。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-202]{202}\inoutermargin{\darkred{202}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-203]{203}\inoutermargin{\darkred{203}}/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-121]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-200]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
 path p;
 p := fulldiamond xyscaled (7cm, 3cm);
 draw p withpen pencircle scaled 2pt withcolor darkgray;
@@ -4525,9 +4540,9 @@ draw toclosedcurve(p, .5) withpen pencircle scaled 2pt withcolor darkred;
 将 \type{tocurve} 和 \type{toclosedcurve} 宏的定义并入流程图路径代码：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-203]{203}\inoutermargin{\darkred{203}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-197]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-200]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-204]{204}\inoutermargin{\darkred{204}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
 \stoptyping
 
 \section{虚线}
@@ -4535,7 +4550,7 @@ draw toclosedcurve(p, .5) withpen pencircle scaled 2pt withcolor darkred;
 有时，路径需要以虚线的形式画出，而我从未介绍过如何用 \METAPOST\ 画虚线。以下代码将路径画成以 \type{1mm} 的空白作为间隔的虚线：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 虚线示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-204]{204}\inoutermargin{\darkred{204}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 虚线示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-205]{205}\inoutermargin{\darkred{205}}/ETEX
 \startMPpage
 % 构造虚线模式
 picture a;
@@ -4557,14 +4572,14 @@ draw p shifted (0, -5mm) withpen pencircle;
 在画流程图时，节点之间的路径也许需要画成虚线。对路径样式加以扩充，设定默认的虚线图案：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充路径样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-205]{205}\inoutermargin{\darkred{205}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充路径样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-206]{206}\inoutermargin{\darkred{206}}/ETEX
 dashpattern = 'dashpattern(on 3pt off 3pt)',
 \stoptyping
 
 \noindent 该样式设定的重置操作如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-206]{206}\inoutermargin{\darkred{206}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-207]{207}\inoutermargin{\darkred{207}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "path.dashpattern":
     snailmod.set(parameter, 'dashpattern(on 3pt off 3pt)');
 fi;
@@ -4573,7 +4588,7 @@ fi;
 基于上述样式以及 \type{showroads} 宏，便可定义一个专用于画虚线路径的宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-207]{207}\inoutermargin{\darkred{207}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-208]{208}\inoutermargin{\darkred{208}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showdashedroads text paths =
     begingroup
     save pat; picture pat;
@@ -4590,12 +4605,12 @@ enddef;
 以下代码用于测试 \type{showdashedroads} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-208]{208}\inoutermargin{\darkred{208}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-209]{209}\inoutermargin{\darkred{209}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4612,7 +4627,7 @@ showroads road(foo.子门 yxyto bar.午门);
 有时，你会希望直接在两个节点之间直接构造路径，而不是通过它们的锚点。对于该需求，可基于两个节点的中心构造路径，然后用两个节点的边框裁剪路径两端。我们将该操作定义为 \type{contect} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-209]{209}\inoutermargin{\darkred{209}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-210]{210}\inoutermargin{\darkred{210}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 vardef connect(suffix a, b) =
     save p, a_c, b_c, thi, comp;
     path p; pair a_c, b_c, comp; numeric thi;
@@ -4638,12 +4653,12 @@ enddef;
 以下代码用于测试 \type{connect} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-210]{210}\inoutermargin{\darkred{210}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-211]{211}\inoutermargin{\darkred{211}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
 snail_t a, b, c;
 slug(a, "A"); snail(b, "B") at (3cm, 1.5cm); slug(c, "C") at (6cm, 3cm);
 showsnails a, b, c;
@@ -4666,7 +4681,7 @@ showroads connect(a, b), connect(b, c);
 你肯定猜到了，并没有什么 NPC，有的只是路径标注，它们就像我们的城市里的路牌。不过，既然已经用了这个比喻，就继续用下去。NPC 需要以下样式：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-211]{211}\inoutermargin{\darkred{211}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-212]{212}\inoutermargin{\darkred{212}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 tag = {
     upright = 'true', reverse = 'false', padding = "1pt"
 },
@@ -4675,7 +4690,7 @@ tag = {
 \noindent \type{upright} 表示路径上的标注文字是否为直立，默认为直立，亦即无论路径是横向的，还是纵向的，还是曲线形式的，标注文字保持直立状态，不会顺着路径的方向而倾斜。\type{reverse} 控制标注文字是否反向，默认为正向。\type{padding} 用于控制标注文字和路径的间距。以下代码实现了这三个样式参数的重置操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-212]{212}\inoutermargin{\darkred{212}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-213]{213}\inoutermargin{\darkred{213}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "tag.upright":
     snailmod.set(parameter, true);
 fi;
@@ -4694,7 +4709,7 @@ fi;
 样式表中默认将标注文字设为直立，但无论标注文字是否为直立，要解决的关键问题是，如何让标注文字处于路径上指定位置附近，使之不与路径相交。我依然选择粗暴但简单的算法解决这个问题。设待标注的路径为 \type{p}，其上有一点 \type{c}，\type{p} 在 \type{c} 处的切向和法向分别为 \type{v1} 和 \type{v2}，再设 \type{s} 为标注文字，\type{pic_s} 为 \type{textext(s)} 构造的 \type{picture} 对象，其中心与 \type{c} 重合。在这些已知条件下，将 \type{pic_s} 定位到 \type{c} 点附近且不与 \type{p} 相交的粗暴算法是，沿着 \type{p} 在 \type{c} 点的法向不断移动 \type{pic_s}，直至其包围盒不与 \type{p} 相交为止。以下代码实现了该算法：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-213]{213}\inoutermargin{\darkred{213}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-214]{214}\inoutermargin{\darkred{214}}/ETEX
 save pic_a, a, delta;
 picture pic_a; pair a; numeric u;
 u := snailmod.get("tag.padding");
@@ -4713,13 +4728,13 @@ pic_s := pic_a shifted (u * v2);;
 基于上述算法的实现，将 \type{tag} 宏重新定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-214]{214}\inoutermargin{\darkred{214}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-215]{215}\inoutermargin{\darkred{215}}/ETEX
 vardef tag(expr p, f, s) text somewhere =
     save pic_s, c, v;
     picture pic_s; pair c, v[];
     c := point f along p;
     v1 := unitvector(direction f along p); % 路径切向
-    v2 := v1 rotated 90; % 路径法向
+    v2 := if (v1 dotprod right) > 0: v1 rotated 90 else: v1 rotated -90 fi; % 路径法向
     pic_s := textext(s);
     if snailmod.get("tag.reverse"):
         pic_s := (pic_s rotated 180) somewhere;
@@ -4732,7 +4747,7 @@ vardef tag(expr p, f, s) text somewhere =
     else:
         pic_s := pic_s rotated angle(v1) shifted c;
     fi
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-213]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-214]>/ETEX
     pic_s
 enddef;
 \stoptyping
@@ -4740,13 +4755,13 @@ enddef;
 \noindent 以下代码用于测试新的 \type{tag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-215]{215}\inoutermargin{\darkred{215}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-216]{216}\inoutermargin{\darkred{216}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-214]>/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
 snail_t foo, bar; snail(foo, "Foo"); snail(bar, "Bar") at (5cm, 2cm);
 path p[];
 p1 := foo.寅门 xyxto bar.酉门;
@@ -4767,9 +4782,9 @@ snailmod.set("tag.reverse", true); draw tag(p3, .3, "44"); snailmod.reset("tag.r
 所谓话痨 NPC，就是路径标注可以用较长的文字，在 \in[follow-tag-macro] 节已经实现了它的原型宏 \type{followtag}，现在对该宏的定义略作修改，使之与样式表关联起来，便可得到话痨 NPC。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-216]{216}\inoutermargin{\darkred{216}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-131]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 snap 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-136]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-217]{217}\inoutermargin{\darkred{217}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 snap 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-137]>/ETEX
 vardef followtag(expr p, s) =
     save d, pic_s, q; numeric d; picture pic_s; path q;
     pic_s := textext(s);
@@ -4787,13 +4802,13 @@ enddef;
 以下示例用于测试新的 \type{followtag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-217]{217}\inoutermargin{\darkred{217}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-218]{218}\inoutermargin{\darkred{218}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-214]>/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
 snail_t foo, bar; snail(foo, "Foo"); snail(bar, "Bar") at (5cm, 2cm);
 path p[];
 p1 := foo.寅门 xyxto bar.酉门;
@@ -4821,7 +4836,7 @@ draw followtag(snap(p2, .1, .3), "i am 43!");
 有 \type{showsnails} 和 \type{showroads}，也应该有 \type{showtags}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-218]{218}\inoutermargin{\darkred{218}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-219]{219}\inoutermargin{\darkred{219}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showtags text tags =
     for i = tags: draw i; endfor;
 enddef;
@@ -4852,15 +4867,15 @@ showtags tag(p1, .6, "\color[darkred]{\tfx i am 42!}");
 建立 \type{t-snail.mkxl} 文件，其内容如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-snail.mkxl }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-219]{219}\inoutermargin{\darkred{219}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-snail.mkxl }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-220]{220}\inoutermargin{\darkred{220}}/ETEX
 \writestatus{loading}{ConTeXt User Module / Snail}
 \startmodule[snail]
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-170]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
 \startMPinclusions
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-167]>/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-180]>/ETEX/BTEX\ <\in[xi-183]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-190]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-203]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-209]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-214]>/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
 \stopMPinclusions
 \stopmodule
 \endinput

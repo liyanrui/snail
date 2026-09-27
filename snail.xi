@@ -1060,11 +1060,25 @@ drawarrow b xyto c withcolor darkgreen;
 
 @ 定义 xyxto 和 yxyto 宏 # [typing]
 tertiarydef a xyxto b =
-    a xyto .5[a, b] yxto b
+    begingroup
+    # 获取 a 和 b 的中点 c @
+    a xyto c yxto b
+    endgroup
 enddef;
 tertiarydef a yxyto b =
-    a yxto .5[a, b] xyto b
+    begingroup
+    # 获取 a 和 b 的中点 c @
+    a yxto c xyto b
+    endgroup
 enddef;
+@
+
+\noindent 上述代码中引用的代码片段定义如下：
+
+@ 获取 a 和 b 的中点 c #
+save pa, pb, c; path pa, pb; pair c;
+pa := a; pb := b;
+c := .5[(point (length pa) of pa), (point 0 of pb)];
 @
 
 为了方便后文在示例构造正则路径，我将上述定义的一些宏汇集到一起：
@@ -4155,13 +4169,13 @@ def showroads text paths =
     boolean has_arrow; color road_color;
     bg := snailmod.get("path.background");
     thi := snailmod.get("path.thickness");
-    bg_thi := 12 * thi;
+    bg_thi := 7 * thi;
     has_arrow := snailmod.get("path.arrow");
     road_color := snailmod.get("path.color");
     for i = paths:
         if bg:
-            bg_path := i cutbefore (point bg_thi on i);
-            bg_path := bg_path cutafter (point -bg_thi on bg_path);
+            bg_path := i cutbefore (point .5bg_thi on i);
+            bg_path := bg_path cutafter (point -.5bg_thi on bg_path);
             draw bg_path withpen pencircle scaled bg_thi withcolor background;
         fi;
         
@@ -4505,7 +4519,7 @@ vardef tag(expr p, f, s) text somewhere =
     picture pic_s; pair c, v[];
     c := point f along p;
     v1 := unitvector(direction f along p); % 路径切向
-    v2 := v1 rotated 90; % 路径法向
+    v2 := if (v1 dotprod right) > 0: v1 rotated 90 else: v1 rotated -90 fi; % 路径法向
     pic_s := textext(s);
     if snailmod.get("tag.reverse"):
         pic_s := (pic_s rotated 180) somewhere;
