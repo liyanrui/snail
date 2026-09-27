@@ -8,27 +8,6 @@
 \blank[14cm]
 \stopstandardmakeup
 
-\preface{DeepSeek 作序}
-
-在 \TEX\ 的世界里，写序是一件危险的事。正文可以出错，读者会原谅；序若说大话，后来者会记账。所以，为《蜗行》写序，我先要声明：我不是来给 \METAPOST\ 定论的，只是来给一只爬得很慢的蜗牛作证——它确实留下了一条路径。
-
-我看了这文档，挺有意思。一个人写代码，写着写着，写成了一本书。这就像一个人本来要钉个板凳，结果盖了间房。你说他亏了吧，他房也盖了；你说他赚了吧，他钉板凳那点事还没说完。
-
-画图这件事，说穿了就是点走路。点走到哪儿，线跟到哪儿。线拐弯，拐急了是直角，拐缓了是弧。就这么点事。可这点事，要说明白，不容易。这文档的作者，我看是个慢性子。你看他写点，写路径，写宏，写文本框，一样一样来，不急。急了不行。急了，\type{xto} 就写不对，\type{framed_text} 就得推倒重来。他自己也说，蜗牛爬得慢，它爬行的痕迹是一些图案。这话说得好。慢，痕迹才看得清。
-
-我尤其喜欢他那个骗术的说法。路径交叉，本来要算交点，算来算去，他最后用背景色一盖，这叫大巧不工？我看叫偷懒。可这懒偷得聪明。世上好多事，你正面攻，攻不下来；绕一下，就过去了。\METAPOST\ 里叫骗术，生活里叫智慧。
-
-他写宏，像养孩子。\type{xto} 不怎么听话，他就一遍一遍改，运算符宏，\type{hide}，\type{begingroup} \type{...} \type{endgroup}……折腾。最后孩子听话了，他又去养下一个。养了 \type{yto}，养了 \type{xyto}，养了 \type{yxto}。我看他养得挺高兴。一个人愿意把一件事翻来覆去地做，还做出滋味来，这就不容易。
-
-还有那个路上的 NPC。路会说话吗？不会。可你给它挂个牌子，它就会了。\type{tag}，\type{followtag}，就是牌子。牌子挂得好，走路的人不迷路。挂得不好，挡道。他这牌子挂得还行。
-
-我看这文档，最舒服的地方，是它不装。他不说 \METAPOST\ 有多伟大，也不说自己有多高明。\METAPOST\ 也好，\TEX\ 也好，文学编程也好，都是工具。工具这东西，你用顺手了，它就是你的手。用不顺手，它就是一堆铁。这份文档，就是教你怎么把这堆铁变成手。它不保证你变成高手，但至少，它让你知道高手是如何炼成的。
-
-蜗牛爬得慢，可它一直在爬。爬过的路，它自己记得。有一天它回头看，那些痕迹，就是它的路。它爬过的每一寸都算数。你也得顺着这些路，一寸一寸爬过去，才能知道这些路是什么样子。
-
-\blank[2em]
-\rightaligned{一个也曾在 \type{def} 与 \type{enddef} 之间迷过路的人}
-
 \setuppagenumber[number=1]
 \setupuserpagenumber[numberconversion=romannumerals]
 \TOC{目录}
@@ -116,10 +95,10 @@ put (tex_file, 坎位) at xi_weave.离位; put (context, 坎位) at tex_file.离
 put (pdf_file, 坎位) at context.离位;
 % 构造路径
 path p[];
-p1 := xi_file.子门 yxto xi_tangle.酉门; p2 := xi_conf.子门 yto xi_tangle.午门;
-p3 := xi_tangle.卯门 xto src_file.酉门; p4 := xi_file.午门 yxto xi_weave.酉门;
-p5 := xi_conf.午门 yto xi_weave.子门; p6 := xi_weave.卯门 xto tex_file.酉门;
-p7 := tex_file.卯门 xto context.酉门; p8 := context.卯门 xto pdf_file.酉门;
+p1 := xi_file.子门 yxto xi_tangle.酉门; p2 := xi_conf => xi_tangle;
+p3 := xi_tangle => src_file; p4 := xi_file.午门 yxto xi_weave.酉门;
+p5 := xi_conf => xi_weave; p6 := xi_weave => tex_file;
+p7 := tex_file => context; p8 := context => pdf_file;
 % 在调试模式下画出节点及其锚点
 snailmod.set("debug", true);
 showsnails xi_file, xi_tangle, src_file, xi_conf, xi_weave, tex_file, context, pdf_file;
@@ -3609,9 +3588,9 @@ draw textext("汉字") shifted ((point .5 along p) shifted (0, 8pt));
 @ 流程图节点 # [typing]
 def snail_t text objs =
     forsuffixes it = objs:
-        picture it; % 节点对象
-        picture it.content; % 节点文本
-        path it.frame; % 节点边框
+        path it; % 节点边框，亦即以边框表示节点本身，原因是许多运算依赖于边框
+        boolean it.frame; % 有框节点，此值为 true；其他节点，此值为 false
+        picture it.face; % 节点边框及其文本构成的画面
         anchorname it; % 节点的锚点集
      endfor;
 enddef;
@@ -3638,9 +3617,9 @@ enddef;
 @ 流程图节点 # +
 def snailfam_t text objs =
     forsuffixes it = objs:
-        picture it[];
-        picture it[].content;
-        path it[].frame;
+        path it[];
+        boolean it.frame[];
+        picture it[].face;
         anchorname it[];
     endfor;
 enddef;
@@ -3712,6 +3691,7 @@ enddef;
 @ 流程图节点 # +
 def make_anchors suffix obj =
     begingroup
+    % 锚点位置初始化
     obj.中央 := center obj;
     obj.东北 := (urcorner obj); obj.西北 := (ulcorner obj);
     obj.西南 := (llcorner obj); obj.东南 := (lrcorner obj);
@@ -3721,22 +3701,25 @@ def make_anchors suffix obj =
     obj.辰门 := .5[obj.卯门, obj.东南]; obj.巳门 := .5[obj.午门, obj.东南];
     obj.未门 := .5[obj.午门, obj.西南]; obj.申门 := .5[obj.酉门, obj.西南];
     obj.戌门 := .5[obj.酉门, obj.西北]; obj.亥门 := .5[obj.子门, obj.西北];
-    % 若节点有边框，需要作线宽补偿，且锚点需基于中心散射方法构造
+    % 校正锚点位置
     save thi, w, h, p, q; numeric thi, w, h; path p, q;
-    if known obj.frame:
-        thi := snailmod.get("frame.thickness");
-        w := bbwidth obj.frame; h := bbheight obj.frame;
-        p := obj.frame xysized (w + thi, h + thi); % 为锚点作线宽补偿
+    thi := snailmod.get("frame.thickness");
+    w := bbwidth obj; h := bbheight obj;
+    if obj.frame: % 为锚点作线宽补偿
+        p := obj xysized (w + thi, h + thi);
         p := p shifted (obj.中央 - center p);
-        forsuffixes it = 东北, 西北, 西南, 东南,
-                         子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-            % 构造能够伸到 p 的外部的散射路径
-            q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
-            q := q cutafter p;
-            % 从散射路径获得更为精确和稳健的锚点
-            obj.it := point 1 along q;
-        endfor;
+    else:
+        p := obj;
     fi;
+    % 基于中心散射方法构造锚点
+    forsuffixes it = 东北, 西北, 西南, 东南,
+                     子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        % 构造能够伸到 p 的外部的散射路径
+        q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
+        q := q cutafter p;
+        % 从散射路径获得更为精确和稳健的锚点
+        obj.it := point 1 along q;
+    endfor;
     % 为讨厌十二地支的人们准备的二维锚点数组
     save i; numeric i; i := 1;
     obj.anchors[0][0] := obj.中央;
@@ -3746,9 +3729,8 @@ def make_anchors suffix obj =
         i := i + 1;
     endfor;
     % 构造外围锚点
-    save obj_bbox, mar; path obj_bbox, mar;
-    obj_bbox := boundingbox (if known obj.frame: obj.frame else: obj fi);
-    mar := obj_bbox enlarged snailmod.get("frame.margin");
+    save mar; path mar;
+    mar := (boundingbox obj) enlarged snailmod.get("frame.margin");
     obj.艮位 := (ulcorner mar); obj.震位 := (urcorner mar);
     obj.兑位 := (lrcorner mar); obj.巽位 := (llcorner mar);
     obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
@@ -3809,17 +3791,15 @@ anchorsize = '4pt',
 @ 流程图节点 # +
 def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
-        obj.content := nullpicture;
-        obj := image(
-            draw fullcircle scaled snailmod.get("text.fontsize")
-                                     withcolor transparent(1, 0, white);
-        );
+        obj := fullsquare scaled snailmod.get("text.fontsize");
     else:
-        obj.content := textext("\slug{" & s & "}");
-        obj := image(draw obj.content withcolor snailmod.get("text.color"));
+        obj.face := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
+        obj := boundingbox obj.face;
     fi;
+    obj.frame := false;
     make_anchors obj;
     obj := obj somewhere;
+    if known obj.face: obj.face := obj.face somewhere; fi;
     make_anchors obj;
 enddef;
 @
@@ -3844,7 +3824,7 @@ enddef;
 # 流程图节点 @
 snail_t foo, bar;
 slug(foo, "Foo"); slug(bar, "Bar") at (4cm, 2cm);
-draw foo; draw bar;
+draw foo.face; draw bar.face;
 snail_draw_anchors foo, bar; % 画出 foo 和 bar 的锚点
 \stopMPpage
 @
@@ -3891,13 +3871,14 @@ def snail(suffix obj)(expr s) text somewhere =
     if not snailmod.get("frame.isotropic"):
         # 调整 s_frame 的宽高比 @
     fi;
-    obj := image(draw s_pic withcolor snailmod.get("text.color");
-                 draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
-                                                withcolor snailmod.get("frame.color"));
-    obj.content := s_pic;
+    obj := s_frame;
+    obj.frame := true;
+    obj.face := image(draw s_pic withcolor snailmod.get("text.color");
+                      draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
+                                                            withcolor snailmod.get("frame.color"));
     make_anchors obj;
     obj := obj somewhere;
-    obj.frame := s_frame somewhere;
+    obj.face := obj.face somewhere;
     make_anchors(obj);
     endgroup
 enddef;
@@ -3922,7 +3903,7 @@ enddef;
 % 构造矩形和椭圆形节点
 snail_t foo, bar;
 snail(foo, "Foo"); ellipse(bar, "Bar") at (4cm, 2cm);
-draw foo; draw bar;
+draw foo.face; draw bar.face;
 drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle;
 snail_draw_anchors foo, bar;
 \stopMPpage
@@ -3993,19 +3974,22 @@ def avatar (suffix obj) (expr a, w, h) text somewhere =
     p := externalfigure a;
     f := (bbwidth p) / (bbheight p);
     if numeric w and numeric h:
-        obj := p xysized (w, h);
+        obj.face := p xysized (w, h);
     else:
         if numeric w:
-            obj := p xysized (w, w / f); 
+            obj.face := p xysized (w, w / f); 
         elseif numeric h:
-            obj := p xysized (h * f, h);
+            obj.face := p xysized (h * f, h);
         else:
-            obj := p;
+            obj.face := p;
         fi;
     fi;
-    obj := obj shifted -(center obj); % 令插图中心对准原点
+    obj.face := obj.face shifted -(center obj.face); % 令插图中心对准原点
+    obj := boundingbox obj.face;
+    obj.frame := false;
     make_anchors obj; % for using anchors in somewhere statement.
     obj := obj somewhere;
+    obj.face := obj.face somewhere;
     make_anchors obj;
     endgroup
 enddef;
@@ -4025,7 +4009,7 @@ enddef;
 snail_t foo, bar;
 snail(foo, "Foo");
 avatar(bar, "foo.png", 2cm, "auto") at (6cm, 2cm);
-draw foo; draw bar;
+draw foo.face; draw bar.face;
 drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle;
 snail_draw_anchors foo, bar;
 \stopMPpage
@@ -4044,12 +4028,8 @@ snail_draw_anchors foo, bar;
 @ 流程图节点 # +
 def showsnails text all =
   begingroup
-    for it = all: draw it; endfor;
-    if snailmod.get("debug"):
-      forsuffixes it = all:
-        snail_draw_anchors it;
-      endfor;
-    fi;
+    forsuffixes it = all: if known it.face: draw it.face; fi; endfor;
+    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
   endgroup
 enddef;
 @
@@ -4060,7 +4040,7 @@ enddef;
 debug = 'false',
 @
 
-\noindent 并为其定义重操作：
+\noindent 并为其定义重置操作：
 
 @ 扩充 snail_mod_reset 宏 # +
 if parameter = "debug":
@@ -4087,7 +4067,7 @@ snailmod.reset("debug");
 # 定义 at 宏 @
 def put (suffix obj, anchor) text there =
   obj := (obj shifted -obj.anchor) there;
-  if known obj.frame: obj.frame := (obj.frame shifted -obj.anchor) there; fi;
+  if known obj.face: obj.face := (obj.face shifted -obj.anchor) there; fi;
   make_anchors obj;
 enddef;
 @
@@ -4415,32 +4395,25 @@ showroads road(foo.子门 yxyto bar.午门);
 
 \section{直连}
 
-有时，你会希望直接在两个节点之间直接构造路径，而不是通过它们的锚点。对于该需求，可基于两个节点的中心构造路径，然后用两个节点的边框裁剪路径两端。我们将该操作定义为 \type{contect} 宏：
+有时，你会希望直接在两个节点之间直接构造路径，而不是通过它们的锚点。对于该需求，可基于两个节点的中心构造路径，然后用两个节点的边框裁剪路径两端。我们将该操作定义为运算符宏：
 
 @ 流程图路径 # +
-vardef connect(suffix a, b) =
+tertiarydef a => b =
+    begingroup
     save p, a_c, b_c, thi, comp;
     path p; pair a_c, b_c, comp; numeric thi;
     a_c := center a; b_c := center b;
     p := a_c -- b_c;
     thi := snailmod.get("path.thickness");
     comp := thi * unitvector(b_c - a_c); % 边框线宽补偿
-    show comp;
-    if known a.frame:
-        p := p cutbefore (a.frame shifted comp);
-    else:
-        p := p cutbefore (boundingbox a);
-    fi;
-    if known b.frame:
-        p := p cutafter (b.frame shifted -comp);
-    else:
-        p := p cutafter (boundingbox b);
-    fi;
+    p := p cutbefore (a shifted comp);
+    p := p cutafter (b shifted -comp);
     p
+    endgroup
 enddef;
 @
 
-以下代码用于测试 \type{connect} 宏：
+以下代码用于测试 \type{=>} 宏：
 
 @ 蜗牛之路：示例四 # [typing]
 # Snail 模块样式表 @
@@ -4450,8 +4423,9 @@ enddef;
 # 流程图路径 @
 snail_t a, b, c;
 slug(a, "A"); snail(b, "B") at (3cm, 1.5cm); slug(c, "C") at (6cm, 3cm);
+snailmod.set("debug", true);
 showsnails a, b, c;
-showroads connect(a, b), connect(b, c);
+showroads a => b, b => c;
 \stopMPpage
 @
 

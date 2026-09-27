@@ -85,22 +85,23 @@ def anchorname text obj =
 enddef;
 def snail_t text objs =
     forsuffixes it = objs:
-        picture it; % 节点对象
-        picture it.content; % 节点文本
-        path it.frame; % 节点边框
+        path it; % 节点边框，亦即以边框表示节点本身，原因是许多运算依赖于边框
+        boolean it.frame; % 有框节点，此值为 true；其他节点，此值为 false
+        picture it.face; % 节点边框及其文本构成的画面
         anchorname it; % 节点的锚点集
      endfor;
 enddef;
 def snailfam_t text objs =
     forsuffixes it = objs:
-        picture it[];
-        picture it[].content;
-        path it[].frame;
+        path it[];
+        boolean it.frame[];
+        picture it[].face;
         anchorname it[];
     endfor;
 enddef;
 def make_anchors suffix obj =
     begingroup
+    % 锚点位置初始化
     obj.中央 := center obj;
     obj.东北 := (urcorner obj); obj.西北 := (ulcorner obj);
     obj.西南 := (llcorner obj); obj.东南 := (lrcorner obj);
@@ -110,22 +111,25 @@ def make_anchors suffix obj =
     obj.辰门 := .5[obj.卯门, obj.东南]; obj.巳门 := .5[obj.午门, obj.东南];
     obj.未门 := .5[obj.午门, obj.西南]; obj.申门 := .5[obj.酉门, obj.西南];
     obj.戌门 := .5[obj.酉门, obj.西北]; obj.亥门 := .5[obj.子门, obj.西北];
-    % 若节点有边框，需要作线宽补偿，且锚点需基于中心散射方法构造
+    % 校正锚点位置
     save thi, w, h, p, q; numeric thi, w, h; path p, q;
-    if known obj.frame:
-        thi := snailmod.get("frame.thickness");
-        w := bbwidth obj.frame; h := bbheight obj.frame;
-        p := obj.frame xysized (w + thi, h + thi); % 为锚点作线宽补偿
+    thi := snailmod.get("frame.thickness");
+    w := bbwidth obj; h := bbheight obj;
+    if obj.frame: % 为锚点作线宽补偿
+        p := obj xysized (w + thi, h + thi);
         p := p shifted (obj.中央 - center p);
-        forsuffixes it = 东北, 西北, 西南, 东南,
-                         子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-            % 构造能够伸到 p 的外部的散射路径
-            q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
-            q := q cutafter p;
-            % 从散射路径获得更为精确和稳健的锚点
-            obj.it := point 1 along q;
-        endfor;
+    else:
+        p := obj;
     fi;
+    % 基于中心散射方法构造锚点
+    forsuffixes it = 东北, 西北, 西南, 东南,
+                     子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        % 构造能够伸到 p 的外部的散射路径
+        q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
+        q := q cutafter p;
+        % 从散射路径获得更为精确和稳健的锚点
+        obj.it := point 1 along q;
+    endfor;
     % 为讨厌十二地支的人们准备的二维锚点数组
     save i; numeric i; i := 1;
     obj.anchors[0][0] := obj.中央;
@@ -135,9 +139,8 @@ def make_anchors suffix obj =
         i := i + 1;
     endfor;
     % 构造外围锚点
-    save obj_bbox, mar; path obj_bbox, mar;
-    obj_bbox := boundingbox (if known obj.frame: obj.frame else: obj fi);
-    mar := obj_bbox enlarged snailmod.get("frame.margin");
+    save mar; path mar;
+    mar := (boundingbox obj) enlarged snailmod.get("frame.margin");
     obj.艮位 := (ulcorner mar); obj.震位 := (urcorner mar);
     obj.兑位 := (lrcorner mar); obj.巽位 := (llcorner mar);
     obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
@@ -176,17 +179,15 @@ def snail_draw_anchors text all =
 enddef;
 def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
-        obj.content := nullpicture;
-        obj := image(
-            draw fullcircle scaled snailmod.get("text.fontsize")
-                                     withcolor transparent(1, 0, white);
-        );
+        obj := fullsquare scaled snailmod.get("text.fontsize");
     else:
-        obj.content := textext("\slug{" & s & "}");
-        obj := image(draw obj.content withcolor snailmod.get("text.color"));
+        obj.face := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
+        obj := boundingbox obj.face;
     fi;
+    obj.frame := false;
     make_anchors obj;
     obj := obj somewhere;
+    if known obj.face: obj.face := obj.face somewhere; fi;
     make_anchors obj;
 enddef;
 vardef convert_to_standard_shape(expr p) =
@@ -240,13 +241,14 @@ def snail(suffix obj)(expr s) text somewhere =
             s_frame := s_frame xysized (s_frame_h * w / h, s_frame_h);
         fi;
     fi;
-    obj := image(draw s_pic withcolor snailmod.get("text.color");
-                 draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
-                                                withcolor snailmod.get("frame.color"));
-    obj.content := s_pic;
+    obj := s_frame;
+    obj.frame := true;
+    obj.face := image(draw s_pic withcolor snailmod.get("text.color");
+                      draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
+                                                            withcolor snailmod.get("frame.color"));
     make_anchors obj;
     obj := obj somewhere;
-    obj.frame := s_frame somewhere;
+    obj.face := obj.face somewhere;
     make_anchors(obj);
     endgroup
 enddef;
@@ -256,36 +258,35 @@ def avatar (suffix obj) (expr a, w, h) text somewhere =
     p := externalfigure a;
     f := (bbwidth p) / (bbheight p);
     if numeric w and numeric h:
-        obj := p xysized (w, h);
+        obj.face := p xysized (w, h);
     else:
         if numeric w:
-            obj := p xysized (w, w / f); 
+            obj.face := p xysized (w, w / f); 
         elseif numeric h:
-            obj := p xysized (h * f, h);
+            obj.face := p xysized (h * f, h);
         else:
-            obj := p;
+            obj.face := p;
         fi;
     fi;
-    obj := obj shifted -(center obj); % 令插图中心对准原点
+    obj.face := obj.face shifted -(center obj.face); % 令插图中心对准原点
+    obj := boundingbox obj.face;
+    obj.frame := false;
     make_anchors obj; % for using anchors in somewhere statement.
     obj := obj somewhere;
+    obj.face := obj.face somewhere;
     make_anchors obj;
     endgroup
 enddef;
 def showsnails text all =
   begingroup
-    for it = all: draw it; endfor;
-    if snailmod.get("debug"):
-      forsuffixes it = all:
-        snail_draw_anchors it;
-      endfor;
-    fi;
+    forsuffixes it = all: if known it.face: draw it.face; fi; endfor;
+    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
   endgroup
 enddef;
 def at text position = shifted (position) enddef;
 def put (suffix obj, anchor) text there =
   obj := (obj shifted -obj.anchor) there;
-  if known obj.frame: obj.frame := (obj.frame shifted -obj.anchor) there; fi;
+  if known obj.face: obj.face := (obj.face shifted -obj.anchor) there; fi;
   make_anchors obj;
 enddef;
 ahvariant := snailmod.get("path.ahvariant");
@@ -435,25 +436,18 @@ def showdashedroads text paths =
     drawoptions();
     endgroup
 enddef;
-vardef connect(suffix a, b) =
+tertiarydef a => b =
+    begingroup
     save p, a_c, b_c, thi, comp;
     path p; pair a_c, b_c, comp; numeric thi;
     a_c := center a; b_c := center b;
     p := a_c -- b_c;
     thi := snailmod.get("path.thickness");
     comp := thi * unitvector(b_c - a_c); % 边框线宽补偿
-    show comp;
-    if known a.frame:
-        p := p cutbefore (a.frame shifted comp);
-    else:
-        p := p cutbefore (boundingbox a);
-    fi;
-    if known b.frame:
-        p := p cutafter (b.frame shifted -comp);
-    else:
-        p := p cutafter (boundingbox b);
-    fi;
+    p := p cutbefore (a shifted comp);
+    p := p cutafter (b shifted -comp);
     p
+    endgroup
 enddef;
 vardef tag(expr p, f, s) text somewhere =
     save pic_s, c, v;
