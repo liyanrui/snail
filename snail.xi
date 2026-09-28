@@ -3618,9 +3618,22 @@ enddef;
 def snailfam_t text objs =
     forsuffixes it = objs:
         path it[];
-        boolean it.frame[];
+        boolean it[].frame;
         picture it[].face;
         anchorname it[];
+    endfor;
+enddef;
+@
+
+\noindent \type{snailfam_t} 声明的每个对象都是一个一维数组，可将其作为以下标索引的节点序列使用。也能够更进一步，声明每个对象为二维数组：
+
+@ 流程图节点 # +
+def snailgrid_t text objs =
+    forsuffixes it = objs:
+        path it[][];
+        boolean it[][].frame;
+        picture it[][].face;
+        anchorname it[][];
     endfor;
 enddef;
 @
@@ -3745,7 +3758,7 @@ def make_anchors suffix obj =
 enddef;
 @
 
-\noindent 上述代码使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将其左侧的包围盒的尺寸增大右侧的尺度。
+\noindent 上述代码使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。
 
 需要解释一下 \type{make_anchors} 顺便构造的二维数组的下标含义。假设存在节点 \type{foo}，使用 \type{make_anchors} 为其构造锚点，倘若你既不能接受以十二地支命名的 \type{foo} 边界上的锚点，更不能接受以八卦命名的位于 \type{foo} 边界外围的锚点，你可以使用 \type{make_anchors} 定义的二维数组 \type{foo.anchors} 来获得这些锚点的位置，前提是你需要理解该数组下标的含义。\type{foo.anchors[0][0]} 是 \type{foo} 的中心点。\type{foo.anchors[1][1]} 至 \type{foo.anchors[1][12]} 为十二地支对应的锚点，其中 \type{foo.anchors[1][1]} 是 \type{foo} 的边框上的正右方锚点，亦即边框与 $x$ 轴的交点，从它开始，按逆时针顺序直至 \type{foo.anchors[1][12]}。同理，\type{foo.anchors[2][1]} 是 \type{foo} 的正右方的外围锚点，从它开始，按逆时针顺序直至 \type{foo.anchors[2][8]}。
 

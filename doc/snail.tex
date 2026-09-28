@@ -3795,12 +3795,26 @@ def snailfam_t text objs =
 enddef;
 \stoptyping
 
+\noindent \type{snailfam_t} 声明的每个对象都是一个一维数组，可将其作为以下标索引的节点序列使用。也能够更进一步，声明每个对象为二维数组：
+
+\starttyping
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-171]{171}\inoutermargin{\darkred{171}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+def snailgrid_t text objs =
+    forsuffixes it = objs:
+        path it[][];
+        boolean it[].frame[];
+        picture it[][].face;
+        anchorname it[][];
+    endfor;
+enddef;
+\stoptyping
+
 \section{节点样式表}
 
 在开始定义节点构造宏之前，需要先给出节点的样式定义，我们采用 Lua 表结构表达流程图样式。以下代码先给出节点样式的默认设定：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Snail 模块样式表 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-171]{171}\inoutermargin{\darkred{171}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ Snail 模块样式表 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-172]{172}\inoutermargin{\darkred{172}}/ETEX
 \startluacode
 snailmod = {
     text = {fontsize = 'BodyFontSize', color = 'black', offset = '(0, 0)'},
@@ -3809,7 +3823,7 @@ snailmod = {
         thickness = '1pt', color = 'black', isotropic = 'false',
         padding = '.5BodyFontSize', margin = '2BodyFontSize'
     },
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 其他元素的样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX/BTEX\ <\in[xi-212]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 其他元素的样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-190]>/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-213]>/ETEX
 }
 \stopluacode
 \stoptyping 
@@ -3819,7 +3833,7 @@ snailmod = {
 下面定义的两个宏分别用于访问和修改上述 Lua 表：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-172]{172}\inoutermargin{\darkred{172}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-173]{173}\inoutermargin{\darkred{173}}/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
 /BTEX\color[darkmagenta]{<模块参数访问和设定>}/ETEX
 % 该宏用于获取模块参数
 def snail_mod_get(expr anything) =
@@ -3845,13 +3859,13 @@ enddef;
 基于后缀宏机制，为样式表的访问和修改过程定义界面：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-173]{173}\inoutermargin{\darkred{173}}/ETEX/BTEX\color[darkmagenta]{\ <模块参数访问和设定>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-174]{174}\inoutermargin{\darkred{174}}/ETEX/BTEX\color[darkmagenta]{\ <模块参数访问和设定>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkmagenta]{<snailmod 后缀宏>}/ETEX
 vardef snailmod@#(text anything) =
     save s; string s; s := str @#;
     if s = "get": snail_mod_get(anything) fi
     if s = "set": snail_mod_set(anything) fi
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-183]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-184]>/ETEX
 enddef;
 \stoptyping
 
@@ -3862,7 +3876,7 @@ enddef;
 虽然用于构造三种流程图节点的宏尚未定义出来，但是基于前面一些章节的探索，结合 \type{snail_t} 以及样式表的定义，可以先将节点的锚点构造过程定义出来，如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-174]{174}\inoutermargin{\darkred{174}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-175]{175}\inoutermargin{\darkred{175}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def make_anchors suffix obj =
     begingroup
     % 锚点位置初始化
@@ -3919,14 +3933,14 @@ def make_anchors suffix obj =
 enddef;
 \stoptyping
 
-\noindent 上述代码使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将其左侧的包围盒的尺寸增大右侧的尺度。
+\noindent 上述代码使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。
 
 需要解释一下 \type{make_anchors} 顺便构造的二维数组的下标含义。假设存在节点 \type{foo}，使用 \type{make_anchors} 为其构造锚点，倘若你既不能接受以十二地支命名的 \type{foo} 边界上的锚点，更不能接受以八卦命名的位于 \type{foo} 边界外围的锚点，你可以使用 \type{make_anchors} 定义的二维数组 \type{foo.anchors} 来获得这些锚点的位置，前提是你需要理解该数组下标的含义。\type{foo.anchors[0][0]} 是 \type{foo} 的中心点。\type{foo.anchors[1][1]} 至 \type{foo.anchors[1][12]} 为十二地支对应的锚点，其中 \type{foo.anchors[1][1]} 是 \type{foo} 的边框上的正右方锚点，亦即边框与 $x$ 轴的交点，从它开始，按逆时针顺序直至 \type{foo.anchors[1][12]}。同理，\type{foo.anchors[2][1]} 是 \type{foo} 的正右方的外围锚点，从它开始，按逆时针顺序直至 \type{foo.anchors[2][8]}。
 
 定义 \type{snail_draw_anchors} 宏，用于画出一系列节点的锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-175]{175}\inoutermargin{\darkred{175}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-176]{176}\inoutermargin{\darkred{176}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def snail_draw_anchors text all =
     begingroup
     save s, p; numeric s; path p;
@@ -3956,7 +3970,7 @@ enddef;
 \noindent 上述代码所用的 \type{anchorsize} 设定，其定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-176]{176}\inoutermargin{\darkred{176}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-177]{177}\inoutermargin{\darkred{177}}/ETEX
 anchorsize = '4pt',
 \stoptyping
 
@@ -3965,7 +3979,7 @@ anchorsize = '4pt',
 我将构造无框节点的宏取名为 \type{slug}，即蛞蝓（读作「阔余」），俗称鼻涕虫，像是没有壳的蜗牛，其定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-177]{177}\inoutermargin{\darkred{177}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-178]{178}\inoutermargin{\darkred{178}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
         obj := fullsquare scaled snailmod.get("text.fontsize");
@@ -3984,7 +3998,7 @@ enddef;
 \noindent 上述代码里的 \type{nullpicture} 表示空画面对象。对于非空的无框节点，虽然无需绘制其边框，但是却使用 \CONTEXT\ 宏 \tex{slug} 构造节点文字。\tex{slug} 的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-178]{178}\inoutermargin{\darkred{178}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-179]{179}\inoutermargin{\darkred{179}}/ETEX
 \defineframed[slug][offset=.25em, frame=off]
 \stoptyping
 
@@ -3995,12 +4009,12 @@ enddef;
 以下示例构造了两个无框节点，并画出它们的锚点：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试无框节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-179]{179}\inoutermargin{\darkred{179}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试无框节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-180]{180}\inoutermargin{\darkred{180}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
 snail_t foo, bar;
 slug(foo, "Foo"); slug(bar, "Bar") at (4cm, 2cm);
 draw foo.face; draw bar.face;
@@ -4013,12 +4027,12 @@ snail_draw_anchors foo, bar; % 画出 foo 和 bar 的锚点
 若令节点文本为空字符串，用 \type{slug} 宏可以构造空节点。空节点能用来做什么呢？事实上，我并未想好它的用法，只是出于某种有实必有虚的念头而不得不实现它。不过，我能想到的一个场景是，空间点可以作为实节点的间隔，使得节点布局无需显式设定尺度，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 空节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-180]{180}\inoutermargin{\darkred{180}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 空节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-181]{181}\inoutermargin{\darkred{181}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
 snail_t a, b, empty;
 slug(a, "Node a");
 slug(empty, "") at a.震位;
@@ -4037,7 +4051,7 @@ snail_draw_anchors a, empty, b;
 之前在多个章节里探讨了有框节点的构造，现在虽然是完全重新为其设计一个构造宏，但所用算法未变，仅仅是将节点构造过程与 Lua 样式表关联起来。用于构造有框节点的宏，其名为 \type{snail}，意为\hbox{「蜗牛」}，与模块同名，象征流程图中最为普遍的节点。\type{snail} 宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-181]{181}\inoutermargin{\darkred{181}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-182]{182}\inoutermargin{\darkred{182}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 convert_to_standard_shape 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-102]>/ETEX
 def snail(suffix obj)(expr s) text somewhere =
     begingroup
@@ -4070,13 +4084,13 @@ enddef;
 以下代码用于测试有框节点的构造过程及基本效果：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试有框节点及其锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-182]{182}\inoutermargin{\darkred{182}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 测试有框节点及其锚点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-183]{183}\inoutermargin{\darkred{183}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
 def ellipse(suffix obj)(expr content) text somewhere =
     snailmod.set("frame.shape", "fullcircle");
     snail(obj, content) somewhere;
@@ -4096,7 +4110,7 @@ snail_draw_anchors foo, bar;
 \indentation 上述示例暴露出一个问题，当我们出于需要而修改样式表中的一些参数之后，若想恢复其原值，前提是需要记住或能够查阅到其原值。该过程对于模块的用户而言颇不友好。要解决该问题，需要为 \type{snailmod} 宏增加一个样式重置后缀：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-183]{183}\inoutermargin{\darkred{183}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 基于后缀 s，将参数 anything 分发给其他宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-184]{184}\inoutermargin{\darkred{184}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if s = "reset":
     snail_mod_reset(anything)
 fi
@@ -4105,7 +4119,7 @@ fi
 \noindent \type{snail_mod_reset} 宏的定义如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-184]{184}\inoutermargin{\darkred{184}}/ETEX/BTEX\color[darkmagenta]{\ <snailmod 后缀宏>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-185]{185}\inoutermargin{\darkred{185}}/ETEX/BTEX\color[darkmagenta]{\ <snailmod 后缀宏>\ }/ETEX/BTEX\ \color[darkgreen]{\bf $\wedge+$}\ /ETEX
 def snail_mod_reset(expr parameter) =
     if parameter = "frame.shape": snailmod.set(parameter, "fullsquare"); fi;
     if parameter = "frame.isotropic": snailmod.set(parameter, false); fi;
@@ -4113,7 +4127,7 @@ def snail_mod_reset(expr parameter) =
     if parameter = "frame.margin": snailmod.set(parameter, "2BodyFontSize"); fi;
     if parameter = "frame.color": snailmod.set(parameter, "black"); fi;
     if parameter = "frame.thickness": snailmod.set(parameter, "1pt"); fi;
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-190]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-207]>/ETEX/BTEX\ <\in[xi-213]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-191]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-214]>/ETEX
 enddef;
 \stoptyping
 
@@ -4134,7 +4148,7 @@ enddef;
 用于构造插图节点的宏叫作 \type{avatar}，意为化身，表示蜗牛通过图像的形式幻化成各种形态。在定义 \type{avatar} 宏之前，需要了解一下 \METAPOST\ 语言如何引入外部图片，例如
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 引入外部图片示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-185]{185}\inoutermargin{\darkred{185}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 引入外部图片示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-186]{186}\inoutermargin{\darkred{186}}/ETEX
 \startMPpage
 picture a;
 a := externalfigure "foo.png";
@@ -4153,7 +4167,7 @@ drawarrow (0, 0) -- (4.5cm, 0); drawarrow (0, 0) -- (0, 4.5cm);
 掌握上述上述知识，便可定义 \type{avatar} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-186]{186}\inoutermargin{\darkred{186}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-187]{187}\inoutermargin{\darkred{187}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def avatar (suffix obj) (expr a, w, h) text somewhere =
     begingroup
     save p, f; picture p; numeric f;
@@ -4186,13 +4200,13 @@ enddef;
 以下代码用于测试 \type{avatar} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 插图节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-187]{187}\inoutermargin{\darkred{187}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 插图节点示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-188]{188}\inoutermargin{\darkred{188}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 avatar(bar, "foo.png", 2cm, "auto") at (6cm, 2cm);
@@ -4213,7 +4227,7 @@ snail_draw_anchors foo, bar;
 定义 \type{showsnails} 宏，实现一次画多个蜗牛：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-188]{188}\inoutermargin{\darkred{188}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-189]{189}\inoutermargin{\darkred{189}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showsnails text all =
   begingroup
     forsuffixes it = all: if known it.face: draw it.face; fi; endfor;
@@ -4225,14 +4239,14 @@ enddef;
 \noindent 如果流程图样式表中的参数 \type{snailmod.debug} 值为 \type{'true'}，\type{showsnails} 会将节点的锚点一并画出。现在，将这个参数补充到流程图样式表中，
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-189]{189}\inoutermargin{\darkred{189}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-190]{190}\inoutermargin{\darkred{190}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 debug = 'false',
 \stoptyping
 
 \noindent 并为其定义重置操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-190]{190}\inoutermargin{\darkred{190}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-191]{191}\inoutermargin{\darkred{191}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "debug":
     snailmod.set(parameter, false);
 fi;
@@ -4254,7 +4268,7 @@ snailmod.reset("debug");
 将之前定义的 \type{at} 宏也作为节点辅助宏，然后定义 \type{put} 宏，用于将节点放置在指定位置：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-191]{191}\inoutermargin{\darkred{191}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-192]{192}\inoutermargin{\darkred{192}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 at 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-64]>/ETEX
 def put (suffix obj, anchor) text there =
   obj := (obj shifted -obj.anchor) there;
@@ -4284,19 +4298,19 @@ put(foo, 中央) at (3cm, 2cm);
 在探讨如何构造流程图节点之间的路径前，需要向流程图样式表中增加路径样式的定义：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-192]{192}\inoutermargin{\darkred{192}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-193]{193}\inoutermargin{\darkred{193}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 path = {
     thickness = '1pt', color = 'black', background = 'true',
     smooth = 'true', fillet = '.5BodyFontSize',
     arrow = 'true', ahvariant = 1, ahdimple = 1, ahlength = '.5BodyFontSize',
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充路径样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-206]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 扩充路径样式 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-207]>/ETEX
 },
 \stoptyping
 
 \noindent 上述样式表中设定了路径箭头的样式，先将其转化为 \METAPOST\ 为箭头定义的全局变量的值：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-193]{193}\inoutermargin{\darkred{193}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-194]{194}\inoutermargin{\darkred{194}}/ETEX
 ahvariant := snailmod.get("path.ahvariant");
 ahdimple := snailmod.get("path.ahdimple");
 ahlength := snailmod.get("path.ahlength");
@@ -4309,7 +4323,7 @@ ahlength := snailmod.get("path.ahlength");
 定义 \type{road} 宏，用于构造蜗牛之间的路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-194]{194}\inoutermargin{\darkred{194}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-195]{195}\inoutermargin{\darkred{195}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 正则路径宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-44]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 改进的 smooth_regular_path 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-80]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 is_colinear 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-83]>/ETEX
@@ -4328,7 +4342,7 @@ enddef;
 \type{snailmod.path.smooth} 参数的值默认是 \type{true}，倘若将其值修改为 \type{false}，则 \type{road} 会将正则路径作为结果。下面为该参数定义重置操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-195]{195}\inoutermargin{\darkred{195}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-196]{196}\inoutermargin{\darkred{196}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "path.smooth":
     snailmod.set(parameter, true);
 fi;
@@ -4337,7 +4351,7 @@ fi;
 将 \in[path-style] 节定义的 \type{draw_regular_paths} 宏改造为 \type{showroads} 宏，用于显示一系列路径：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-196]{196}\inoutermargin{\darkred{196}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-197]{197}\inoutermargin{\darkred{197}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showroads text paths =
     begingroup
     save bg_path, bg, thi, bg_thi, has_arrow, road_color;
@@ -4368,12 +4382,12 @@ enddef;
 以下代码用于测试 \type{road} 和 \type{showroads} 宏，结果如图 \in[12-01] 所示。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-197]{197}\inoutermargin{\darkred{197}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-198]{198}\inoutermargin{\darkred{198}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4399,7 +4413,7 @@ q := a_0\;..\;b_1\;..\;b2\;..\;\cdots\;..\;b_{n-1}\;..\;a_n;
 为了回答这个问题，先将上述算法定义为宏 \type{tocurve}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-198]{198}\inoutermargin{\darkred{198}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-199]{199}\inoutermargin{\darkred{199}}/ETEX
 vardef tocurve(expr p, t) =
     save a, n; pair a[]; numeric n;
     n := length p;
@@ -4420,13 +4434,13 @@ a[0] .. t[a[1], .5[a[0], a[1]]] .. ... .. t[a[n - 1], .5[a[n - 2], a[n]]] .. a[n
 以下示例用于测试 \type{tocurve} 的效果：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-199]{199}\inoutermargin{\darkred{199}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-200]{200}\inoutermargin{\darkred{200}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-199]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4440,10 +4454,10 @@ showroads tocurve(foo.卯门 xyxto bar.酉门, .75), road(foo.子门 yxyto bar.�
 \indentation 上述示例调用 \type{tocurve} 宏时，其第 2 个参数取 0.75，该参数决定 \type{tocurve} 所构造曲线的弯曲程度。以下示例可展示该参数对曲线形状的影响：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ tocurve 第二个参数的几何意义 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-200]{200}\inoutermargin{\darkred{200}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ tocurve 第二个参数的几何意义 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-201]{201}\inoutermargin{\darkred{201}}/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-199]>/ETEX
 pair a, b; path p, q;
 a := (0, 0); b := (5cm, 5cm);
 p := a -- (5cm, 0) -- b;
@@ -4468,7 +4482,7 @@ draw b withcolor darkblue; label.urt("$b$", b);
 如果让 \type{tocurve} 构造的曲线封闭，结果会如何呢？设 $p$ 为封闭路径，则其节点集合 $\{a_0, a_1, \cdots, a_n\}$ 不再区分端点和中间节点了，而是每个节点皆为中间节点，亦即在封闭路径中， $a_0$ 和 $a_n$ 是同一个节点，并且需要由其本身及其前后两个节点确定 $b_0$，亦即 $b_n$。$a_0$ 的前一个点是 $a_{n - 1}$。基于这些条件，可以定义一个能基于封闭路径构造封闭曲线的宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-201]{201}\inoutermargin{\darkred{201}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-202]{202}\inoutermargin{\darkred{202}}/ETEX
 vardef toclosedcurve(expr p, t) =
     save a, n; pair a[]; numeric n;
     n := length p;
@@ -4484,10 +4498,10 @@ enddef;
 以下代码可测试 \type{toclosedcurve} 宏并揭示其第 2 个参数的几何意义：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-202]{202}\inoutermargin{\darkred{202}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-203]{203}\inoutermargin{\darkred{203}}/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-202]>/ETEX
 path p, q;
 p := fullsquare xyscaled (4cm, 1cm);
 draw p withpen pencircle scaled 2pt withcolor darkred;
@@ -4504,10 +4518,10 @@ endfor;
 上述示例基于一个矩形构造出来的封闭曲线像是一系列略微有些不规则的圆，如图 \in[12-04] 所示，也许这并不能让你觉得正则封闭曲线有什么用处。倘若将矩形换成一个有些扁的菱形，也许就会让你觉得 \type{toclosedcurve} 有些用处，例如以下示例可基于菱形构造似椭圆而非椭圆的封闭曲线，结果如图 \in[12-05] 所示。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-203]{203}\inoutermargin{\darkred{203}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 正则封闭曲线示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-204]{204}\inoutermargin{\darkred{204}}/ETEX
 \startMPpage
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tag 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-122]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-202]>/ETEX
 path p;
 p := fulldiamond xyscaled (7cm, 3cm);
 draw p withpen pencircle scaled 2pt withcolor darkgray;
@@ -4520,9 +4534,9 @@ draw toclosedcurve(p, .5) withpen pencircle scaled 2pt withcolor darkred;
 将 \type{tocurve} 和 \type{toclosedcurve} 宏的定义并入流程图路径代码：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-204]{204}\inoutermargin{\darkred{204}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-198]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-201]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-205]{205}\inoutermargin{\darkred{205}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 tocurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-199]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 toclosedcurve 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-202]>/ETEX
 \stoptyping
 
 \section{虚线}
@@ -4530,7 +4544,7 @@ draw toclosedcurve(p, .5) withpen pencircle scaled 2pt withcolor darkred;
 有时，路径需要以虚线的形式画出，而我从未介绍过如何用 \METAPOST\ 画虚线。以下代码将路径画成以 \type{1mm} 的空白作为间隔的虚线：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 虚线示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-205]{205}\inoutermargin{\darkred{205}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 虚线示例 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-206]{206}\inoutermargin{\darkred{206}}/ETEX
 \startMPpage
 % 构造虚线模式
 picture a;
@@ -4552,14 +4566,14 @@ draw p shifted (0, -5mm) withpen pencircle;
 在画流程图时，节点之间的路径也许需要画成虚线。对路径样式加以扩充，设定默认的虚线图案：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充路径样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-206]{206}\inoutermargin{\darkred{206}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充路径样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-207]{207}\inoutermargin{\darkred{207}}/ETEX
 dashpattern = 'dashpattern(on 3pt off 3pt)',
 \stoptyping
 
 \noindent 该样式设定的重置操作如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-207]{207}\inoutermargin{\darkred{207}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-208]{208}\inoutermargin{\darkred{208}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "path.dashpattern":
     snailmod.set(parameter, 'dashpattern(on 3pt off 3pt)');
 fi;
@@ -4568,7 +4582,7 @@ fi;
 基于上述样式以及 \type{showroads} 宏，便可定义一个专用于画虚线路径的宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-208]{208}\inoutermargin{\darkred{208}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-209]{209}\inoutermargin{\darkred{209}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showdashedroads text paths =
     begingroup
     save pat; picture pat;
@@ -4585,12 +4599,12 @@ enddef;
 以下代码用于测试 \type{showdashedroads} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-209]{209}\inoutermargin{\darkred{209}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例三 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-210]{210}\inoutermargin{\darkred{210}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
 snail_t foo, bar;
 snail(foo, "Foo");
 snail(bar, "Bar") at (5cm, 3cm);
@@ -4607,7 +4621,7 @@ showroads road(foo.子门 yxyto bar.午门);
 有时，你会希望直接在两个节点之间直接构造路径，而不是通过它们的锚点。对于该需求，可基于两个节点的中心构造路径，然后用两个节点的边框裁剪路径两端。我们将该操作定义为运算符宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-210]{210}\inoutermargin{\darkred{210}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图路径 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-211]{211}\inoutermargin{\darkred{211}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 tertiarydef a => b =
     begingroup
     save p, a_c, b_c, thi, comp;
@@ -4626,12 +4640,12 @@ enddef;
 以下代码用于测试 \type{=>} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-211]{211}\inoutermargin{\darkred{211}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 蜗牛之路：示例四 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-212]{212}\inoutermargin{\darkred{212}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
 snail_t a, b, c;
 slug(a, "A"); snail(b, "B") at (3cm, 1.5cm); slug(c, "C") at (6cm, 3cm);
 snailmod.set("debug", true);
@@ -4655,7 +4669,7 @@ showroads a => b, b => c;
 你肯定猜到了，并没有什么 NPC，有的只是路径标注，它们就像我们的城市里的路牌。不过，既然已经用了这个比喻，就继续用下去。NPC 需要以下样式：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-212]{212}\inoutermargin{\darkred{212}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 其他元素的样式 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-213]{213}\inoutermargin{\darkred{213}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 tag = {
     upright = 'true', reverse = 'false', padding = "1pt"
 },
@@ -4664,7 +4678,7 @@ tag = {
 \noindent \type{upright} 表示路径上的标注文字是否为直立，默认为直立，亦即无论路径是横向的，还是纵向的，还是曲线形式的，标注文字保持直立状态，不会顺着路径的方向而倾斜。\type{reverse} 控制标注文字是否反向，默认为正向。\type{padding} 用于控制标注文字和路径的间距。以下代码实现了这三个样式参数的重置操作：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-213]{213}\inoutermargin{\darkred{213}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 扩充 snail_mod_reset 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-214]{214}\inoutermargin{\darkred{214}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 if parameter = "tag.upright":
     snailmod.set(parameter, true);
 fi;
@@ -4683,7 +4697,7 @@ fi;
 样式表中默认将标注文字设为直立，但无论标注文字是否为直立，要解决的关键问题是，如何让标注文字处于路径上指定位置附近，使之不与路径相交。我依然选择粗暴但简单的算法解决这个问题。设待标注的路径为 \type{p}，其上有一点 \type{c}，\type{p} 在 \type{c} 处的切向和法向分别为 \type{v1} 和 \type{v2}，再设 \type{s} 为标注文字，\type{pic_s} 为 \type{textext(s)} 构造的 \type{picture} 对象，其中心与 \type{c} 重合。在这些已知条件下，将 \type{pic_s} 定位到 \type{c} 点附近且不与 \type{p} 相交的粗暴算法是，沿着 \type{p} 在 \type{c} 点的法向不断移动 \type{pic_s}，直至其包围盒不与 \type{p} 相交为止。以下代码实现了该算法：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-214]{214}\inoutermargin{\darkred{214}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-215]{215}\inoutermargin{\darkred{215}}/ETEX
 save pic_a, a, delta;
 picture pic_a; pair a; numeric u;
 u := snailmod.get("tag.padding");
@@ -4702,7 +4716,7 @@ pic_s := pic_a shifted (u * v2);;
 基于上述算法的实现，将 \type{tag} 宏重新定义为
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-215]{215}\inoutermargin{\darkred{215}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-216]{216}\inoutermargin{\darkred{216}}/ETEX
 vardef tag(expr p, f, s) text somewhere =
     save pic_s, c, v;
     picture pic_s; pair c, v[];
@@ -4721,7 +4735,7 @@ vardef tag(expr p, f, s) text somewhere =
     else:
         pic_s := pic_s rotated angle(v1) shifted c;
     fi
-    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-214]>/ETEX
+    /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX
     pic_s
 enddef;
 \stoptyping
@@ -4729,13 +4743,13 @@ enddef;
 \noindent 以下代码用于测试新的 \type{tag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-216]{216}\inoutermargin{\darkred{216}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例一 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-217]{217}\inoutermargin{\darkred{217}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX/BTEX\ <\in[xi-220]>/ETEX
 snail_t foo, bar; snail(foo, "Foo"); snail(bar, "Bar") at (5cm, 2cm);
 path p[];
 p1 := foo.寅门 xyxto bar.酉门;
@@ -4756,7 +4770,7 @@ snailmod.set("tag.reverse", true); draw tag(p3, .3, "44"); snailmod.reset("tag.r
 所谓话痨 NPC，就是路径标注可以用较长的文字，在 \in[follow-tag-macro] 节已经实现了它的原型宏 \type{followtag}，现在对该宏的定义略作修改，使之与样式表关联起来，便可得到话痨 NPC。
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-217]{217}\inoutermargin{\darkred{217}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-218]{218}\inoutermargin{\darkred{218}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ offset_path 宏版本之二 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-132]>/ETEX
 /BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 snap 宏 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-137]>/ETEX
 vardef followtag(expr p, s) =
@@ -4776,13 +4790,13 @@ enddef;
 以下示例用于测试新的 \type{followtag} 宏：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-218]{218}\inoutermargin{\darkred{218}}/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ NPC 示例二 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-219]{219}\inoutermargin{\darkred{219}}/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPpage
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX/BTEX\ <\in[xi-220]>/ETEX
 snail_t foo, bar; snail(foo, "Foo"); snail(bar, "Bar") at (5cm, 2cm);
 path p[];
 p1 := foo.寅门 xyxto bar.酉门;
@@ -4810,7 +4824,7 @@ draw followtag(snap(p2, .1, .3), "i am 43!");
 有 \type{showsnails} 和 \type{showroads}，也应该有 \type{showtags}：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-219]{219}\inoutermargin{\darkred{219}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 路径标注 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-220]{220}\inoutermargin{\darkred{220}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showtags text tags =
     for i = tags: draw i; endfor;
 enddef;
@@ -4841,15 +4855,15 @@ showtags tag(p1, .6, "\color[darkred]{\tfx i am 42!}");
 建立 \type{t-snail.mkxl} 文件，其内容如下：
 
 \starttyping
-/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-snail.mkxl }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-220]{220}\inoutermargin{\darkred{220}}/ETEX
+/BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ t-snail.mkxl }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-221]{221}\inoutermargin{\darkred{221}}/ETEX
 \writestatus{loading}{ConTeXt User Module / Snail}
 \startmodule[snail]
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-171]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-178]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ Snail 模块样式表 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-172]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 定义 ConTeXt 宏 \slug\ }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-179]>/ETEX
 \startMPinclusions
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-172]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-177]>/ETEX/BTEX\ <\in[xi-181]>/ETEX/BTEX\ <\in[xi-184]>/ETEX/BTEX\ <\in[xi-186]>/ETEX/BTEX\ <\in[xi-188]>/ETEX/BTEX\ <\in[xi-191]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-193]>/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-196]>/ETEX/BTEX\ <\in[xi-204]>/ETEX/BTEX\ <\in[xi-208]>/ETEX/BTEX\ <\in[xi-210]>/ETEX
-/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-215]>/ETEX/BTEX\ <\in[xi-217]>/ETEX/BTEX\ <\in[xi-219]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图节点 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-168]>/ETEX/BTEX\ <\in[xi-169]>/ETEX/BTEX\ <\in[xi-170]>/ETEX/BTEX\ <\in[xi-171]>/ETEX/BTEX\ <\in[xi-173]>/ETEX/BTEX\ <\in[xi-174]>/ETEX/BTEX\ <\in[xi-175]>/ETEX/BTEX\ <\in[xi-176]>/ETEX/BTEX\ <\in[xi-178]>/ETEX/BTEX\ <\in[xi-182]>/ETEX/BTEX\ <\in[xi-185]>/ETEX/BTEX\ <\in[xi-187]>/ETEX/BTEX\ <\in[xi-189]>/ETEX/BTEX\ <\in[xi-192]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 流程图路径 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-194]>/ETEX/BTEX\ <\in[xi-195]>/ETEX/BTEX\ <\in[xi-197]>/ETEX/BTEX\ <\in[xi-205]>/ETEX/BTEX\ <\in[xi-209]>/ETEX/BTEX\ <\in[xi-211]>/ETEX
+/BTEX\color[darkcyan]{\#}/ETEX/BTEX\type[color=darkcyan]{ 路径标注 }/ETEX/BTEX\color[darkcyan]{@}/ETEX/BTEX\ <\in[xi-216]>/ETEX/BTEX\ <\in[xi-218]>/ETEX/BTEX\ <\in[xi-220]>/ETEX
 \stopMPinclusions
 \stopmodule
 \endinput

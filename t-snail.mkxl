@@ -94,9 +94,17 @@ enddef;
 def snailfam_t text objs =
     forsuffixes it = objs:
         path it[];
-        boolean it.frame[];
+        boolean it[].frame;
         picture it[].face;
         anchorname it[];
+    endfor;
+enddef;
+def snailgrid_t text objs =
+    forsuffixes it = objs:
+        path it[][];
+        boolean it[][].frame;
+        picture it[][].face;
+        anchorname it[][];
     endfor;
 enddef;
 def make_anchors suffix obj =
