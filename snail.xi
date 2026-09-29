@@ -3819,23 +3819,23 @@ enddef;
 def make_anchor_array(suffix obj) =
     begingroup
     % 为讨厌十二地支的人们准备的二维锚点数组
-    save _snail_i_; numeric _snail_i_; _snail_i_ := 1;
+    save i; numeric i; i := 1;
     obj.anchors[0][0] := obj.中央;
     forsuffixes it = 卯门, 寅门, 东北, 丑门, 子门, 亥门, 西北, 戌门,
                      酉门, 申门, 西南, 未门, 午门, 巳门, 东南, 辰门:
-        obj.anchors[1][_snail_i_] := obj.it;
-        _snail_i_ := _snail_i_ + 1;
+        obj.anchors[1][i] := obj.it;
+        i := i + 1;
     endfor;
-    _snail_i_  := 1;
+    i  := 1;
     forsuffixes it = 离位, 震位, 坤位, 艮位, 坎位, 巽位, 乾位, 兑位:
-        obj.anchors[2][_snail_i_ ] := obj.it;
-        _snail_i_  := _snail_i_  + 1;
+        obj.anchors[2][i ] := obj.it;
+        i  := i  + 1;
     endfor;
     endgroup
 enddef;
 @
 
-\noindent \type{make_anchors} 宏使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。\type{make_anchor_array} 为了避开 \type{suffix} 类型参数隐患，刻意将内部变量的名字取得复杂一些，而且它希望用户不要使用 \type{_snail_i_} 这个名字。
+\noindent \type{make_anchors} 宏使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。注意，\type{make_anchor_array} 虽然含 \type{suffix} 类型的参数，但是其内部变量 \type{i} 依然是足够安全的，你知道为什么吗？原因很简单，只要宏内没有曲解 \type{i} 类型及用途的语句，即使 \type{suffix} 类型的参数是 \type{i}，也是无妨的，宏内没有那条语句将 \type{i} 视为其他类型的变量，所以也不必为宏含有 \type{suffix} 类型的参数过于提心吊胆。
 
 需要解释一下 \type{make_anchor_array} 宏构造的二维数组的下标含义。假设存在节点 \type{foo}，使用 \type{make_anchors} 为其构造锚点，倘若你既不能接受以十二地支命名的 \type{foo} 边界上的锚点，更不能接受以八卦命名的位于 \type{foo} 边界外围的锚点，你可以使用 \type{foo.anchors} 来获得这些锚点的位置，前提是你需要理解该数组下标的含义。\type{foo.anchors[0][0]} 是 \type{foo} 的中心点。\type{foo.anchors[1][1]} 至 \type{foo.anchors[1][12]} 为十二地支对应的锚点，其中 \type{foo.anchors[1][1]} 是 \type{foo} 的边框上的正右方锚点，亦即边框与 $x$ 轴的交点，从它开始，按逆时针顺序直至 \type{foo.anchors[1][12]}。同理，\type{foo.anchors[2][1]} 是 \type{foo} 的正右方的外围锚点，从它开始，按逆时针顺序直至 \type{foo.anchors[2][8]}。
 
@@ -3854,15 +3854,17 @@ def snail_draw_anchors text all =
         p := foo.离位 -- foo.震位 -- foo.坤位 -- foo.艮位
              -- foo.坎位 -- foo.巽位 -- foo.乾位 -- foo.兑位 -- cycle;
         draw p withdashes s withcolor transparent (1, .5, darkcyan);
-        forsuffixes i = 子门, 卯门, 午门, 酉门:
-            draw foo.i withpen pencircle scaled s withcolor darkred;
-        endfor;
-        forsuffixes i = 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-            draw foo.i withpen pencircle scaled (2s/3) withcolor magenta;
-        endfor;
-        forsuffixes i = 东北, 东南, 西南, 西北:
-            draw foo.i withpen pensquare scaled s withcolor darkblue;
-        endfor;
+        if known foo.content: % 不画空节点的边界锚点
+            forsuffixes i = 子门, 卯门, 午门, 酉门:
+                draw foo.i withpen pencircle scaled s withcolor darkred;
+            endfor;
+            forsuffixes i = 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+                draw foo.i withpen pencircle scaled (s/2) withcolor magenta;
+            endfor;
+            forsuffixes i = 东北, 东南, 西南, 西北:
+                draw foo.i withpen pensquare scaled s withcolor darkblue;
+            endfor;
+        fi;
     endfor;
     endgroup
 enddef;
@@ -4135,8 +4137,11 @@ snail_draw_anchors foo, bar;
 def showsnails text all =
   begingroup
     forsuffixes it = all:
-        if it.frame: draw it; fi;
-        if known it.content: draw it.content; fi;
+        if it.frame:
+            draw it withpen pencircle scaled snailmod.get("path.thickness")
+                                             withcolor snailmod.get("path.color");
+        fi;
+        if known it.content: draw it.content withcolor snailmod.get("text.color"); fi;
     endfor;
     if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
   endgroup
@@ -4191,6 +4196,32 @@ snail_t foo;
 snail(foo, "Foo");
 put(foo, 中央) at (3cm, 2cm);
 \stoptyping
+
+下面定义的 \type{makegrid} 宏可基于空节点构造网格，\type{showgrid} 宏可画出网格：
+
+@ 流程图节点 # +
+def makegrid(suffix name)(expr m, n) = 
+    for i = 1 upto m:
+        slug(name[i][1], "");
+        if i > 1:
+            put (name[i][1], 坤位) at name[i - 1][1].乾位;
+        fi;
+        for j = 2 upto n:
+            slug(name[i][j], "");
+            put (name[i][j], 坎位) at name[i][j - 1].离位;
+        endfor;
+    endfor;
+enddef;
+def showgrid(suffix name)(expr m, n) =
+    snailmod.set("debug", true);
+    for i = 1 upto m:
+        for j = 1 upto n:
+            showsnails name[i][j];
+        endfor;
+    endfor;
+    snailmod.reset("debug");
+enddef;
+@
 
 \section{小结}
 
