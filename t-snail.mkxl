@@ -85,79 +85,79 @@ def anchorname text obj =
 enddef;
 def snail_t text objs =
     forsuffixes it = objs:
-        path it; % 节点边框，亦即以边框表示节点本身，原因是许多运算依赖于边框
+        path it; % 节点本身
+        path it.outline;  % 节点的轮廓线，用于放置锚点
         boolean it.frame; % 有框节点，此值为 true；其他节点，此值为 false
-        picture it.face; % 节点边框及其文本构成的画面
-        anchorname it; % 节点的锚点集
+        picture it.content; % 节点文本
+        anchorname it; % 锚点集集合
      endfor;
 enddef;
 def snailfam_t text objs =
     forsuffixes it = objs:
         path it[];
+        path it[].outline;
         boolean it[].frame;
-        picture it[].face;
+        picture it[].content;
         anchorname it[];
     endfor;
 enddef;
 def snailgrid_t text objs =
     forsuffixes it = objs:
         path it[][];
+        path it[][].outline;
         boolean it[][].frame;
-        picture it[][].face;
+        picture it[][].content;
         anchorname it[][];
     endfor;
 enddef;
 def make_anchors suffix obj =
-    begingroup
-    % 锚点位置初始化
+    % 基于 obj 的边界构造锚点
     obj.中央 := center obj;
-    obj.东北 := (urcorner obj); obj.西北 := (ulcorner obj);
-    obj.西南 := (llcorner obj); obj.东南 := (lrcorner obj);
+    obj.东北 := urcorner obj; obj.西北 := ulcorner obj;
+    obj.西南 := llcorner obj; obj.东南 := lrcorner obj;
     obj.子门 := .5[obj.西北, obj.东北]; obj.午门 := .5[obj.西南, obj.东南];
     obj.卯门 := .5[obj.东南, obj.东北]; obj.酉门 := .5[obj.西南, obj.西北];
     obj.丑门 := .5[obj.子门, obj.东北]; obj.寅门 := .5[obj.卯门, obj.东北];
     obj.辰门 := .5[obj.卯门, obj.东南]; obj.巳门 := .5[obj.午门, obj.东南];
     obj.未门 := .5[obj.午门, obj.西南]; obj.申门 := .5[obj.酉门, obj.西南];
     obj.戌门 := .5[obj.酉门, obj.西北]; obj.亥门 := .5[obj.子门, obj.西北];
-    % 校正锚点位置
-    save thi, w, h, p, q; numeric thi, w, h; path p, q;
-    thi := snailmod.get("frame.thickness");
-    w := bbwidth obj; h := bbheight obj;
-    if obj.frame: % 为锚点作线宽补偿
-        p := obj xysized (w + thi, h + thi);
-        p := p shifted (obj.中央 - center p);
-    else:
-        p := obj;
-    fi;
-    % 基于中心散射方法构造锚点
-    forsuffixes it = 东北, 西北, 西南, 东南,
-                     子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-        % 构造能够伸到 p 的外部的散射路径
-        q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
-        q := q cutafter p;
-        % 从散射路径获得更为精确和稳健的锚点
-        obj.it := point 1 along q;
+    % 基于散射路径与 obj.outline 求交，令锚点落在 obj 上
+    forsuffixes i = 东北, 西北, 西南, 东南,
+                    子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        obj.i := make_anchor_by_ray(obj.中央, obj.i, obj.outline);
     endfor;
+    % 构造外围锚点
+    make_anchors_in_third_level(obj, (boundingbox obj) enlarged snailmod.get("frame.margin"));
+    % 为讨厌古典的人构造锚点二维数组
+    make_anchor_array(obj);
+enddef;
+vardef make_anchor_by_ray(expr a, b, cutter) =
+    save thi, p; numeric thi; path p;
+    thi := snailmod.get("path.thickness");
+    p := a -- (b shifted (2 * thi * unitvector(b - a)));
+    p := p cutafter cutter;
+    (point 1 along p)
+enddef;
+def make_anchors_in_third_level(suffix obj)(expr margin) =
+    obj.艮位 := (ulcorner margin); obj.震位 := (urcorner margin);
+    obj.兑位 := (lrcorner margin); obj.巽位 := (llcorner margin);
+    obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
+    obj.离位 := .5[obj.兑位, obj.震位]; obj.坎位 := .5[obj.巽位, obj.艮位];
+enddef;
+def make_anchor_array(suffix obj) =
+    begingroup
     % 为讨厌十二地支的人们准备的二维锚点数组
-    save i; numeric i; i := 1;
+    save _snail_i_; numeric _snail_i_; _snail_i_ := 1;
     obj.anchors[0][0] := obj.中央;
     forsuffixes it = 卯门, 寅门, 东北, 丑门, 子门, 亥门, 西北, 戌门,
                      酉门, 申门, 西南, 未门, 午门, 巳门, 东南, 辰门:
-        obj.anchors[1][i] := obj.it;
-        i := i + 1;
+        obj.anchors[1][_snail_i_] := obj.it;
+        _snail_i_ := _snail_i_ + 1;
     endfor;
-    % 构造外围锚点
-    save mar; path mar;
-    mar := (boundingbox obj) enlarged snailmod.get("frame.margin");
-    obj.艮位 := (ulcorner mar); obj.震位 := (urcorner mar);
-    obj.兑位 := (lrcorner mar); obj.巽位 := (llcorner mar);
-    obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
-    obj.离位 := .5[obj.兑位, obj.震位]; obj.坎位 := .5[obj.巽位, obj.艮位];
-    % 为讨厌八卦的人们准备的二维锚点数组
-    i := 1;
+    _snail_i_  := 1;
     forsuffixes it = 离位, 震位, 坤位, 艮位, 坎位, 巽位, 乾位, 兑位:
-        obj.anchors[2][i] := obj.it;
-        i := i + 1;
+        obj.anchors[2][_snail_i_ ] := obj.it;
+        _snail_i_  := _snail_i_  + 1;
     endfor;
     endgroup
 enddef;
@@ -189,14 +189,16 @@ def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
         obj := fullsquare scaled snailmod.get("text.fontsize");
     else:
-        obj.face := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
-        obj := boundingbox obj.face;
+        obj.content := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
+        obj := boundingbox obj.content;
     fi;
+    obj.outline := boundingbox obj;
     obj.frame := false;
-    make_anchors obj;
+    make_anchors(obj);
     obj := obj somewhere;
-    if known obj.face: obj.face := obj.face somewhere; fi;
-    make_anchors obj;
+    obj.outline := obj.outline somewhere;
+    if known obj.content: obj.content := obj.content somewhere; fi;
+    make_anchors(obj);
 enddef;
 vardef convert_to_standard_shape(expr p) =
     save f, w, h, s, q;
@@ -208,93 +210,111 @@ vardef convert_to_standard_shape(expr p) =
     q
 enddef;
 def snail(suffix obj)(expr s) text somewhere =
-    begingroup
-    save s_pic, s_frame, padding, w, h;
-    picture s_pic; path s_frame; numeric padding, w, h;
-    s_pic := textext(s) shifted snailmod.get("text.offset");
+    obj.frame := true;
+    obj.content := textext(s) shifted snailmod.get("text.offset");
+    obj := make_frame(obj.content);
+    obj.outline := make_outline(obj);
+    make_anchors(obj);
+    obj := obj somewhere;
+    obj.content := obj.content somewhere;
+    obj.outline := obj.outline somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_frame(expr content) =
+    save frame, padding;
+    path frame; numeric padding;
     padding := snailmod.get("frame.padding");
-    save w, h, s_box;
-    numeric w, h; path s_box;
-    w := bbwidth s_pic; h := bbheight s_pic;
-    s_box := (-.5w - padding, -.5h - padding) -- (.5w + padding, -.5h - padding)
-             -- (.5w + padding, .5h + padding) -- (-.5w - padding, .5h + padding) -- cycle;
-    w := bbwidth s_box; h := bbheight s_box;
-    s_frame := convert_to_standard_shape(snailmod.get("frame.shape"));
-    save p, q, a, c, f, t;
-    path p, q; pair a, c[]; boolean f; numeric t;
-    c[0] := (0, 0);
-    c[1] := urcorner s_box; c[2] := lrcorner s_box;
-    c[3] := llcorner s_box; c[4] := ulcorner s_box;
-    for i = (if w > h: w else: h fi) step 1mm until infinity:
-        p := s_frame scaled i;
-        f := true;
-        for j = 0 upto 4:
-            q := c[0] -- c[j];
-            a := q intersectiontimes p;
-            if not (a = (-1, -1)):
-              f := false;
-              exitif true;
-            fi;
+    save w, h, content_box;
+    numeric w, h; path content_box;
+    w := bbwidth content; h := bbheight content;
+    content_box := (-.5w - padding, -.5h - padding) -- (.5w + padding, -.5h - padding)
+                   -- (.5w + padding, .5h + padding) -- (-.5w - padding, .5h + padding) -- cycle;
+    if unknown style.frame_shape:
+        frame := content_box;
+    else:
+        frame := convert_to_standard_shape(snailmod.get("frame.shape"));
+        save p, c, f, t;
+        path p; pair c[]; boolean f; numeric t;
+        c[0] := (0, 0);
+        c[1] := urcorner content_box; c[2] := lrcorner content_box;
+        c[3] := llcorner content_box; c[4] := ulcorner content_box;
+        for i = (if w > h: w else: h fi) step 1mm until infinity:
+            p := frame scaled i;
+            f := true;
+            for j = 0 upto 4:
+                if not (((c[0] -- c[j]) intersectiontimes p) = (-1, -1)):
+                  f := false;
+                  exitif true;
+                fi;
+            endfor;
+            t := i;
+            exitif f;
         endfor;
-        t := i;
-        exitif f;
-    endfor;
-    s_frame := s_frame scaled t;
-    if not snailmod.get("frame.isotropic"):
-        save s_frame_w, s_frame_h; numeric s_frame_w, s_frame_h;
-        s_frame_w := bbwidth s_frame; s_frame_h := bbheight s_frame;
-        if w > h:
-            s_frame := s_frame xysized (s_frame_w, s_frame_w * h / w);
-        else:
-            s_frame := s_frame xysized (s_frame_h * w / h, s_frame_h);
+        frame := frame scaled t;
+        if not snailmod.get("frame.isotropic"):
+            save fw, fh; numeric fw, fh;
+            fw := bbwidth frame; fh := bbheight frame;
+            if w > h:
+                frame := frame xysized (fw, fw * h / w);
+            else:
+                frame := frame xysized (fh * w / h, fh);
+            fi;
         fi;
     fi;
-    obj := s_frame;
-    obj.frame := true;
-    obj.face := image(draw s_pic withcolor snailmod.get("text.color");
-                      draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
-                                                            withcolor snailmod.get("frame.color"));
-    make_anchors obj;
-    obj := obj somewhere;
-    obj.face := obj.face somewhere;
-    make_anchors(obj);
-    endgroup
+    frame
+enddef;
+vardef make_outline(expr obj) =
+    save thi, w, h, p; numeric thi, w, h; path p;
+    thi := snailmod.get("frame.thickness");
+    w := bbwidth obj; h := bbheight obj;
+    p := obj xysized (w + thi, h + thi);
+    p := p shifted ((center obj) - (center p));
+    p
 enddef;
 def avatar (suffix obj) (expr a, w, h) text somewhere =
-    begingroup
+    obj.content := make_avatar(a, w, h);
+    obj.content := obj.content shifted -(center obj.content); % 令插图中心对准原点
+    obj := boundingbox obj.content;
+    obj.outline := obj;
+    obj.frame := false;
+    make_anchors(obj);
+    obj := obj somewhere;
+    obj.outline := obj.outline somewhere;
+    obj.content := obj.content somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_avatar(expr a, w, h) =
     save p, f; picture p; numeric f;
     p := externalfigure a;
     f := (bbwidth p) / (bbheight p);
     if numeric w and numeric h:
-        obj.face := p xysized (w, h);
+        p := p xysized (w, h);
     else:
         if numeric w:
-            obj.face := p xysized (w, w / f); 
-        elseif numeric h:
-            obj.face := p xysized (h * f, h);
-        else:
-            obj.face := p;
+            p := p xysized (w, w / f); 
+        fi;
+        if numeric h:
+            p := p xysized (h * f, h);
         fi;
     fi;
-    obj.face := obj.face shifted -(center obj.face); % 令插图中心对准原点
-    obj := boundingbox obj.face;
-    obj.frame := false;
-    make_anchors obj; % for using anchors in somewhere statement.
-    obj := obj somewhere;
-    obj.face := obj.face somewhere;
-    make_anchors obj;
-    endgroup
+    p
 enddef;
 def showsnails text all =
   begingroup
-    forsuffixes it = all: if known it.face: draw it.face; fi; endfor;
+    forsuffixes it = all:
+        if it.frame: draw it; fi;
+        if known it.content: draw it.content; fi;
+    endfor;
     if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
   endgroup
 enddef;
 def at text position = shifted (position) enddef;
-def put (suffix obj, anchor) text there =
-  obj := (obj shifted -obj.anchor) there;
-  if known obj.face: obj.face := (obj.face shifted -obj.anchor) there; fi;
+def put (suffix obj, anchor) text somewhere =
+  obj := (obj shifted -obj.anchor) somewhere;
+  obj.outline := (obj.outline shifted -obj.anchor) somewhere;
+  if known obj.content:
+      obj.content := (obj.content shifted -obj.anchor) somewhere;
+  fi;
   make_anchors obj;
 enddef;
 ahvariant := snailmod.get("path.ahvariant");

@@ -1406,7 +1406,7 @@ enddef;
 
 宏 \type{framed_text} 的定义也要作一些修改，除了省去文本框对象的声明之外，在构造出文本框对象后，顺便算出其锚点：
 
-@ framed_text 宏的新版本 #
+@ framed_text 宏版本之二 #
 def framed_text(suffix obj)(expr s, padding) =
     save s_pic, w, h, s_frame;
     picture s_pic; numeric w, h; path s_frame;
@@ -1442,7 +1442,7 @@ enddef;
 # 正则路径宏 @
 # 定义 framed_text_class 宏 @
 # make_anchors 宏版本之二 @
-# framed_text 宏的新版本 @
+# framed_text 宏版本之二 @
 # 定义 put_framed_text 宏 @
 framed_text_class(foo); framed_text(foo, "Foo", 4pt);
 framed_text_class(bar); framed_text(bar, "Bar", 4pt); put_framed_text(bar, (6cm, 2cm));
@@ -1497,17 +1497,16 @@ withpen pensquare scaled 1pt;
 
 \noindent 当 \type{text} 类型的参数没有括号时，宏会抓取后面出现的一切，直至遇到分号为止，但分号不会被纳入。
 
-关于宏参数还需要注意的是，当宏只有 1 个参数时，则其定义和调用语句可以用括号，也可以不用。例如
+关于宏参数还需要注意的是，当宏只有 1 个参数时，则其定义和调用语句可以不用括号。例如
 
 \starttyping
-def foo(expr a) = ... enddef;
-def bar expr a  = ... enddef;
+def foo expr a = ... enddef;
 \stoptyping
 
-\noindent 以下调用语句皆合法：
+\noindent 且以下调用语句皆合法：
 
 \starttyping
-foo(a); foo a; bar(a); bar a;
+foo(a); foo a;
 \stoptyping
 
 借助 \type{text} 类型参数，能够让 \in[class] 节中 \type{framed_text_class} 在语义上变得更优雅一些，例如令其支持一次声明多个文本框对象：
@@ -1593,7 +1592,9 @@ put_framed_text(foo) at (5cm, 1cm);
 至此 \in[class] 节最后的的示例可进化为
 
 @ foo -> bar 之三 # [typing]
+\startMPpage
 # 正则路径宏 @
+# make_anchors 宏版本之二 @
 # framed_text_class 宏版本之二 @
 # 定义 at 宏 @
 # framed_text 宏版本之三 @
@@ -1601,9 +1602,84 @@ framed_text_class foo, bar;
 framed_text(foo, "Foo", 4pt); framed_text(bar, "Bar", 4pt) at (6cm, 2cm);
 draw foo; draw bar;
 drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle withcolor darkred;
+\stopMPpage
 @
 
 \noindent 历经两次进化，文本框的构造过程有了足够简洁的语义了，只是所用的宏名有些冗长，暂时需要忍耐一下。名可名，非恒名，在适当的时机，名字也会发生进化。
+
+\section{隐患}
+
+实际上，\type{framed_text} 从第二个版本便存在了隐患，因为它含有 \type{suffix} 类型的参数。所有含有 \type{suffix} 参数的宏，若其定义中存在定义变量的语句，无论变量是局部的还是全局的，都存在隐患。为了让你看清这种隐患，我杜撰了下面这个宏：
+
+\starttyping
+def foo(suffix obj) =
+    begingroup
+    save a; numeric a; a := 3;
+    show a, xpart obj, ypart obj;
+    endgroup
+enddef;
+\stoptyping
+
+\noindent 倘若像下面这样调用 \type{foo} 宏，
+
+\starttyping
+pair a; a := (2, 3);
+foo(a);
+\stoptyping
+
+\noindent 便会触发 \type{foo} 的隐患，该宏定义无法通过 \type{context} 的编译，原因是，传给 \type{foo} 的 \type{a}，会直接进入 \type{foo} 的定义，亦即 \type{foo} 定义里的 \type{obj} 此时便是 \type{a}，而它与宏内定义的局部变量 \type{a} 同名且被后者覆盖，而后者是数值变量，不支持 \type{xpart} 和 \type{ypart} 操作。简而言之，上述宏调用语句 \type{foo(a)} 的展开结果是
+
+\starttyping
+begingroup
+save a; numeric a; a := 3;
+show a;
+show a, xpart a, ypart a;
+endgroup
+\stoptyping
+
+该如何避免这种隐患呢？比较简单的做法是，将宏内变量的名字取得复杂一些，降低同名冲突概率，例如
+
+\starttyping
+def foo(suffix obj) =
+    begingroup
+    save _a_; numeric _a_; _a_ := 3;
+    show _a_, xpart obj, ypart obj;
+    endgroup
+enddef;
+\stoptyping
+
+\noindent 然后规定以下划线开始和结束的变量名为保留名，调用宏时，禁止向其传递这类名字。但这种办法只是降低了触发隐患的概率，不能从根本上解决问题。更为稳健的做法是，将需要定义变量的部分放在一个不含 \type{suffix} 参数的宏内，例如
+
+\starttyping
+def foo(suffix obj) = bar(obj); enddef;
+def bar(expr obj) =
+    begingroup
+    save a; numeric a; a := 3;
+    show a, xpart obj, ypart obj;
+    endgroup
+enddef;
+\stoptyping
+
+用上述第二种方法，可将 \type{framed_text} 宏修改为更为稳健的版本：
+
+\starttyping
+def framed_text(suffix obj)(expr s, padding) text somewhere =
+    obj := make_framed_text(s, padding) somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_framed_text(expr s, padding) =
+    save s_pic, w, h, s_frame;
+    picture s_pic; numeric w, h; path s_frame;
+    s_pic := textext(s);
+    w := bbwidth s_pic;
+    h := bbheight s_pic;
+    s_frame := (-.5w - padding, -.5h - padding)
+                   -- (.5w + padding, -.5h - padding)
+                   -- (.5w + padding, .5h + padding)
+                   -- (-.5w - padding, .5h + padding) --cycle;
+    image(draw s_pic; draw s_frame;)
+enddef;
+\stoptyping
 
 \section{小结}
 
@@ -2291,19 +2367,19 @@ enddef;
 
 \noindent 上述代码所实现的算法很简单。首先平移 \type{p}，使其中心对准原点，得到路径 \type{q}，然后以 \type{p} 的宽度和高度值的较大者的倒数对 \type{q} 予以缩放。
 
-\section{边框属性}
+\section{以边框为文本框本体}
 
-在 \in[class] 节里，文本框的锚点在面向对象编程的视角下成为文本框的属性。由于文本框的边框不再局限于矩形，也应当作为文本框的一个属性，故而将 \type{framed_text_class} 宏修改为
+如果我们将文本框的边框作为文本框对象的本体，将文字画面作为其属性，再加上边框上的锚点属性，那么 \type{framed_text_class} 宏需要修改为
 
 @ framed_text_class 宏版本之三 #
 def framed_text_class text names =
     forsuffixes i = names:
-        picture i;
+        path i; % 以边框作为文本框的本体
         forsuffixes j = 中央, 东北, 西北, 西南, 东南,
                         子门, 午门, 卯门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-            pair i.j;
+            pair i.j; % 声明文本框锚点
         endfor;
-        path i.边框;
+        picture i.content; % 声明文字画面
     endfor;    
 enddef;
 @
@@ -2314,16 +2390,15 @@ enddef;
 framed_text_class foo;
 \stoptyping
 
-\noindent 便会有 \type{foo.边框}，类型为 \type{path}。
+\noindent \type{foo} 是 \type{path} 对象，即文本框的边框，同时会有 \type{foo.content}，类型为 \type{picture}，表示文本画面。
 
 \section[scattering]{散射}
 
-假设文本框对象拥有了某种边框，且该边框未必为矩形，为文本框构造锚点的宏 \type{make_anchors} 应当如何修改使之能够构造出合理的锚点呢？我想出的方法是先为边框构造为包围盒，由于包围盒是矩形，可基于它构造出一套锚点，然后从边框中心点出发与每个锚点构造连线，这些连线必然会与边框相交，取交点作为边框上的锚点。该过程的实现如下
+假设文本框未必为矩形，如何修改 \type{make_anchors} 方能使之能为文本框构造出合理的锚点呢？我想出的方法是先基于文本框边界先行构造出一套锚点，使之与文本框中心形成一系列射线，这些射线必然会与边框相交，可取其交点作为文本框的锚点。该过程的实现如下
 
 @ make_anchors 宏版本之三 #
 def make_anchors(suffix obj) =
-    begingroup
-    save frame, a; path frame; pair a[][];
+    % 基于 obj 的边界构造锚点
     obj.中央 := center obj;
     obj.东北 := urcorner obj; obj.西北 := ulcorner obj;
     obj.西南 := llcorner obj; obj.东南 := lrcorner obj;
@@ -2333,13 +2408,11 @@ def make_anchors(suffix obj) =
     obj.辰门 := .5[obj.卯门, obj.东南]; obj.巳门 := .5[obj.午门, obj.东南];
     obj.未门 := .5[obj.午门, obj.西南]; obj.申门 := .5[obj.酉门, obj.西南];
     obj.戌门 := .5[obj.酉门, obj.西北]; obj.亥门 := .5[obj.子门, obj.西北];
-    if known obj.边框:
-        frame := obj.边框 shifted (obj.中央 - center obj.边框);
-        forsuffixes i = 东北, 西北, 西南, 东南,
-                        子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-            obj.i := (obj.中央 -- obj.i) intersectionpoint frame;
-        endfor;
-    fi;
+    % 基于散射路径与 obj 求交，令锚点落在 obj 上
+    forsuffixes i = 东北, 西北, 西南, 东南,
+                    子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        obj.i := (obj.中央 -- obj.i) intersectionpoint obj;
+    endfor;
 enddef;
 @
 
@@ -2347,8 +2420,7 @@ enddef;
 
 @ 定义菱形文本框 foo 并为其构造锚点 #
 framed_text_class foo;
-foo.边框 := fulldiamond xyscaled (6cm, 3cm);
-foo := image(draw foo.边框);
+foo := fulldiamond xyscaled (6cm, 3cm);
 make_anchors(foo);
 @
 
@@ -2358,8 +2430,7 @@ make_anchors(foo);
 
 @ 定义矩形文本框 bar，并为其构造锚点 #
 framed_text_class bar;
-bar.边框 := fullsquare xyscaled (6cm, 3cm);
-bar := image(draw bar.边框);
+bar := fullsquare xyscaled (6cm, 3cm);
 make_anchors(bar);
 @
 
@@ -2375,7 +2446,7 @@ draw foo; draw bar;
 pickup pencircle scaled 4pt;
 forsuffixes i = 东北, 西北, 西南, 东南,
                 子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-    draw (0, 0) -- bar.i withpen pencircle scaled 2pt withcolor darkgray;
+    draw (0, 0) -- bar.i withpen pencircle withcolor darkgray;
     draw bar.i withcolor darkgreen;
     draw foo.i withcolor darkred;
 endfor;
@@ -2390,41 +2461,41 @@ endfor;
 
 @ framed_text 宏版本之四 #
 def framed_text(suffix obj)(expr s, shape, padding) text somewhere =
-    begingroup
-    save s_pic, s_frame;
-    picture s_pic; path s_frame;
-    s_pic := textext(s);
-    s_frame := convert_to_standard_shape(shape);
-    # 放大 s_frame，使之足以囊括 s_pic @
-    obj := image(draw s_pic; draw s_frame) somewhere;
-    obj.边框 := s_frame somewhere;
+    obj.content := textext(s);
+    obj := make_frame(obj.content, shape, padding) somewhere;
+    obj.content := obj.content somewhere;
     make_anchors(obj);
-    endgroup
+enddef;
+vardef make_frame(expr content, shape, padding) =
+    save frame; path frame;
+    frame := convert_to_standard_shape(shape);
+    # 放大 frame，使之足以囊括 content @
+    frame
 enddef;
 @
 
-\noindent 上述代码关键之处在于如何放大标准图形 \type{s_frame}，使之能够包含文本画面 \type{s_pic}，并在文字周围留出 \type{padding} 大小的空白。这个问题颇有难度，因为我们不知道 \type{s_frame} 的形状，它可能是四周凸起，也可能四周凹陷，也可能四周有凸有凹，我们只知道应该放大 \type{s_frame}，因为它是标准图形，不足以包含任何一个字母。
+\noindent 上述代码为了克服 \type{framed_text} 宏因 \type{suffix} 类型参数而带来的隐患，将构造边框的过程交由一个只支持 \type{expr} 类型参数的变量宏 \type{make_frame} 完成，后者关键之处在于如何放大标准图形 \type{frame}，使之能够包含文本画面 \type{content}，并在文字周围留出 \type{padding} 大小的空白。这个问题颇有难度，因为我们不知道 \type{frame} 形状未知，它可能是四周凸起，也可能四周凹陷，也可能四周有凸有凹，我们只知道应该放大它，因为它是标准图形，不足以包含任何一个字母。可以试着用一种粗暴的办法来解决这个问题。
 
-可以试着先用一种粗暴的办法来解决上述问题。首先，为 \type{s_pic} 构造含有留白的包围盒：
+首先，为 \type{content} 构造含有留白的包围盒：
 
-@ 为 s_pic 构造含有留白的包围盒 s_box #
-save w, h, s_box;
-numeric w, h; path s_box;
-w := bbwidth s_pic; h := bbheight s_pic;
-s_box := (-.5w - padding, -.5h - padding) -- (.5w + padding, -.5h - padding)
-         -- (.5w + padding, .5h + padding) -- (-.5w - padding, .5h + padding) -- cycle;
+@ 为 content 构造含有留白的包围盒 content_box #
+save w, h, content_box;
+numeric w, h; path content_box;
+w := bbwidth content; h := bbheight content;
+content_box := (-.5w - padding, -.5h - padding) -- (.5w + padding, -.5h - padding)
+               -- (.5w + padding, .5h + padding) -- (-.5w - padding, .5h + padding) -- cycle;
 @
 
-\noindent 然后以一定的速度放大 \type{s_frame}，在此过程中不断探测 \type{s_frame} 的中心到 \type{s_box} 角点的路径是否与 \type{s_frame} 相交，若相交则停止探测，并以当前放大倍数的 \type{s_frame} 作为文本框的边框。
+\noindent 然后以一定的速度放大 \type{frame}，在此过程中不断探测 \type{frame} 的中心到 \type{content_box} 角点的射线是否与 \type{frame} 相交，若相交则停止探测，并以当前放大倍数的 \type{frame} 所求结果。
 
-@ 以一定的速度放大 s_frame，直至它能包含 s_box #
+@ 以一定的速度放大 frame，直至它能包含 content_box #
 save p, q, a, c, f, t;
 path p, q; pair a, c[]; boolean f; numeric t;
 c[0] := (0, 0);
-c[1] := urcorner s_box; c[2] := lrcorner s_box;
-c[3] := llcorner s_box; c[4] := ulcorner s_box;
+c[1] := urcorner content_box; c[2] := lrcorner content_box;
+c[3] := llcorner content_box; c[4] := ulcorner content_box;
 for i = 1mm step 1mm until infinity:
-    p := s_frame scaled i;
+    p := frame scaled i;
     f := true;
     for j = 0 upto 4:
         q := c[0] -- c[j];
@@ -2437,21 +2508,19 @@ for i = 1mm step 1mm until infinity:
     t := i;
     exitif f;
 endfor;
-s_frame := s_frame scaled t;
+frame := frame scaled t;
 @
 
-\noindent 上述代码出现了一些之前未曾见过的语法。\type{infinity} 表示无穷大的数，故而第一层 \type{for} 语句相当于一个死循环，每次令 \type{i} 每次增加 \type{1mm}，其末尾的 \type{exitif} 语句的作用是，若给定的条件为真时退出循环。与 \type{exitif} 语义相反的是 \type{exitunless}，后者是在给定条件为假时，退出循环。这两层嵌套的 \type{for} 语句能够帮助我们确定 \type{s_frame} 的放大倍数 \type{t}。
+\noindent 上述代码出现了一些之前未曾见过的语法。\type{infinity} 表示无穷大的数，故而第一层 \type{for} 语句相当于一个死循环，每次令 \type{i} 每次增加 \type{1mm}，其末尾的 \type{exitif} 语句的作用是，若给定的条件为真时退出循环。与 \type{exitif} 语义相反的是 \type{exitunless}，后者是在给定条件为假时，退出循环。这两层嵌套的 \type{for} 语句能够帮助我们确定 \type{frame} 的放大倍数 \type{t}。
 
-合并上述两个片段，
+合并上述两个片段，便可得到 \type{frame} 的放大过程，只是最终所得边框会有 1mm 的误差，若要追求精确，可以缩小 \type{frame} 的放大速度的量级，但误差总是存在的。
 
-@ 放大 s_frame，使之足以囊括 s_pic #
-# 为 s_pic 构造含有留白的包围盒 s_box @
-# 以一定的速度放大 s_frame，直至它能包含 s_box @
+@ 放大 frame，使之足以囊括 content #
+# 为 content 构造含有留白的包围盒 content_box @
+# 以一定的速度放大 frame，直至它能包含 content_box @
 @
 
-\noindent 如何放大 \type{s_frame}，这一问题便得以解决，只是所得边框会有 1mm 的误差，若要追求精确，可以缩小 \type{s_frame} 的放大速度的量级，但误差总是存在的。
-
-以下代码用于测试本节的 \type{framed_text} 宏：
+以下代码用于测试本节所定义的的 \type{framed_text} 宏：
 
 @ 椭圆文本框示例 # [typing]
 \startMPpage
@@ -2461,7 +2530,7 @@ s_frame := s_frame scaled t;
 # framed_text 宏版本之四 @
 framed_text_class foo;
 framed_text(foo, "Foo", fullcircle xyscaled (4cm, 2cm), 4pt);
-draw foo;
+draw foo; draw foo.content;
 forsuffixes i = 子门, 卯门, 午门, 酉门,
                 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
     draw foo.i withpen pensquare scaled 2pt withcolor magenta;
@@ -2471,21 +2540,19 @@ endfor;
 
 \placefigure[here][06-02]{椭圆文本框}{\externalfigure[figures/06-02.pdf][width=4cm]}
 
-实际上 \type{s_frame} 的放大倍数实际上不必从 \type{1mm} 开始，它可以从 \type{s_box} 的宽度和高度中的较大者的 0.5 倍开始，原因是 \type{s_frame} 放大后必须包含 \type{s_box}。
+实际上 \type{frame} 的放大倍数实际上不必从 \type{1mm} 开始，它可以从 \type{content_box} 的宽度和高度中的较大值开始，原因是 \type{frame} 放大后必须包含 \type{content_box}。
 
-@ 更快的 s_frame 放大过程 #
-save p, q, a, c, f, t;
-path p, q; pair a, c[]; boolean f; numeric t;
+@ 更快的 frame 放大过程 #
+save p, c, f, t;
+path p; pair c[]; boolean f; numeric t;
 c[0] := (0, 0);
-c[1] := urcorner s_box; c[2] := lrcorner s_box;
-c[3] := llcorner s_box; c[4] := ulcorner s_box;
+c[1] := urcorner content_box; c[2] := lrcorner content_box;
+c[3] := llcorner content_box; c[4] := ulcorner content_box;
 for i = (if w > h: w else: h fi) step 1mm until infinity:
-    p := s_frame scaled i;
+    p := frame scaled i;
     f := true;
     for j = 0 upto 4:
-        q := c[0] -- c[j];
-        a := q intersectiontimes p;
-        if not (a = (-1, -1)):
+        if not (((c[0] -- c[j]) intersectiontimes p) = (-1, -1)):
           f := false;
           exitif true;
         fi;
@@ -2493,24 +2560,24 @@ for i = (if w > h: w else: h fi) step 1mm until infinity:
     t := i;
     exitif f;
 endfor;
-s_frame := s_frame scaled t;
+frame := frame scaled t;
 @
 
 \noindent 于是便有了 \type{framed_text} 的第五个版本：
 
 @ framed_text 宏版本之五 # [typing]
 def framed_text(suffix obj)(expr s, shape, padding) text somewhere =
-    begingroup
-    save s_pic, s_frame;
-    picture s_pic; path s_frame;
-    s_pic := textext(s);
-    s_frame := convert_to_standard_shape(shape);
-    # 为 s_pic 构造含有留白的包围盒 s_box @
-    # 更快的 s_frame 放大过程 @
-    obj := image(draw s_pic; draw s_frame) somewhere;
-    obj.边框 := s_frame somewhere;
+    obj.content := textext(s);
+    obj := make_frame(obj.content, shape, padding) somewhere;
+    obj.content := obj.content somewhere;
     make_anchors(obj);
-    endgroup
+enddef;
+vardef make_frame(expr content, shape, padding) =
+    save frame; path frame;
+    frame := convert_to_standard_shape(shape);
+    # 为 content 构造含有留白的包围盒 content_box @
+    # 更快的 frame 放大过程 @
+    frame
 enddef;
 @
 
@@ -2523,7 +2590,7 @@ enddef;
 @ 构造菱形文本框 foo 和椭圆文本框 bar #
 framed_text_class foo, bar;
 framed_text(foo, "Foo", fulldiamond xyscaled (4, 2), 4pt);
-framed_text(bar, "Bar", fullcircle xyscaled(3, 1), 4pt) shifted (4cm, 3cm);
+framed_text(bar, "Bar", fullcircle xyscaled(3, 1), 4pt) at (4cm, 3cm);
 @
 
 基于文本框的中心构造正则路径：
@@ -2535,9 +2602,9 @@ p := foo.中央 xyxto bar.中央;
 
 以 \type{foo} 和 \type{bar} 的边框裁剪路径 \type{p} 的两端落入边框之内的部分：
 
-@ 裁剪 p 的两端落入 foo 和 bar 边框内的部分 #
+@ 裁剪 p 的两端落入 foo 和 bar 内的部分 #
 pair a, b;
-a := p intersectionpoint foo.边框; b := p intersectionpoint bar.边框;
+a := p intersectionpoint foo; b := p intersectionpoint bar;
 p := (p cutbefore a) cutafter b;
 @
 
@@ -2547,6 +2614,7 @@ p := (p cutbefore a) cutafter b;
 
 @ 自动锚点构造过程示例 #
 \startMPpage
+# 定义 at 宏 @
 # 正则路径宏 @
 # 定义 smooth_regular_path 宏 @
 # 定义 convert_to_standard_shape 宏 @
@@ -2555,9 +2623,9 @@ p := (p cutbefore a) cutafter b;
 # framed_text 宏版本之五 @
 # 构造菱形文本框 foo 和椭圆文本框 bar @
 # 以 foo 和 bar 的中心构造正则路径 p @
-# 裁剪 p 的两端落入 foo 和 bar 边框内的部分 @
+# 裁剪 p 的两端落入 foo 和 bar 内的部分 @
 p := smooth_regular_path(p, 2mm);
-draw foo; draw bar;
+draw foo; draw foo.content; draw bar; draw bar.content;
 drawarrow p withpen pencircle scaled 1pt withcolor darkred;
 \stopMPpage
 @
@@ -2567,29 +2635,42 @@ drawarrow p withpen pencircle scaled 1pt withcolor darkred;
 \indentation 实际上 \type{cutbefore} 和 \type{cutafter} 宏的第 2 个参数可以是路径，上述示例中路径 \type{p} 的构造过程可简化为
 
 \starttyping
-p := (p cutbefore foo.边框) cutafter bar.边框;
+p := (p cutbefore foo) cutafter bar;
 \stoptyping
 
-\noindent 这意味着动态锚点也是不必要存在的。不过，甚为可惜的是，上述构造正则路径的过程无法定义为运算符宏。例如
+\noindent 这意味着动态锚点也是不必要存在的。上述构造正则路径的过程可以定义为运算符宏：
 
 \starttyping
 tertiarydef a fxyxto b =
     begingroup
     save p; path p;;
     p := a.中央 xyxto b.中央;
-    p := (p cutbefore a.边框) cutafter b.边框;
+    p := (p cutbefore a) cutafter b;
     p
     endgroup
 enddef;
 \stoptyping
 
-\noindent 调用 \type{fxyxto} 宏：
+\noindent 不过，这个 \type{=>} 宏无法工作，例如
 
 \starttyping
-path p; p := foo fxyxto bar;
+path p; p := foo => bar;
 \stoptyping
 
-\noindent 会导致 \type{context} 命令报错并终止运行，原因在于 \METAPOST\ 运算符宏所接受的参数只能是 \type{expr} 类型，而 \type{fxyxto} 的定义需要参数类型为 \type{suffix}，这是一个不可调和的矛盾。不过，也无需过于惋惜，毕竟我们见识了 \type{cutbefore} 和 \type{cutafter} 更为简便的用法。
+\noindent 会导致 \type{context} 命令报错并终止运行，原因在于 \METAPOST\ 运算符宏所接受的参数只能是 \type{expr} 类型，在宏定义里，该类型的参数不支持后缀。不过，由于 \type{=>} 所需要的文本框中心，可以临时算出，无需锚点，将 \type{=>} 定义写为
+
+\starttyping
+tertiarydef a => b =
+    begingroup
+    save p; path p;;
+    p := (center a) xyxto (center b);
+    p := (p cutbefore a) cutafter b;
+    p
+    endgroup
+enddef;
+\stoptyping
+
+\noindent 便可工作了。
 
 \section{小结}
 
@@ -2987,7 +3068,7 @@ color style.text_color; style.text_color := black;
 文本框样式可由以下全局变量表示：
 
 @ 流程图样式变量 # +
-path style.frame_shape; % 默认不作设定，边框形状
+path style.frame_shape; % 边框形状，默认不作设定
 color style.frame_background; style.frame_background := white; % 文本框背景色
 numeric style.frame_padding; style.frame_padding := .5BodyFontSize; % 边框留白
 numeric style.frame_thickness; style.frame_thickness := 1pt; % 边框线粗度
@@ -2998,25 +3079,23 @@ color style.frame_color; style.frame_color := black; % 边框颜色
 
 @ framed_text 宏版本之六 #
 def framed_text(suffix obj)(expr s) text somewhere =
-    begingroup
-    save s_pic, s_frame, padding, w, h;
-    picture s_pic; path s_frame; numeric padding, w, h;
-    s_pic := textext(s);
-    padding := style.frame_padding;
-    # 为 s_pic 构造含有留白的包围盒 s_box @
-    if unknown style.frame_shape:
-        s_frame := s_box;
-    else:
-        w := bbwidth s_box; h := bbheight s_box;
-        s_frame := convert_to_standard_shape(style.frame_shape);
-        # 更快的 s_frame 放大过程 @
-    fi;
-    obj := image(draw s_pic withcolor style.text_color;
-                 draw s_frame withpen pencircle scaled style.frame_thickness
-                                                withcolor style.frame_color) somewhere;
-    obj.边框 := s_frame somewhere;
+    obj.content := textext(s);
+    obj := make_frame(obj.content) somewhere;
+    obj.content := obj.content somewhere;
     make_anchors(obj);
-    endgroup
+enddef;
+vardef make_frame(expr content) =
+    save frame, padding;
+    path frame; numeric padding;
+    padding := style.frame_padding;
+    # 为 content 构造含有留白的包围盒 content_box @
+    if unknown style.frame_shape:
+        frame := content_box;
+    else:
+        frame := convert_to_standard_shape(style.frame_shape);
+        # 更快的 frame 放大过程 @
+    fi;
+    frame
 enddef;
 @
 
@@ -3029,7 +3108,7 @@ enddef;
 # framed_text 宏版本之六 @
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
-draw foo; draw bar;
+draw foo; draw foo.content; draw bar; draw bar.content;
 \stopMPpage
 @
 
@@ -3080,40 +3159,38 @@ boolean style.frame_isotropic; style.frame_isotropic := false; % 边框等比例
 
 @ framed_text 宏版本之七 #
 def framed_text(suffix obj)(expr s) text somewhere =
-    begingroup
-    save s_pic, s_frame, padding, w, h;
-    picture s_pic; path s_frame; numeric padding, w, h;
-    s_pic := textext(s);
+    obj.content := textext(s);
+    obj := make_frame(obj.content) somewhere;
+    obj.content := obj.content somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_frame(expr content) =
+    save frame, padding;
+    path frame; numeric padding;
     padding := style.frame_padding;
-    # 为 s_pic 构造含有留白的包围盒 s_box @
+    # 为 content 构造含有留白的包围盒 content_box @
     if unknown style.frame_shape:
-        s_frame := s_box;
+        frame := content_box;
     else:
-        w := bbwidth s_box; h := bbheight s_box;
-        s_frame := convert_to_standard_shape(style.frame_shape);
-        # 更快的 s_frame 放大过程 @
+        frame := convert_to_standard_shape(style.frame_shape);
+        # 更快的 frame 放大过程 @
         if not style.frame_isotropic:
-            # 调整 s_frame 的宽高比 @
+            # 调整 frame 的宽高比 @
         fi;
     fi;
-    obj := image(draw s_pic withcolor style.text_color;
-                 draw s_frame withpen pencircle scaled style.frame_thickness
-                                                withcolor style.frame_color) somewhere;
-    obj.边框 := s_frame somewhere;
-    make_anchors(obj);
-    endgroup
+    frame
 enddef;
 @
 
 \noindent 在 \type{s_frame} 等比例放大后，只需对其宽高比加以控制，便可得到非等比例放大效果，该过程的实现如下：
 
-@ 调整 s_frame 的宽高比 #
-save s_frame_w, s_frame_h; numeric s_frame_w, s_frame_h;
-s_frame_w := bbwidth s_frame; s_frame_h := bbheight s_frame;
+@ 调整 frame 的宽高比 #
+save fw, fh; numeric fw, fh;
+fw := bbwidth frame; fh := bbheight frame;
 if w > h:
-    s_frame := s_frame xysized (s_frame_w, s_frame_w * h / w);
+    frame := frame xysized (fw, fw * h / w);
 else:
-    s_frame := s_frame xysized (s_frame_h * w / h, s_frame_h);
+    frame := frame xysized (fh * w / h, fh);
 fi;
 @
 
@@ -3129,7 +3206,7 @@ fi;
 style.frame_shape := fullcircle;
 framed_text_class foo, bar;
 framed_text(foo, "Foo"); framed_text(bar, "Bar") at (5cm, 2cm);
-draw foo; draw bar;
+draw foo; draw foo.content; draw bar; draw bar.content;
 \stopMPpage
 @
 
@@ -3588,10 +3665,11 @@ draw textext("汉字") shifted ((point .5 along p) shifted (0, 8pt));
 @ 流程图节点 # [typing]
 def snail_t text objs =
     forsuffixes it = objs:
-        path it; % 节点边框，亦即以边框表示节点本身，原因是许多运算依赖于边框
+        path it; % 节点本身
+        path it.outline;  % 节点的轮廓线，用于放置锚点
         boolean it.frame; % 有框节点，此值为 true；其他节点，此值为 false
-        picture it.face; % 节点边框及其文本构成的画面
-        anchorname it; % 节点的锚点集
+        picture it.content; % 节点文本
+        anchorname it; % 锚点集集合
      endfor;
 enddef;
 @
@@ -3618,8 +3696,9 @@ enddef;
 def snailfam_t text objs =
     forsuffixes it = objs:
         path it[];
+        path it[].outline;
         boolean it[].frame;
-        picture it[].face;
+        picture it[].content;
         anchorname it[];
     endfor;
 enddef;
@@ -3631,8 +3710,9 @@ enddef;
 def snailgrid_t text objs =
     forsuffixes it = objs:
         path it[][];
+        path it[][].outline;
         boolean it[][].frame;
-        picture it[][].face;
+        picture it[][].content;
         anchorname it[][];
     endfor;
 enddef;
@@ -3703,64 +3783,61 @@ enddef;
 
 @ 流程图节点 # +
 def make_anchors suffix obj =
-    begingroup
-    % 锚点位置初始化
+    % 基于 obj 的边界构造锚点
     obj.中央 := center obj;
-    obj.东北 := (urcorner obj); obj.西北 := (ulcorner obj);
-    obj.西南 := (llcorner obj); obj.东南 := (lrcorner obj);
+    obj.东北 := urcorner obj; obj.西北 := ulcorner obj;
+    obj.西南 := llcorner obj; obj.东南 := lrcorner obj;
     obj.子门 := .5[obj.西北, obj.东北]; obj.午门 := .5[obj.西南, obj.东南];
     obj.卯门 := .5[obj.东南, obj.东北]; obj.酉门 := .5[obj.西南, obj.西北];
     obj.丑门 := .5[obj.子门, obj.东北]; obj.寅门 := .5[obj.卯门, obj.东北];
     obj.辰门 := .5[obj.卯门, obj.东南]; obj.巳门 := .5[obj.午门, obj.东南];
     obj.未门 := .5[obj.午门, obj.西南]; obj.申门 := .5[obj.酉门, obj.西南];
     obj.戌门 := .5[obj.酉门, obj.西北]; obj.亥门 := .5[obj.子门, obj.西北];
-    % 校正锚点位置
-    save thi, w, h, p, q; numeric thi, w, h; path p, q;
-    thi := snailmod.get("frame.thickness");
-    w := bbwidth obj; h := bbheight obj;
-    if obj.frame: % 为锚点作线宽补偿
-        p := obj xysized (w + thi, h + thi);
-        p := p shifted (obj.中央 - center p);
-    else:
-        p := obj;
-    fi;
-    % 基于中心散射方法构造锚点
-    forsuffixes it = 东北, 西北, 西南, 东南,
-                     子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
-        % 构造能够伸到 p 的外部的散射路径
-        q := obj.中央 -- (obj.it shifted (2 * thi * unitvector(obj.it - obj.中央)));
-        q := q cutafter p;
-        % 从散射路径获得更为精确和稳健的锚点
-        obj.it := point 1 along q;
+    % 基于散射路径与 obj.outline 求交，令锚点落在 obj 上
+    forsuffixes i = 东北, 西北, 西南, 东南,
+                    子门, 卯门, 午门, 酉门, 丑门, 寅门, 辰门, 巳门, 未门, 申门, 戌门, 亥门:
+        obj.i := make_anchor_by_ray(obj.中央, obj.i, obj.outline);
     endfor;
+    % 构造外围锚点
+    make_anchors_in_third_level(obj, (boundingbox obj) enlarged snailmod.get("frame.margin"));
+    % 为讨厌古典的人构造锚点二维数组
+    make_anchor_array(obj);
+enddef;
+vardef make_anchor_by_ray(expr a, b, cutter) =
+    save thi, p; numeric thi; path p;
+    thi := snailmod.get("path.thickness");
+    p := a -- (b shifted (2 * thi * unitvector(b - a)));
+    p := p cutafter cutter;
+    (point 1 along p)
+enddef;
+def make_anchors_in_third_level(suffix obj)(expr margin) =
+    obj.艮位 := (ulcorner margin); obj.震位 := (urcorner margin);
+    obj.兑位 := (lrcorner margin); obj.巽位 := (llcorner margin);
+    obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
+    obj.离位 := .5[obj.兑位, obj.震位]; obj.坎位 := .5[obj.巽位, obj.艮位];
+enddef;
+def make_anchor_array(suffix obj) =
+    begingroup
     % 为讨厌十二地支的人们准备的二维锚点数组
-    save i; numeric i; i := 1;
+    save _snail_i_; numeric _snail_i_; _snail_i_ := 1;
     obj.anchors[0][0] := obj.中央;
     forsuffixes it = 卯门, 寅门, 东北, 丑门, 子门, 亥门, 西北, 戌门,
                      酉门, 申门, 西南, 未门, 午门, 巳门, 东南, 辰门:
-        obj.anchors[1][i] := obj.it;
-        i := i + 1;
+        obj.anchors[1][_snail_i_] := obj.it;
+        _snail_i_ := _snail_i_ + 1;
     endfor;
-    % 构造外围锚点
-    save mar; path mar;
-    mar := (boundingbox obj) enlarged snailmod.get("frame.margin");
-    obj.艮位 := (ulcorner mar); obj.震位 := (urcorner mar);
-    obj.兑位 := (lrcorner mar); obj.巽位 := (llcorner mar);
-    obj.坤位 := .5[obj.艮位, obj.震位]; obj.乾位 := .5[obj.巽位, obj.兑位];
-    obj.离位 := .5[obj.兑位, obj.震位]; obj.坎位 := .5[obj.巽位, obj.艮位];
-    % 为讨厌八卦的人们准备的二维锚点数组
-    i := 1;
+    _snail_i_  := 1;
     forsuffixes it = 离位, 震位, 坤位, 艮位, 坎位, 巽位, 乾位, 兑位:
-        obj.anchors[2][i] := obj.it;
-        i := i + 1;
+        obj.anchors[2][_snail_i_ ] := obj.it;
+        _snail_i_  := _snail_i_  + 1;
     endfor;
     endgroup
 enddef;
 @
 
-\noindent 上述代码使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。
+\noindent \type{make_anchors} 宏使用的 \type{enlarged} 是 \METAFUN\ 运算符宏，该宏可将包围盒按给定尺度扩大。\type{make_anchor_array} 为了避开 \type{suffix} 类型参数隐患，刻意将内部变量的名字取得复杂一些，而且它希望用户不要使用 \type{_snail_i_} 这个名字。
 
-需要解释一下 \type{make_anchors} 顺便构造的二维数组的下标含义。假设存在节点 \type{foo}，使用 \type{make_anchors} 为其构造锚点，倘若你既不能接受以十二地支命名的 \type{foo} 边界上的锚点，更不能接受以八卦命名的位于 \type{foo} 边界外围的锚点，你可以使用 \type{make_anchors} 定义的二维数组 \type{foo.anchors} 来获得这些锚点的位置，前提是你需要理解该数组下标的含义。\type{foo.anchors[0][0]} 是 \type{foo} 的中心点。\type{foo.anchors[1][1]} 至 \type{foo.anchors[1][12]} 为十二地支对应的锚点，其中 \type{foo.anchors[1][1]} 是 \type{foo} 的边框上的正右方锚点，亦即边框与 $x$ 轴的交点，从它开始，按逆时针顺序直至 \type{foo.anchors[1][12]}。同理，\type{foo.anchors[2][1]} 是 \type{foo} 的正右方的外围锚点，从它开始，按逆时针顺序直至 \type{foo.anchors[2][8]}。
+需要解释一下 \type{make_anchor_array} 宏构造的二维数组的下标含义。假设存在节点 \type{foo}，使用 \type{make_anchors} 为其构造锚点，倘若你既不能接受以十二地支命名的 \type{foo} 边界上的锚点，更不能接受以八卦命名的位于 \type{foo} 边界外围的锚点，你可以使用 \type{foo.anchors} 来获得这些锚点的位置，前提是你需要理解该数组下标的含义。\type{foo.anchors[0][0]} 是 \type{foo} 的中心点。\type{foo.anchors[1][1]} 至 \type{foo.anchors[1][12]} 为十二地支对应的锚点，其中 \type{foo.anchors[1][1]} 是 \type{foo} 的边框上的正右方锚点，亦即边框与 $x$ 轴的交点，从它开始，按逆时针顺序直至 \type{foo.anchors[1][12]}。同理，\type{foo.anchors[2][1]} 是 \type{foo} 的正右方的外围锚点，从它开始，按逆时针顺序直至 \type{foo.anchors[2][8]}。
 
 定义 \type{snail_draw_anchors} 宏，用于画出一系列节点的锚点：
 
@@ -3806,14 +3883,16 @@ def slug (suffix obj) (expr s) text somewhere =
     if s = "": % 当 s 为空文本时，构造一个空节点
         obj := fullsquare scaled snailmod.get("text.fontsize");
     else:
-        obj.face := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
-        obj := boundingbox obj.face;
+        obj.content := image(draw textext("\slug{" & s & "}") withcolor snailmod.get("text.color"));
+        obj := boundingbox obj.content;
     fi;
+    obj.outline := boundingbox obj;
     obj.frame := false;
-    make_anchors obj;
+    make_anchors(obj);
     obj := obj somewhere;
-    if known obj.face: obj.face := obj.face somewhere; fi;
-    make_anchors obj;
+    obj.outline := obj.outline somewhere;
+    if known obj.content: obj.content := obj.content somewhere; fi;
+    make_anchors(obj);
 enddef;
 @
 
@@ -3837,7 +3916,7 @@ enddef;
 # 流程图节点 @
 snail_t foo, bar;
 slug(foo, "Foo"); slug(bar, "Bar") at (4cm, 2cm);
-draw foo.face; draw bar.face;
+draw foo; draw foo.content; draw bar; draw bar.content;
 snail_draw_anchors foo, bar; % 画出 foo 和 bar 的锚点
 \stopMPpage
 @
@@ -3872,28 +3951,39 @@ snail_draw_anchors a, empty, b;
 @ 流程图节点 # +
 # 定义 convert_to_standard_shape 宏 @
 def snail(suffix obj)(expr s) text somewhere =
-    begingroup
-    save s_pic, s_frame, padding, w, h;
-    picture s_pic; path s_frame; numeric padding, w, h;
-    s_pic := textext(s) shifted snailmod.get("text.offset");
-    padding := snailmod.get("frame.padding");
-    # 为 s_pic 构造含有留白的包围盒 s_box @
-    w := bbwidth s_box; h := bbheight s_box;
-    s_frame := convert_to_standard_shape(snailmod.get("frame.shape"));
-    # 更快的 s_frame 放大过程 @
-    if not snailmod.get("frame.isotropic"):
-        # 调整 s_frame 的宽高比 @
-    fi;
-    obj := s_frame;
     obj.frame := true;
-    obj.face := image(draw s_pic withcolor snailmod.get("text.color");
-                      draw s_frame withpen pencircle scaled snailmod.get("frame.thickness")
-                                                            withcolor snailmod.get("frame.color"));
-    make_anchors obj;
-    obj := obj somewhere;
-    obj.face := obj.face somewhere;
+    obj.content := textext(s) shifted snailmod.get("text.offset");
+    obj := make_frame(obj.content);
+    obj.outline := make_outline(obj);
     make_anchors(obj);
-    endgroup
+    obj := obj somewhere;
+    obj.content := obj.content somewhere;
+    obj.outline := obj.outline somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_frame(expr content) =
+    save frame, padding;
+    path frame; numeric padding;
+    padding := snailmod.get("frame.padding");
+    # 为 content 构造含有留白的包围盒 content_box @
+    if unknown style.frame_shape:
+        frame := content_box;
+    else:
+        frame := convert_to_standard_shape(snailmod.get("frame.shape"));
+        # 更快的 frame 放大过程 @
+        if not snailmod.get("frame.isotropic"):
+            # 调整 frame 的宽高比 @
+        fi;
+    fi;
+    frame
+enddef;
+vardef make_outline(expr obj) =
+    save thi, w, h, p; numeric thi, w, h; path p;
+    thi := snailmod.get("frame.thickness");
+    w := bbwidth obj; h := bbheight obj;
+    p := obj xysized (w + thi, h + thi);
+    p := p shifted ((center obj) - (center p));
+    p
 enddef;
 @
 
@@ -3916,7 +4006,7 @@ enddef;
 % 构造矩形和椭圆形节点
 snail_t foo, bar;
 snail(foo, "Foo"); ellipse(bar, "Bar") at (4cm, 2cm);
-draw foo.face; draw bar.face;
+draw foo; draw foo.content; draw bar; draw bar.content;
 drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle;
 snail_draw_anchors foo, bar;
 \stopMPpage
@@ -3982,29 +4072,32 @@ drawarrow (0, 0) -- (4.5cm, 0); drawarrow (0, 0) -- (0, 4.5cm);
 
 @ 流程图节点 # +
 def avatar (suffix obj) (expr a, w, h) text somewhere =
-    begingroup
+    obj.content := make_avatar(a, w, h);
+    obj.content := obj.content shifted -(center obj.content); % 令插图中心对准原点
+    obj := boundingbox obj.content;
+    obj.outline := obj;
+    obj.frame := false;
+    make_anchors(obj);
+    obj := obj somewhere;
+    obj.outline := obj.outline somewhere;
+    obj.content := obj.content somewhere;
+    make_anchors(obj);
+enddef;
+vardef make_avatar(expr a, w, h) =
     save p, f; picture p; numeric f;
     p := externalfigure a;
     f := (bbwidth p) / (bbheight p);
     if numeric w and numeric h:
-        obj.face := p xysized (w, h);
+        p := p xysized (w, h);
     else:
         if numeric w:
-            obj.face := p xysized (w, w / f); 
-        elseif numeric h:
-            obj.face := p xysized (h * f, h);
-        else:
-            obj.face := p;
+            p := p xysized (w, w / f); 
+        fi;
+        if numeric h:
+            p := p xysized (h * f, h);
         fi;
     fi;
-    obj.face := obj.face shifted -(center obj.face); % 令插图中心对准原点
-    obj := boundingbox obj.face;
-    obj.frame := false;
-    make_anchors obj; % for using anchors in somewhere statement.
-    obj := obj somewhere;
-    obj.face := obj.face somewhere;
-    make_anchors obj;
-    endgroup
+    p
 enddef;
 @
 
@@ -4022,7 +4115,7 @@ enddef;
 snail_t foo, bar;
 snail(foo, "Foo");
 avatar(bar, "foo.png", 2cm, "auto") at (6cm, 2cm);
-draw foo.face; draw bar.face;
+draw foo.content; draw bar.content;
 drawarrow foo.卯门 xyxto bar.酉门 withpen pencircle;
 snail_draw_anchors foo, bar;
 \stopMPpage
@@ -4041,7 +4134,10 @@ snail_draw_anchors foo, bar;
 @ 流程图节点 # +
 def showsnails text all =
   begingroup
-    forsuffixes it = all: if known it.face: draw it.face; fi; endfor;
+    forsuffixes it = all:
+        if it.frame: draw it; fi;
+        if known it.content: draw it.content; fi;
+    endfor;
     if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
   endgroup
 enddef;
@@ -4078,9 +4174,12 @@ snailmod.reset("debug");
 
 @ 流程图节点 # +
 # 定义 at 宏 @
-def put (suffix obj, anchor) text there =
-  obj := (obj shifted -obj.anchor) there;
-  if known obj.face: obj.face := (obj.face shifted -obj.anchor) there; fi;
+def put (suffix obj, anchor) text somewhere =
+  obj := (obj shifted -obj.anchor) somewhere;
+  obj.outline := (obj.outline shifted -obj.anchor) somewhere;
+  if known obj.content:
+      obj.content := (obj.content shifted -obj.anchor) somewhere;
+  fi;
   make_anchors obj;
 enddef;
 @
@@ -4900,10 +4999,10 @@ $ xi -t --beginning "文档内容 a" --end "文档内容 c" -e "bar" -o bar.txt 
 \noindent 或其短选项形式
 
 \starttyping
-$ xi -t -b "文档内容 a" -e "文档内容 c" -e "bar" -o bar.txt bar.xi
+$ xi -t -B "文档内容 a" -E "文档内容 c" -e "bar" -o bar.txt bar.xi
 \stoptyping
 
-\noindent 需要注意的是，\type{-b} 和 \type{-e} 仅支持使用文学程序源文档中文档区域的字句构造代码片段抽取范围，而且要保证所用字句在整个文学程序源文档中具备唯一性。
+\noindent 需要注意的是，\type{-B} 和 \type{-E} 必须成对出现，而且仅支持使用非代码片段区域的字句作为抽取范围，且要保证所用字句在整个文学程序的源文档中具备唯一性。
 
 \subject{文档编织}
 
