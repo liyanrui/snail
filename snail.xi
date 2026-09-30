@@ -2548,11 +2548,14 @@ path p; pair c[]; boolean f; numeric t;
 c[0] := (0, 0);
 c[1] := urcorner content_box; c[2] := lrcorner content_box;
 c[3] := llcorner content_box; c[4] := ulcorner content_box;
+t := 1;
+% w 和 h 已在构造 content_box 过程中声明了，现在需要更新它们的值
+w := bbwidth content_box; h := bbheight content_box;
 for i = (if w > h: w else: h fi) step 1mm until infinity:
     p := frame scaled i;
     f := true;
-    for j = 0 upto 4:
-        if not (((c[0] -- c[j]) intersectiontimes p) = (-1, -1)):
+    for j = 1 upto 4:
+        if ((c[0] -- c[j]) intersectiontimes p) <> (-1, -1):
           f := false;
           exitif true;
         fi;
@@ -3727,7 +3730,7 @@ enddef;
 snailmod = {
     text = {fontsize = 'BodyFontSize', color = 'black', offset = '(0, 0)'},
     frame = {
-        shape = 'fullsquare', background = {color = 'white'},
+        shape = 'fullsquare', background = {fill = 'false', color = 'white'},
         thickness = '1pt', color = 'black', isotropic = 'false',
         padding = '.5BodyFontSize', margin = '2BodyFontSize'
     },
@@ -3968,14 +3971,10 @@ vardef make_frame(expr content) =
     path frame; numeric padding;
     padding := snailmod.get("frame.padding");
     # 为 content 构造含有留白的包围盒 content_box @
-    if unknown style.frame_shape:
-        frame := content_box;
-    else:
-        frame := convert_to_standard_shape(snailmod.get("frame.shape"));
-        # 更快的 frame 放大过程 @
-        if not snailmod.get("frame.isotropic"):
-            # 调整 frame 的宽高比 @
-        fi;
+    frame := convert_to_standard_shape(snailmod.get("frame.shape"));
+    # 更快的 frame 放大过程 @
+    if not snailmod.get("frame.isotropic"):
+        # 调整 frame 的宽高比 @
     fi;
     frame
 enddef;
@@ -4028,6 +4027,9 @@ fi
 
 @ 流程图节点 # <snailmod 后缀宏> ^+
 def snail_mod_reset(expr parameter) =
+    if parameter = "text.fontsize": snailmod.set(parameter, "BodyFontSize"); fi;
+    if parameter = "text.color": snailmod.set(parameter, "black"); fi;
+    if parameter = "text.offset": snailmod.set(parameter, "(0, 0)"); fi;
     if parameter = "frame.shape": snailmod.set(parameter, "fullsquare"); fi;
     if parameter = "frame.isotropic": snailmod.set(parameter, false); fi;
     if parameter = "frame.padding": snailmod.set(parameter, ".5BodyFontSize"); fi;
@@ -4138,6 +4140,9 @@ def showsnails text all =
     begingroup
     if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     forsuffixes it = all:
+        if snailmod.get("frame.background.fill"):
+            fill it withcolor snailmod.get("frame.background.color");
+        fi;
         if it.frame:
             draw it withpen pencircle scaled snailmod.get("path.thickness")
                                              withcolor snailmod.get("path.color");
