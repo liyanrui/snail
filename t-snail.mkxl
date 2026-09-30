@@ -508,7 +508,8 @@ vardef tag(expr p, f, s) text somewhere =
     picture pic_s; path box_s; pair c, v[];
     c := point f along p;
     v1 := unitvector(direction f along p); % 路径切向
-    v2 := if (v1 dotprod right) > 0: v1 rotated 90 else: v1 rotated -90 fi; % 路径法向
+    if (v1 dotprod right) < 0: v1 := -v1; fi;
+    v2 := v1 rotated 90;
     pic_s := textext(s);
     box_s := boundingbox pic_s;
     if snailmod.get("tag.reverse"):
