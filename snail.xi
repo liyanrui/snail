@@ -4135,7 +4135,8 @@ snail_draw_anchors foo, bar;
 
 @ 流程图节点 # +
 def showsnails text all =
-  begingroup
+    begingroup
+    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     forsuffixes it = all:
         if it.frame:
             draw it withpen pencircle scaled snailmod.get("path.thickness")
@@ -4143,8 +4144,7 @@ def showsnails text all =
         fi;
         if known it.content: draw it.content withcolor snailmod.get("text.color"); fi;
     endfor;
-    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
-  endgroup
+    endgroup
 enddef;
 @
 
@@ -4613,17 +4613,16 @@ fi;
 样式表中默认将标注文字设为直立，但无论标注文字是否为直立，要解决的关键问题是，如何让标注文字处于路径上指定位置附近，使之不与路径相交。我依然选择粗暴但简单的算法解决这个问题。设待标注的路径为 \type{p}，其上有一点 \type{c}，\type{p} 在 \type{c} 处的切向和法向分别为 \type{v1} 和 \type{v2}，再设 \type{s} 为标注文字，\type{pic_s} 为 \type{textext(s)} 构造的 \type{picture} 对象，其中心与 \type{c} 重合。在这些已知条件下，将 \type{pic_s} 定位到 \type{c} 点附近且不与 \type{p} 相交的粗暴算法是，沿着 \type{p} 在 \type{c} 点的法向不断移动 \type{pic_s}，直至其包围盒不与 \type{p} 相交为止。以下代码实现了该算法：
 
 @ 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 #
-save pic_a, a, delta;
-picture pic_a; pair a; numeric u;
+save u; numeric u;
 u := snailmod.get("tag.padding");
-for i = u step u until infinity:
-    pic_a := pic_s shifted (i * v2);
-    a := (boundingbox pic_a) intersectiontimes p;
-    if a = (-1, -1):
+for i = 1 upto infinity:
+    pic_s := pic_s shifted (u * v2);
+    box_s := box_s shifted (u * v2);
+    if (box_s intersectiontimes p) = (-1, -1):
         exitif true;
     fi;
 endfor;
-pic_s := pic_a shifted (u * v2);;
+pic_s := pic_s shifted (u * v2);
 @
 
 \noindent 上述代码移动 \type{pic_s} 的过程中，每次移动的距离 \type{u} 是标注文字和路径的间距，这意味着该过程结束后，标注字体到路径的最近距离介于 0 和 \type{u} 之间，即可能略微存在一些间距，为了保证间距必须存在，故而最后又补偿了一个间距。
@@ -4632,22 +4631,27 @@ pic_s := pic_a shifted (u * v2);;
 
 @ 路径标注 #
 vardef tag(expr p, f, s) text somewhere =
-    save pic_s, c, v;
-    picture pic_s; pair c, v[];
+    save pic_s, box_s, c, v;
+    picture pic_s; path box_s; pair c, v[];
     c := point f along p;
     v1 := unitvector(direction f along p); % 路径切向
     v2 := if (v1 dotprod right) > 0: v1 rotated 90 else: v1 rotated -90 fi; % 路径法向
     pic_s := textext(s);
+    box_s := boundingbox pic_s;
     if snailmod.get("tag.reverse"):
         pic_s := (pic_s rotated 180) somewhere;
+        box_s := (box_s rotated 180) somewhere;
         v2 := v2 rotated 180;
     else:
         pic_s := pic_s somewhere;
+        box_s := box_s somewhere;
     fi;
     if snailmod.get("tag.upright"):
         pic_s := pic_s shifted c;
+        box_s := box_s shifted c;
     else:
         pic_s := pic_s rotated angle(v1) shifted c;
+        box_s := box_s rotated angle(v1) shifted c;
     fi
     # 沿 p 在 c 点的法向移动 pic_s，直至 pic_s 的包围盒与 p 不相交为止 @
     pic_s
@@ -4688,7 +4692,7 @@ snailmod.set("tag.reverse", true); draw tag(p3, .3, "44"); snailmod.reset("tag.r
 vardef followtag(expr p, s) =
     save d, pic_s, q; numeric d; picture pic_s; path q;
     pic_s := textext(s);
-    d := .5snailmod.get("path.thickness") + .snailmod.get("tag.padding");
+    d := .5snailmod.get("path.thickness") + 1.5 * snailmod.get("tag.padding");
     if snailmod.get("tag.reverse"): d := -d; fi;
     q := offset_path(p, d);
     if d < 0:
@@ -4729,22 +4733,6 @@ draw followtag(snap(p2, .1, .3), "i am 43!");
 \stoptyping
 
 \noindent 标注文字会出现在路径 \type{p2} 的 \type{[.1, .3]} 段。
-
-\section{\type{showtags}}
-
-有 \type{showsnails} 和 \type{showroads}，也应该有 \type{showtags}：
-
-@ 路径标注 # +
-def showtags text tags =
-    for i = tags: draw i; endfor;
-enddef;
-@
-
-\noindent \type{showtags} 的用法如下：
-
-\starttyping
-showtags tag(p1, .6, "42"), followtag(p2, "i am 43!"), tag(p3, .3, "44");
-\stoptyping
 
 \section{借 \CONTEXT\ 之力}
 

@@ -302,7 +302,8 @@ vardef make_avatar(expr a, w, h) =
     p
 enddef;
 def showsnails text all =
-  begingroup
+    begingroup
+    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     forsuffixes it = all:
         if it.frame:
             draw it withpen pencircle scaled snailmod.get("path.thickness")
@@ -310,8 +311,7 @@ def showsnails text all =
         fi;
         if known it.content: draw it.content withcolor snailmod.get("text.color"); fi;
     endfor;
-    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
-  endgroup
+    endgroup
 enddef;
 def at text position = shifted (position) enddef;
 def put (suffix obj, anchor) text somewhere =
@@ -504,34 +504,38 @@ tertiarydef a => b =
     endgroup
 enddef;
 vardef tag(expr p, f, s) text somewhere =
-    save pic_s, c, v;
-    picture pic_s; pair c, v[];
+    save pic_s, box_s, c, v;
+    picture pic_s; path box_s; pair c, v[];
     c := point f along p;
     v1 := unitvector(direction f along p); % 路径切向
     v2 := if (v1 dotprod right) > 0: v1 rotated 90 else: v1 rotated -90 fi; % 路径法向
     pic_s := textext(s);
+    box_s := boundingbox pic_s;
     if snailmod.get("tag.reverse"):
         pic_s := (pic_s rotated 180) somewhere;
+        box_s := (box_s rotated 180) somewhere;
         v2 := v2 rotated 180;
     else:
         pic_s := pic_s somewhere;
+        box_s := box_s somewhere;
     fi;
     if snailmod.get("tag.upright"):
         pic_s := pic_s shifted c;
+        box_s := box_s shifted c;
     else:
         pic_s := pic_s rotated angle(v1) shifted c;
+        box_s := box_s rotated angle(v1) shifted c;
     fi
-    save pic_a, a, delta;
-    picture pic_a; pair a; numeric u;
+    save u; numeric u;
     u := snailmod.get("tag.padding");
-    for i = u step u until infinity:
-        pic_a := pic_s shifted (i * v2);
-        a := (boundingbox pic_a) intersectiontimes p;
-        if a = (-1, -1):
+    for i = 1 upto infinity:
+        pic_s := pic_s shifted (u * v2);
+        box_s := box_s shifted (u * v2);
+        if (box_s intersectiontimes p) = (-1, -1):
             exitif true;
         fi;
     endfor;
-    pic_s := pic_a shifted (u * v2);;
+    pic_s := pic_s shifted (u * v2);
     pic_s
 enddef;
 vardef offset_path(expr p, d) =
@@ -557,7 +561,7 @@ enddef;
 vardef followtag(expr p, s) =
     save d, pic_s, q; numeric d; picture pic_s; path q;
     pic_s := textext(s);
-    d := .5snailmod.get("path.thickness") + .snailmod.get("tag.padding");
+    d := .5snailmod.get("path.thickness") + 1.5 * snailmod.get("tag.padding");
     if snailmod.get("tag.reverse"): d := -d; fi;
     q := offset_path(p, d);
     if d < 0:
@@ -565,9 +569,6 @@ vardef followtag(expr p, s) =
     else:
         lmt_followtext[path = q, text = s, spread = false]
     fi
-enddef;
-def showtags text tags =
-    for i = tags: draw i; endfor;
 enddef;
 \stopMPinclusions
 \stopmodule
