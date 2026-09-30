@@ -510,16 +510,8 @@ vardef tag(expr p, f, s) text somewhere =
     v1 := unitvector(direction f along p); % 路径切向
     if (v1 dotprod right) < 0: v1 := -v1; fi;
     v2 := v1 rotated 90;
-    pic_s := textext(s);
-    box_s := boundingbox pic_s;
-    if snailmod.get("tag.reverse"):
-        pic_s := (pic_s rotated 180) somewhere;
-        box_s := (box_s rotated 180) somewhere;
-        v2 := v2 rotated 180;
-    else:
-        pic_s := pic_s somewhere;
-        box_s := box_s somewhere;
-    fi;
+    pic_s := textext(s) somewhere;
+    box_s := (boundingbox pic_s) somewhere;
     if snailmod.get("tag.upright"):
         pic_s := pic_s shifted c;
         box_s := box_s shifted c;
@@ -562,7 +554,7 @@ enddef;
 vardef followtag(expr p, s) =
     save d, pic_s, q; numeric d; picture pic_s; path q;
     pic_s := textext(s);
-    d := .5snailmod.get("path.thickness") + 1.5 * snailmod.get("tag.padding");
+    d := .5snailmod.get("path.thickness") + 2.5 * snailmod.get("tag.padding");
     if snailmod.get("tag.reverse"): d := -d; fi;
     q := offset_path(p, d);
     if d < 0:
