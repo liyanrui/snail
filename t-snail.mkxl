@@ -21,7 +21,7 @@ snailmod = {
     },
 }
 \stopluacode
-\defineframed[slug][offset=.25em, frame=off, align=normal]
+\defineframed[slug][offset=.25em, frame=off]
 \startMPinclusions
 % 该宏用于获取模块参数
 def snail_mod_get(expr anything) =
@@ -324,7 +324,9 @@ def showsnails text all =
     if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     endgroup
 enddef;
-def at text position = shifted (position) enddef;
+def at text position =
+    shifted (if (path (position)) or (picture (position)): center (position) else: (position) fi)
+enddef;
 def put (suffix obj, anchor) text somewhere =
   obj := (obj shifted -obj.anchor) somewhere;
   obj.outline := (obj.outline shifted -obj.anchor) somewhere;

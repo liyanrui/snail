@@ -1600,10 +1600,12 @@ framed_text_class foo, bar;
 
 \starttyping
 /BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 定义 at 宏 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-64]{64}\inoutermargin{\darkred{64}}/ETEX
-def at text position = shifted (position) enddef;
+def at text position =
+    shifted (if (path (position)) or (picture (position)): center (position) else: (position) fi)
+enddef;
 \stoptyping
 
-\noindent 注意，在 \type{at} 宏体里，参数 \type{position} 加了小括号，此举是为了防止 \type{at} 宏展开后，\type{position} 所指代的语句与周围语句产生错误的结合。
+\noindent 注意，在 \type{at} 宏体里，参数 \type{position} 加了小括号，此举是为了防止 \type{at} 宏展开后，\type{position} 所指代的语句与周围语句产生错误的结合。此外，\type{at} 宏也颇为稳健，若其参数为路径或画面，可取其中心作为定位基准。还需要注意的是，\METAPOST\ 的条件表达式的写法，大概只有宏语言能支持这种写法。
 
 重新定义 \type{framed_text} 宏，为其增加一个 \type{text} 类型的参数，以接受文本框的位置信息：
 

@@ -1536,10 +1536,12 @@ framed_text_class foo, bar;
 为了在定义文本框时能够直接确定其位置，也为了能随时改变文本框的位置，用一个名字更短的宏 \type{at} 代替 \type{shifted} 是有必要的，亦即
 
 @ 定义 at 宏 #
-def at text position = shifted (position) enddef;
+def at text position =
+    shifted (if (path (position)) or (picture (position)): center (position) else: (position) fi)
+enddef;
 @
 
-\noindent 注意，在 \type{at} 宏体里，参数 \type{position} 加了小括号，此举是为了防止 \type{at} 宏展开后，\type{position} 所指代的语句与周围语句产生错误的结合。
+\noindent 注意，在 \type{at} 宏体里，参数 \type{position} 加了小括号，此举是为了防止 \type{at} 宏展开后，\type{position} 所指代的语句与周围语句产生错误的结合。此外，\type{at} 宏也颇为稳健，若其参数为路径或画面，可取其中心作为定位基准。还需要注意的是，\METAPOST\ 的条件表达式的写法，大概只有宏语言能支持这种写法。
 
 重新定义 \type{framed_text} 宏，为其增加一个 \type{text} 类型的参数，以接受文本框的位置信息：
 
