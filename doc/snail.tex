@@ -3933,6 +3933,10 @@ def snail_mod_set(expr k, v) =
                           & decimal (greenpart v) & ","
                           & decimal (bluepart v) & ")'"; fi;
     runscript("snailmod." & k & "=" & s);
+    % 箭头样式是 MetaFun 全局变量，需要重新赋值方能使之生效
+    if k = "path.ahvariant": ahvariant := snail_mod_get(k); fi;
+    if k = "path.ahdimple": ahdimple := snail_mod_get(k); fi;
+    if k = "path.ahlength": ahlength := snail_mod_get(k); fi;
     endgroup
 enddef;
 \stoptyping
@@ -5407,14 +5411,12 @@ xi -c your/path/to/ctx.conf -t -e "代码片段名" -o 程序源码文件 snail.
 
 本文学程序由程序代码和文档两部分构成，分别适用不同的自由许可证。
 
-\startitemize
-\item {\bf 程序代码}：本文档及其源文档内的全部程序代码，以 GNU 通用公共许可证（GNU GPL）第 2 版或任何后续版本发布。你可以根据自由软件基金会发布的 GPL 条款重新分发和/或修改这些代码。
-\item {\bf 文档作品}：本文档及其源文档内的说明文字，在 GNU 自由文档许可证（GNU FDL）第 1.3 版或任何后续版本条款下，授予复制、分发和/或修改本文档的许可；无不变章节，无前封面文字，无后封面文字。
-\stopitemize
-
 \useURL[gpl][https://www.gnu.org/licenses/gpl-2.0.html]
 \useURL[gfdl][https://www.gnu.org/licenses/fdl-1.3.html]
-GPL 全文见 \from[gpl]；GFDL 全文见 \from[gfdl]。
+\startitemize
+\item {\bf 程序代码}：本文档及其源文档内的全部程序代码，以 GNU 通用公共许可证（GNU GPL）第 2 版或任何后续版本发布\footnote{GPL 全文见 \from[gpl]}。你可以根据自由软件基金会发布的 GPL 条款重新分发和/或修改这些代码。
+\item {\bf 文档作品}：本文档及其源文档内的说明文字，在 GNU 自由文档许可证（GNU FDL）第 1.3 版或任何后续版本条款下\footnote{GFDL 全文见 \from[gfdl]}，授予复制、分发和/或修改本文档的许可；无不变章节，无前封面文字，无后封面文字。
+\stopitemize
 
 \title{后记}
 

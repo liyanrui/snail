@@ -21,7 +21,7 @@ snailmod = {
     },
 }
 \stopluacode
-\defineframed[slug][offset=.25em, frame=off]
+\defineframed[slug][offset=.25em, frame=off, align=normal]
 \startMPinclusions
 % 该宏用于获取模块参数
 def snail_mod_get(expr anything) =
@@ -38,6 +38,10 @@ def snail_mod_set(expr k, v) =
                           & decimal (greenpart v) & ","
                           & decimal (bluepart v) & ")'"; fi;
     runscript("snailmod." & k & "=" & s);
+    % 箭头样式是 MetaFun 全局变量，需要重新赋值方能使之生效
+    if k = "path.ahvariant": ahvariant := snail_mod_get(k); fi;
+    if k = "path.ahdimple": ahdimple := snail_mod_get(k); fi;
+    if k = "path.ahlength": ahlength := snail_mod_get(k); fi;
     endgroup
 enddef;
 def snail_mod_reset(expr parameter) =
