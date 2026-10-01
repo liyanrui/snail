@@ -4216,6 +4216,8 @@ def snail_mod_reset(expr parameter) =
     if parameter = "text.color": snailmod.set(parameter, "black"); fi;
     if parameter = "text.offset": snailmod.set(parameter, "(0, 0)"); fi;
     if parameter = "frame.shape": snailmod.set(parameter, "fullsquare"); fi;
+    if parameter = "frame.background.fill": snailmod.set(parameter, false); fi;
+    if parameter = "frame.background.color": snailmod.set(parameter, "white"); fi;
     if parameter = "frame.isotropic": snailmod.set(parameter, false); fi;
     if parameter = "frame.padding": snailmod.set(parameter, ".5BodyFontSize"); fi;
     if parameter = "frame.margin": snailmod.set(parameter, "2BodyFontSize"); fi;
@@ -4327,17 +4329,17 @@ snail_draw_anchors foo, bar;
 /BTEX\color[darkred]{@}/ETEX/BTEX\type[color=darkred]{ 流程图节点 }/ETEX/BTEX\color[darkred]{\#}/ETEX/BTEX\reference[xi-189]{189}\inoutermargin{\darkred{189}}/ETEX/BTEX\ \color[darkgreen]{\bf $+$}\ /ETEX
 def showsnails text all =
     begingroup
-    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     forsuffixes it = all:
         if snailmod.get("frame.background.fill"):
             fill it withcolor snailmod.get("frame.background.color");
         fi;
         if it.frame:
-            draw it withpen pencircle scaled snailmod.get("path.thickness")
-                                             withcolor snailmod.get("path.color");
+            draw it withpen pencircle scaled snailmod.get("frame.thickness")
+                                             withcolor snailmod.get("frame.color");
         fi;
         if known it.content: draw it.content withcolor snailmod.get("text.color"); fi;
     endfor;
+    if snailmod.get("debug"): forsuffixes it = all: snail_draw_anchors it; endfor; fi;
     endgroup
 enddef;
 \stoptyping
