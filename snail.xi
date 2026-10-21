@@ -4987,48 +4987,6 @@ ESC_AT bar ESC_HASH <hi> +
 ESC_AT
 \stoptyping
 
-\subject{片段抽取范围}
-
-由于同名片段的存在，会导致在文学程序中间某个阶段的代码抽取结果里出现了后面某些同名片段的内容，而这有时未必是你所希望的。例如
-
-\starttyping
-文档内容 a ...
-ESC_AT bar ESC_HASH
-这是第一个名为 bar 的代码片段
-ESC_AT
-文档内容 b ...
-ESC_AT bar ESC_HASH +
-这是第二个名为 bar 的代码片段
-ESC_AT
-文档内容 c ...
-ESC_AT bar ESC_HASH  +
-这是第三个名为 bar 的代码片段 
-ESC_AT
-文档内容 d ...
-\stoptyping
-
-\noindent 假设上述示例保存在 \type{bar.xi} 文件，而我们需要抽取「\type{文档内容 c ...}」之前的 \type{bar} 片段的内容，则以下命令
-
-\starttyping
-$ xi -t -e "bar" -o bar.txt bar.xi
-\stoptyping
-
-\noindent 无法满足要求，它会将所有名为 \type{bar} 的片段内容都抽取出来，并且按照片段运算符所表达的顺序合并输出至 \type{bar.txt} 文件。
-
-不过，\type{xi} 程序支持抽取指定范围内的代码片段内容，要满足上述需求，可使用以下命令
-
-\starttyping
-$ xi -t --beginning "文档内容 a" --end "文档内容 c" -e "bar" -o bar.txt bar.xi
-\stoptyping
-
-\noindent 或其短选项形式
-
-\starttyping
-$ xi -t -B "文档内容 a" -E "文档内容 c" -e "bar" -o bar.txt bar.xi
-\stoptyping
-
-\noindent 需要注意的是，\type{-B} 和 \type{-E} 必须成对出现，而且仅支持使用非代码片段区域的字句作为抽取范围，且要保证所用字句在整个文学程序的源文档中具备唯一性。
-
 \subject{文档编织}
 
 前面几节讲述的是 \type{xi} 的代码抽取功能，即与 \type{xi} 的 \type{--tangle} 选项相关的功能。若想将文学程序源文档排版为程序文档，需要用 \type{xi} 的 \type{--weave} 选项编织文学程序源文档。
@@ -5115,6 +5073,31 @@ $ context foo.tex
 \stoptyping
 
 \placefigure[here][xi-01]{文学程序编织结果}{\externalfigure[figures/xi-01.png][width=.7\textwidth]}
+
+\subject{同名片段截断}
+
+由于同名片段的存在，会导致在文学程序某个阶段的代码抽取结果或文档编织结果里出现了后面某些同名片段的内容，而这有时未必是你所希望的。例如
+
+\starttyping
+ESC_AT foo ESC_HASH
+这是第一个名为 foo 的代码片段
+ESC_AT
+ESC_AT foo ESC_HASH +
+这是第二个名为 foo 的代码片段
+ESC_AT
+ESC_AT bar ESC_HASH
+# foo @
+# demo @
+ESC_AT
+ESC_AT foo ESC_HASH  +
+这是第三个名为 foo 的代码片段 
+ESC_AT
+ESC_AT demo ESC_HASH
+... demo ...
+ESC_AT
+\stoptyping
+
+\noindent 假设上述示例保存在 \type{foo.xi} 文件，若使用 \type{xi} 程序抽取片段 \type{bar} 的内容，则所得是前两个 \type{foo} 片段以及 \type{demo} 片段内容的累加结果，这是因为在 \type{bar} 只能引用位于它之前的同名片段，而\type{bar} 却可以向后引用普通片段。
 
 \subject{修改片段标记}
 
