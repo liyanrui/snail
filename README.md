@@ -11,4 +11,5 @@ $ cp t-snail.mkxl $SNAIPATH
 $ context --generate
 ```
 
+There is a tutorial for this module writen in Chinese in <https://zhuanlan.zhihu.com/p/2089165688623609471>
 
